@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.underline {
+    display: inline;
+    position: relative;
+    overflow: hidden;
+  }
+  .underline:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 100%;
+    bottom: -10px;
+    background-color: #D7242A;
+ 
+    height: 4px;
+    transition-property: left right;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+  }
+  .underline:hover:after,
+  .underline:focus:after,
+  .underline:active:after {
+    right: 0;
+  }
+  .mycard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #e1e1e1;
+  width: 5vh;
+  height: 5vh;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-60%);
+}
+
+.carousel-control-prev {
+  left: -30px; /* Move the "Previous" control to the left */
+}
+
+.carousel-control-next {
+  right:-30px; 
+}
+.carousel-control-next.prop {
+  right: 5px;
+}
+
+.cards-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .card img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .carousel-inner {
+    padding: 1em;
+  }
+  .properties{
+    width: 370px;
+    height: 422px;
+ 
+
+    border-radius: 30px;
+    border: 1px
+    
+  }
+  /* Example CSS code */
+/* .carousel-control-prev-icon,
+.carousel-control-next-icon {
+  color: #ff0000;
+} */
+
+
+
+.carousel-control-prev .visually-hidden,
+.carousel-control-next .visually-hidden {
+  color: red; /* Change to your desired color */
+}
+.propes{
+    border-color: #ff0000;
+}
+.Enquiry {
+  display: block; /* Ensures the image behaves as a block element */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+/* Add CSS to center align the stars */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.custom-dropdown-menu {
+  position: absolute;
+ margin-top: 60px;
+margin-left: -260px;
+  width: 950px;
+  height: 100px;
+border-radius: 20px;
+background-color: whitesmoke;
+}
+
+/* @media (max-width: 1440px) {
+  .custom-dropdown-menu {
+    position: absolute;
+    margin-left: -230px!important;
+    width: 650px!important;
+    height: 100px!important;
+    border-radius: 20px;
+    background-color: whitesmoke;
+  }
+} */
+
+
+
+
+
+
+.custom-card {
+  width: 970px;
+  height: 200px;
+  width: 300px; 
+  height: 200px;
+
+}
+
+
+.custom-btn {
+  width: 200px;
+  height: 60px;
+color:#D7242A ;
+  border-radius: 50px;
+  border: 1px solid;
+  background-color: white;
+ 
+}
+.custom-btn1{
+  width: 200px;
+  height: 60px;
+color:white;
+  border-radius: 50px;
+  border: 1px solid;
+  background-color:#D7242A ; 
+ 
+}
+.buttonmobile{
+  background-color: #D7242A;
+  border-color: #D7242A;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 50px;
+  width: 516px;
+  height:75px
+
+}
+.buttonotp{
+  background-color: #D7242A;
+  border-color: #D7242A;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 50px;
+  width: 370px;
+  height:75px
+
+}.btn-danger {
+  margin: 5px; /* Adjust the margin to change the gap between buttons */
+  transition: all 0.3s ease; /* Add a smooth transition for the hover effect */
+}
+
+.btn-danger:hover {
+  opacity: 0.8; /* Adjust the opacity for the hover effect */
+  transform: scale(1.1); /* Increase size on hover */
+}
+.custom-bttn {
+  width: 200px;
+  height: 60px;
+color:#D7242A ;
+  border-radius: 50px;
+  border: 1px solid;
+  background-color: white;
+
+ 
+}
+/* .custom-plot {
+  background-color: #FFFFFF!important;
+  color: #656565!important;
+  border: 1px solid #C5C5C5!important;
+  margin: 0 0.5rem;
+}
+
+.custom-plot.land {
+ border-color: #D7242A!important;
+ color: #D7242A!important;
+
+} */
+
+.customplot {
+  border-radius: 20px;
+  border: 1px solid #C5C5C5;
+  background: #FFF;
+  color:#656565; 
+
+ 
+}
+  &:hover {
+   
+    cursor: pointer;
+  }
+  .customplotss {
+    border-radius: 20px;
+    border: 1px solid #C5C5C5;
+    background: #FFF;
+    color:#656565; 
+  font-size: 13px;
+   
+  }
+    
+.rest {
+    
+    border: 1px solid #D7242A!important;
+    background: #FFF!important;
+    color: #D7242A!important;
+  
+  }
+
+.rest1{
+  border: 1px solid #D7242A!important;
+  background:#F9E3E4!important;
+  color: #656565!important;
+}

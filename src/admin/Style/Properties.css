@@ -1,0 +1,47 @@
+.PROPERTI1 {
+  font-size: x-small;
+  width: 250px;
+  height: 30px;
+  border-color: rgba(215, 36, 42, 1);
+  align-items: end;
+  margin: 2%;
+  justify-items: end;
+  justify-content: end;
+}
+
+.prop2 {
+  font-family: Roboto;
+  font-size: 25PX;
+  margin: 2%;
+}
+
+
+/* selllll paGE STYLE   */
+
+.sell2 {
+  text-align: end;
+  color: green;
+  font-family: Poppins;
+  font-size: 25px;
+
+}
+
+.sell3 {
+  font-family: Poppins;
+  margin: 2%;
+
+}
+
+/* Rentail style /////// */
+.Rent1 {
+  text-align: end;
+  color: rgba(255, 122, 0, 1);
+}
+
+.Lease1 {
+  text-align: end;
+  color: red;
+}
+
+
+

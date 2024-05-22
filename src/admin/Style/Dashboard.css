@@ -1,0 +1,99 @@
+.emploleelist{
+    font-family: Roboto;
+    font-size: 30PX;
+    margin: 2%;
+}
+
+.DASH1 {
+    text-align: center;
+    font-family: Roboto;
+    padding: 10px;
+    color: rgba(0, 146, 6, 1);
+    justify-content: center;
+
+}
+
+.DASH2 {
+    text-align: center;
+    font-family: Roboto;
+    justify-content: center;
+
+}
+
+.DASH3 {
+    text-align: center;
+    color: rgba(255, 53, 53, 1);
+    font-family: Roboto;
+    justify-content: center;
+    padding: 10px;
+}
+
+.DASH4 {
+    text-align: center;
+    font-family: Roboto;
+    color: rgba(255, 122, 0, 1);
+    justify-content: center;
+    padding: 10px;
+
+}
+
+.LIneimg {
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.DASH6 {
+    margin-left: 5%;
+    margin-top: 5%;
+    width: 20px;
+    height: 20px;
+    font-family: Poppins;
+
+}
+
+.DASH5 {
+
+    margin-top: 5%;
+    font-family: Poppins;
+}
+
+.DASH7 {
+    font-family: Poppins;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+
+.DASH8 {
+ font-family: Roboto;
+ font-size: 30px;
+margin: 2%;
+
+}
+
+.DASH9 {
+    font-family: Poppins;
+    border: 2px solid rgba(255, 53, 53, 1);
+    height: 30px;
+
+}
+#view{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#views{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px; 
+}
+.datee{
+    justify-content: end;
+    display: flex;
+    margin-top: 1%;
+    
+}  

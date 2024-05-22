@@ -1,0 +1,91 @@
+.profilphoto {
+  color: red;
+  border-style: dotted;
+  border-color: red;
+  text-align: center;
+}
+
+.DetailsProfile {
+  width: 260px;
+  padding: 20px;
+  height: 290px;
+
+}
+
+.EmployeeDetails {
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
+.Detailes {
+  font-family: Poppins;
+  margin-top: 20px;
+  margin: 15px;
+}
+
+.Detailes1 {
+
+  padding: 5px;
+  font-family: Poppins;
+}
+
+.profile_pic {
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 4);
+
+}
+
+
+.active input[type="radio"],
+.inactive input[type="radio"] {
+  transform: scale(1.8);
+
+}
+
+.active input[type="radio"]:checked {
+  padding: 5px;
+  border-color: green;
+  border-radius: 50%;
+  color: green;
+  background-color: green;
+}
+
+.inactive Form.Control[type="radio"]:checked {
+  background-color: red;
+  color: red;
+  padding: 5px;
+  border-color: red;
+  border-radius: 50%;
+  color: red;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: red; /* Change text color */
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .page-link.active {
+  background-color: red;
+  color: #fff; /* Change text color */
+  border-color: red;
+}

@@ -1,0 +1,93 @@
+.present {
+  color: dark;
+
+ 
+}
+.absent {
+  color: dark;
+ 
+}
+.present-column {
+  background-color: rgba(0, 146, 6, 0.2);
+}
+
+.absent-column {
+  background-color:rgba(255, 53, 53, 0.2); 
+}
+
+.calendar-header {
+  display: flex;
+  padding: 0px;
+  border-bottom: 2px solid #ccc;
+  background-color: white;
+}
+
+.calendar-header h1 {
+  font-size: 1.8rem;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.border{
+  margin-top: 3%;
+  margin-left: 2%;
+  font-family: Roboto;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: white;
+}
+
+
+.calendar-day {
+  display: flex;
+  padding: 30px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+
+.current-day {
+  font-size: 15px;
+
+}
+
+
+.event {
+  margin-top: 5px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.event:hover {
+  background-color: #f0f0f0;
+}
+.ds{
+  font-size: xx-large;
+  text-align: center;
+  color: red;
+  font-family: Roboto;
+  margin-bottom: 10%;
+}
+.month{
+  margin-top: 3%;
+  color: red;
+  font-family: Roboto;
+}
+
+.sunday {
+  color: red; 
+  background-color:white;
+
+  font-weight: bold;
+  font-family: Roboto;
+}
+
+
