@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Baseurl } from "./request";
 
-
 const Exclusive = () => {
   const navigate = useNavigate();
   const handleViewDetailss = () => {
@@ -54,55 +53,81 @@ const Exclusive = () => {
 
       <Carousel className="carousel-value">
         {prop
-         .filter(item => item.property_type === "land")
-        .reduce((chunks, items, index) => {
-          const chunkIndex = Math.floor(index / 4);
-          if (!chunks[chunkIndex]) chunks[chunkIndex] = [];
-          chunks[chunkIndex].push(items);
-          return chunks;
-        }, []).map((chunk, chunkIndex) => (
-          <Carousel.Item key={chunkIndex}>
-            <div className="row">
-              {chunk.map((items) => (
-                <div key={items.id} className="col-6 col-md-3">
-                  <div className="card properties">
-                    <img
-                      src={items?.land_properties?.land_images[0].image}
-                      style={{ width: "270px", height: "160px" }}
-                      className="card-img-top"
-                      alt="Property"
-                    />
-                    <div className="card-body">
-                      <div className="">
-                        <p
-                          className="card-text"
-                          style={{ fontSize: "10px", color: "#656565" }}
-                        >
-                          {items.title}
-                        </p>
-                        {/* <p className="card-text mx-5" style={{ fontSize: '10px', color: items.hrs === 'Ready to move' ? '#1D8F00' : '#FF0000' }}>{items.hrs}</p> */}
-                      </div>
-                      <div className="d-flex">
-                        <p className="card-title">{items?.lease_amount}</p>
-                        <span className="vr mx-3"></span>
-                        <p className="card-text">{items?.land_properties?.total_area} Sqft</p>
-                      </div>
-                      <p className="card-text">{items.location}</p>
-                      <button
-                        className="btn btn-danger rounded-pill d-flex 
+          .filter((item) => item.property_type === "land")
+          .reduce((chunks, items, index) => {
+            const chunkIndex = Math.floor(index / 4);
+            if (!chunks[chunkIndex]) chunks[chunkIndex] = [];
+            chunks[chunkIndex].push(items);
+            return chunks;
+          }, [])
+          .map((chunk, chunkIndex) => (
+            <Carousel.Item key={chunkIndex}>
+              <div className="row">
+                {chunk.map((items) => (
+                  <div key={items.id} className="col-6 col-md-3">
+                    <div className="card properties">
+                      <img
+                        src={items?.land_properties?.land_images[0].image}
+                        style={{ width: "270px", height: "160px" }}
+                        className="card-img-top"
+                        alt="Property"
+                      />
+                      <div className="card-body">
+                        <div className="">
+                          <p
+                            className="card-text"
+                            style={{ fontSize: "10px", color: "#656565" }}
+                          >
+                            {items.title}
+                          </p>
+                          {/* <p className="card-text mx-5" style={{ fontSize: '10px', color: items.hrs === 'Ready to move' ? '#1D8F00' : '#FF0000' }}>{items.hrs}</p> */}
+                        </div>
+                        <div className="d-flex">
+                          <p className="card-title">
+                            {items?.sale_price}
+                            {items?.rent}
+                            {items?.lease_amount}
+                          </p>
+                          <span className="vr mx-3"></span>
+                          <p className="card-text">
+                            {items?.land_properties?.total_area} Sqft
+                          </p>
+                        </div>
+                        <p className="card-text">{items.location} </p>
+
+                        <div className="d-flex">
+                          {items?.owner && (
+                            <p className="card-text">Posted by owner</p>
+                          )}
+                          {items?.agent && (
+                            <p className="card-text">Posted by agent</p>
+                          )}
+                          {items?.builder && (
+                            <p className="card-text">Posted by builder</p>
+                          )}
+                          <p
+                            className="card-text mx-3"
+                            style={{ color: "#1D8F00" }}
+                          >
+                            {items.created_at}
+                          </p>
+                        </div>
+
+                        <button
+                          className="btn btn-danger rounded-pill d-flex 
                       align-items-center justify-content-center"
-                        onClick={()=>handleViewDetails(items?.id)}
-                        style={{ alignSelf: "start" }}
-                      >
-                       View Details
-                      </button>
+                          onClick={() => handleViewDetails(items?.id)}
+                          style={{ alignSelf: "start" }}
+                        >
+                          View Details
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </Carousel.Item>
-        ))}
+                ))}
+              </div>
+            </Carousel.Item>
+          ))}
       </Carousel>
     </div>
   );

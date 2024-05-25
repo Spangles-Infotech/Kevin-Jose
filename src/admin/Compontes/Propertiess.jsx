@@ -229,8 +229,8 @@ function Properties() {
                       'rgba(255, 122, 0, 1)',
                   textDecoration: 'none' // Corrected here
                 }} >
-                  {property.you_are_here_to === 'rent' ? 'Rental' :
-                    property.you_are_here_to === 'sell' ? 'Selling' :
+                  {property.you_are_here_to === 'rent' ? 'Rent' :
+                    property.you_are_here_to === 'sell' ? 'Sale' :
                       property.you_are_here_to === 'lease' ? 'Lease' : ''}
                   </Link>
                 </td>

@@ -359,7 +359,7 @@ export const Mypropertiesdetail = () => {
               ))}
             </div>
           )}
-
+ 
           {/* residential */}
           {details?.property_type === "residential" && (
             <div className="d-flex flex-wrap gap-3 mx-4">
@@ -397,6 +397,34 @@ export const Mypropertiesdetail = () => {
           {details?.property_type === "commercial" && (
             <div className="d-flex flex-wrap gap-3 mx-4">
               {details?.commercial_properties?.showroom?.showroom_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
+
+              {details?.commercial_properties?.industrialbuilding?.industrialbuilding_images?.map(
                 (img, index) => (
                   <img
                     src={img.image}

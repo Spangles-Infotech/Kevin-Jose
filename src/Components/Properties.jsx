@@ -10,7 +10,7 @@ const Properties = () => {
   const navigate = useNavigate();
 
   const handleViewDetails = (id) => {
-    navigate( `/builder/${id}`);
+    navigate(`/builder/${id}`);
   };
 
   const handleViewDetailss = () => {
@@ -56,7 +56,7 @@ const Properties = () => {
         >
           <div className="carousel-inner">
             {prop
-            .filter(item => item.property_type !== "land")
+              .filter((item) => item.property_type !== "land")
               .reduce((chunks, item, index) => {
                 const chunkIndex = Math.floor(index / 3);
                 if (!chunks[chunkIndex]) chunks[chunkIndex] = [];
@@ -83,28 +83,98 @@ const Properties = () => {
                             />
                           )}
 
-                              {/* residential image */}
-                              {item.property_type === "residential" && (
-                            <img
-                              src={
-                                item?.residential_properties?.house
-                                  ?.house_images[0].image
-                              }
-                              className="card-img-top car-img"
-                              alt="Property"
-                            />
+                          {/* residential image */}
+                          {item.property_type === "residential" && (
+                            <>
+                              {/* house */}
+                              {item?.residential_properties?.house && (
+                                <img
+                                  src={
+                                    item?.residential_properties?.house
+                                      ?.house_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+
+                              {/* apartment */}
+                              {item?.residential_properties?.apartment && (
+                                <img
+                                  src={
+                                    item?.residential_properties?.apartment
+                                      ?.apartment_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+                            </>
                           )}
 
                           {/* commercial image */}
-                          {item.property_type === "commercial" && (
-                            <img
-                              src={
-                                item?.commercial_properties?.showroom
-                                  ?.showroom_images[0].image
-                              }
-                              className="card-img-top car-img"
-                              alt="Property"
-                            />
+                          {item?.property_type === "commercial" && (
+                            <>
+                              {/* showroom */}
+                              {item.commercial_properties?.showroom && (
+                                <img
+                                  src={
+                                    item?.commercial_properties?.showroom
+                                      ?.showroom_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+                              {/* industrial building */}
+                              {item?.commercial_properties
+                                ?.industrialbuilding && (
+                                <img
+                                  src={
+                                    item?.commercial_properties
+                                      ?.industrialbuilding
+                                      ?.industrialbuilding_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+                              {/* service_apartment*/}
+                              {item?.commercial_properties
+                                ?.service_apartment && (
+                                <img
+                                  src={
+                                    item?.commercial_properties
+                                      ?.service_apartment
+                                      ?.service_apartment_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+                              {/* "factory"t*/}
+                              {item?.commercial_properties?.factory && (
+                                <img
+                                  src={
+                                    item?.commercial_properties?.factory
+                                      ?.factory_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+                              {/* pg_colony */}
+                              {item?.commercial_properties?.pg_colony && (
+                                <img
+                                  src={
+                                    item?.commercial_properties?.pg_colony
+                                      ?.pgcolony_images[0].image
+                                  }
+                                  className="card-img-top car-img"
+                                  alt="Property"
+                                />
+                              )}
+                            </>
                           )}
 
                           <div className="card-body">
@@ -113,12 +183,14 @@ const Properties = () => {
                               <>
                                 <p className="card-text">
                                   {item?.plot_properties?.total_area} Sqft{" "}
-                                  {item?.plot_properties?.plot_type} for {" "}
+                                  {item?.plot_properties?.plot_type} for{" "}
                                   {item?.you_are_here_to}
                                 </p>
                                 <div className="d-flex">
                                   <p className="card-title">
-                                    {item.sale_price} 
+                                    {item.sale_price}
+                                    {item?.rent}
+                                    {item?.lease_amount}
                                   </p>
                                   <span className="vr mx-3"></span>
                                   <p className="card-text">
@@ -150,21 +222,56 @@ const Properties = () => {
                               </>
                             )}
 
-                               {/* residential */}
-                               {item?.property_type === "residential" && (
+                            {/* residential */}
+                            {item?.property_type === "residential" && (
                               <>
-                                <p className="card-text">
-                                  {item?.residential_properties?.house?.built_up_area} Sqft{" "}
-                                  {item?.residential_properties?.residential_type} for {" "}
-                                  {item?.you_are_here_to}
-                                </p>
+                                {/* house */}
+                                {item?.residential_properties?.house && (
+                                  <p className="card-text">
+                                    {
+                                      item?.residential_properties?.house
+                                        ?.built_up_area
+                                    }{" "}
+                                    Sqft{" "}
+                                    {
+                                      item?.residential_properties
+                                        ?.residential_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+
+                                {/* appartment */}
+                                {item?.residential_properties?.apartment && (
+                                  <p className="card-text">
+                                    {
+                                      item?.residential_properties?.apartment
+                                        ?.built_up_area
+                                    }{" "}
+                                    Sqft{" "}
+                                    {
+                                      item?.residential_properties
+                                        ?.residential_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+
                                 <div className="d-flex">
                                   <p className="card-title">
-                                    {item.sale_price} 
+                                    {item.sale_price}
                                   </p>
                                   <span className="vr mx-3"></span>
                                   <p className="card-text">
-                                    {item?.residential_properties?.house?.built_up_area} Sqft
+                                    {
+                                      item?.residential_properties?.house
+                                        ?.built_up_area
+                                    }{" "}
+                                    {
+                                      item?.residential_properties?.apartment
+                                        ?.built_up_area
+                                    }{" "}
+                                    Sqft
                                   </p>
                                 </div>
                                 <p className="card-text">
@@ -196,20 +303,111 @@ const Properties = () => {
 
                             {item?.property_type === "commercial" && (
                               <>
-                                <p className="card-text">
-                                  {item?.commercial_properties?.showroom.built_up_area} Sqft{" "}
-                                  {item?.commercial_properties?.commercial_type} for {" "}
-                                  {item?.you_are_here_to}
-                                </p>
+                                {/* showroom */}
+                                {item?.commercial_properties?.showroom && (
+                                  <p className="card-text">
+                                    {
+                                      item?.commercial_properties?.showroom
+                                        ?.built_up_area
+                                    }{" "}
+                                    Sqft{" "}
+                                    {
+                                      item?.commercial_properties
+                                        ?.commercial_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+                                {/*industrialbuilding  */}
+                                {item?.commercial_properties
+                                  ?.industrialbuilding && (
+                                  <p className="card-text">
+                                    {
+                                      item?.commercial_properties
+                                        ?.industrialbuilding?.built_up_area
+                                    }{" "}
+                                    Sqft{" "}
+                                    {
+                                      item?.commercial_properties
+                                        ?.commercial_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+
+                                {/*service_apartment  */}
+                                {item?.commercial_properties
+                                  ?.service_apartment && (
+                                  <p className="card-text">
+                                    {
+                                      item?.commercial_properties
+                                        ?.service_apartment?.built_up_area
+                                    }{" "}
+                                    Sqft{" "}
+                                    {
+                                      item?.commercial_properties
+                                        ?.commercial_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+
+                                {/*factory  */}
+                                {item?.commercial_properties?.factory && (
+                                  <p className="card-text">
+                                    {
+                                      item?.commercial_properties?.factory
+                                        ?.built_up_area
+                                    }{" "}
+                                    Sqft{" "}
+                                    {
+                                      item?.commercial_properties
+                                        ?.commercial_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+
+                                {/*factory  */}
+                                {item?.commercial_properties?.pg_colony && (
+                                  <p className="card-text">
+                                    {
+                                      item?.commercial_properties
+                                        ?.commercial_type
+                                    }{" "}
+                                    for {item?.you_are_here_to}
+                                  </p>
+                                )}
+
                                 <div className="d-flex">
                                   <p className="card-title">
-                                    {item.sale_price} 
-                                    {item?.rent} 
-                                    {item?.lease_amount} 
+                                    {item.sale_price}
+                                    {item?.rent}
+                                    {item?.lease_amount}
                                   </p>
                                   <span className="vr mx-3"></span>
                                   <p className="card-text">
-                                    {item?.commercial_properties?.showroom?.built_up_area} Sqft
+                                    {
+                                      item?.commercial_properties?.showroom
+                                        ?.built_up_area
+                                    }
+                                    {
+                                      item?.commercial_properties
+                                        ?.industrialbuilding?.built_up_area
+                                    }{" "}
+                                    {
+                                      item?.commercial_properties
+                                        ?.service_apartment?.built_up_area
+                                    }{" "}
+                                    {
+                                      item?.commercial_properties?.pg_colony
+                                        ?.built_up_area
+                                    }{" "}
+                                    {
+                                      item?.commercial_properties?.factory
+                                        ?.built_up_area
+                                    }{" "}
+                                    Sqft
                                   </p>
                                 </div>
                                 <p className="card-text">
@@ -240,7 +438,7 @@ const Properties = () => {
                             <button
                               type="button"
                               className="btn btn-danger w-100"
-                              onClick={()=>handleViewDetails(item?.id)}
+                              onClick={() => handleViewDetails(item?.id)}
                             >
                               View Details
                             </button>
