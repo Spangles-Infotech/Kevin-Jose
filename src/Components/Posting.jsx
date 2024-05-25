@@ -891,183 +891,6 @@ const Posting = () => {
           />
         )}
 
-        {/* {four === "industrialbuilding" && second === "Sell" && (
-          <Servicesell
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )} */}
-        {four === "industrialbuilding" && second === "Rent" && (
-          <Servicerent
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-        {four === "industrialbuilding" && second === "Lease" && (
-          <Servicelease
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-        {/* {four === "industrial_shed" && second === "Sell" && (
-          <Servicesell
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )} */}
-        {four === "industrial_shed" && second === "Rent" && (
-          <Servicerent
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-        {four === "industrial_shed" && second === "Lease" && (
-          <Servicelease
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-
-        {four === "factory" && second === "Sell" && (
-          <FactorySell
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-        {four === "factory" && second === "Rent" && (
-          <FactoryRent
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-
-        {four === "factory" && second === "Lease" && (
-          <FactoryLease
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-        {four === "service_apartment" && second === "Rent" && (
-          <Apartmentrent
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-
-        {four === "service_apartment" && second === "Lease" && (
-          <Apartmentlease
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-        {four === "PG_home" && second === "Rent" && (
-          <Pgrent
-            four={four}
-            activeButton={activeButton}
-            user={user}
-            first={first}
-            second={second}
-            selectedPropType={selectedPropType}
-          />
-        )}
-
-        {activeButton === "Owner" &&
-          four &&
-          second === "Sell" &&
-          four !== "service_apartment" &&
-          four !== "industrialbuilding" &&
-          four !== "industrial_shed" &&
-          four !== "factory" &&
-          four !== "PG_home" &&
-          four !== "PG_hostel" && (
-            <Commercialsell
-              four={four}
-              activeButton={activeButton}
-              user={user}
-              first={first}
-              second={second}
-              selectedPropType={selectedPropType}
-            />
-          )}
-        {activeButton === "Owner" &&
-          four &&
-          second === "Rent" &&
-          four !== "service_apartment" &&
-          four !== "industrialbuilding" &&
-          four !== "industrial_shed" &&
-          four !== "factory" &&
-          four !== "PG_home" &&
-          four !== "PG_hostel" && (
-            <Commercialrent
-              activeButton={activeButton}
-              user={user}
-              four={four}
-              second={second}
-              selectedPropType={selectedPropType}
-            />
-          )}
-        {activeButton === "Owner" &&
-          four &&
-          second === "Lease" &&
-          four !== "service_apartment" &&
-          four !== "industrialbuilding" &&
-          four !== "industrial_shed" &&
-          four !== "factory" &&
-          four !== "PG_home" &&
-          four !== "PG_hostel" && (
-            <Commerciallease
-              activeButton={activeButton}
-              user={user}
-              four={four}
-              second={second}
-              selectedPropType={selectedPropType}
-            />
-          )}
-
         {/* {activeButton === "Owner" &&
           four === "industrialbuilding" &&
           second === "Sell" && (
@@ -1079,7 +902,7 @@ const Posting = () => {
               selectedPropType={selectedPropType}
             />
           )} */}
-        {activeButton === "Owner" &&
+        {/* {activeButton === "Owner" &&
           four === "industrialbuilding" &&
           second === "Rent" && (
             <Servicerent
@@ -1089,8 +912,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Owner" &&
+          )} */}
+        {/* {activeButton === "Owner" &&
           four === "industrialbuilding" &&
           second === "Lease" && (
             <Servicelease
@@ -1100,7 +923,7 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
         {/* {activeButton === "Owner" &&
           four === "industrialbuilding" &&
           second === "Sell" && (
@@ -1112,7 +935,7 @@ const Posting = () => {
               selectedPropType={selectedPropType}
             />
           )} */}
-        {activeButton === "Owner" &&
+        {/* {activeButton === "Owner" &&
           four === "industrial_shed" &&
           second === "Rent" && (
             <Servicerent
@@ -1133,9 +956,9 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
-        {activeButton === "Owner" &&
+        {/* {activeButton === "Owner" &&
           four === "factory" &&
           second === "Sell" && (
             <FactorySell
@@ -1145,8 +968,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Owner" &&
+          )} */}
+        {/* {activeButton === "Owner" &&
           four === "factory" &&
           second === "Rent" && (
             <FactoryRent
@@ -1156,9 +979,9 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
-        {activeButton === "Owner" &&
+        {/* {activeButton === "Owner" &&
           four === "factory" &&
           second === "Lease" && (
             <FactoryLease
@@ -1168,8 +991,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Owner" &&
+          )} */}
+        {/* {activeButton === "Owner" &&
           four === "service_apartment" &&
           second === "Rent" && (
             <Apartmentrent
@@ -1179,9 +1002,9 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
-        {activeButton === "Owner" &&
+        {/* {activeButton === "Owner" &&
           four === "service_apartment" &&
           second === "Lease" && (
             <Apartmentlease
@@ -1191,7 +1014,7 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
         {activeButton === "Owner" &&
           four === "PG_home" &&
           second === "Rent" && (
@@ -1455,7 +1278,7 @@ const Posting = () => {
               selectedPropType={selectedPropType}
             />
           )} */}
-        {activeButton === "Agent" &&
+        {/* {activeButton === "Agent" &&
           four === "industrialbuilding" &&
           second === "Rent" && (
             <Servicerent
@@ -1476,7 +1299,7 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
         {/* {activeButton === "Agent" &&
           four === "industrial_shed" &&
           second === "Sell" && (
@@ -1488,7 +1311,7 @@ const Posting = () => {
               selectedPropType={selectedPropType}
             />
           )} */}
-        {activeButton === "Agent" &&
+        {/* {activeButton === "Agent" &&
           four === "industrial_shed" &&
           second === "Rent" && (
             <Servicerent
@@ -1509,7 +1332,7 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
         {activeButton === "Agent" &&
           four === "factory" &&
@@ -1591,7 +1414,7 @@ const Posting = () => {
             />
           )}
 
-        {/* {activeButton === "Builder" && first && second === "Sell" && (
+        {activeButton === "Builder" && first && second === "Sell" && (
           <Sellform
             activeButton={activeButton}
             user={user}
@@ -1599,7 +1422,7 @@ const Posting = () => {
             second={second}
             selectedPropType={selectedPropType}
           />
-        )} */}
+        )}
         {activeButton === "Builder" && first && second === "Rent" && (
           <Rentform
             activeButton={activeButton}
@@ -1755,7 +1578,7 @@ const Posting = () => {
               selectedPropType={selectedPropType}
             />
           )} */}
-        {activeButton === "Builder" &&
+        {/* {activeButton === "Builder" &&
           four === "industrialbuilding" &&
           second === "Rent" && (
             <Servicerent
@@ -1776,7 +1599,7 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
         {/* {activeButton === "Builder" &&
           four === "industrail_shed" &&
           second === "Sell" && (
@@ -1788,7 +1611,7 @@ const Posting = () => {
               selectedPropType={selectedPropType}
             />
           )} */}
-        {activeButton === "Builder" &&
+        {/* {activeButton === "Builder" &&
           four === "industrial_shed" &&
           second === "Rent" && (
             <Servicerent
@@ -1798,8 +1621,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Builder" &&
+          )} */}
+        {/* {activeButton === "Builder" &&
           four === "industrial_shed" &&
           second === "Lease" && (
             <Servicelease
@@ -1809,9 +1632,9 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
-        {activeButton === "Builder" &&
+        {/* {activeButton === "Builder" &&
           four === "factory" &&
           second === "Sell" && (
             <FactorySell
@@ -1821,8 +1644,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Builder" &&
+          )} */}
+        {/* {activeButton === "Builder" &&
           four === "factory" &&
           second === "Rent" && (
             <FactoryRent
@@ -1832,9 +1655,9 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
-        {activeButton === "Builder" &&
+        {/* {activeButton === "Builder" &&
           four === "factory" &&
           second === "Lease" && (
             <FactoryLease
@@ -1844,8 +1667,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Builder" &&
+          )} */}
+        {/* {activeButton === "Builder" &&
           four === "service_apartment" &&
           second === "Rent" && (
             <Apartmentrent
@@ -1855,9 +1678,9 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
+          )} */}
 
-        {activeButton === "Builder" &&
+        {/* {activeButton === "Builder" &&
           four === "service_apartment" &&
           second === "Lease" && (
             <Apartmentlease
@@ -1867,8 +1690,8 @@ const Posting = () => {
               second={second}
               selectedPropType={selectedPropType}
             />
-          )}
-        {activeButton === "Builder" &&
+          )} */}
+        {/* {activeButton === "Builder" &&
           four === "PG_home" &&
           second === "Rent" && (
             <Pgrent
@@ -1883,6 +1706,211 @@ const Posting = () => {
           four === "PG_hostel" &&
           second === "Rent" && (
             <Pgrent
+              activeButton={activeButton}
+              user={user}
+              four={four}
+              second={second}
+              selectedPropType={selectedPropType}
+            />
+          )} */}
+
+        {/* commercial properties varients */}
+
+        {/* industrial buildind -> owner -> sell */}
+        {four === "industrialbuilding" && second === "Sell" && (
+          <Servicesell
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+        {/* industrial buildind -> owner -> rent */}
+        {four === "industrialbuilding" && second === "Rent" && (
+          <Servicerent
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+        {/* industrial buildind -> owner -> lease */}
+        {four === "industrialbuilding" && second === "Lease" && (
+          <Servicelease
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* industrial shed -> owner -> sell */}
+
+        {four === "industrial_shed" && second === "Sell" && (
+          <Servicesell
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* industrial shed -> owner -> rent */}
+        {four === "industrial_shed" && second === "Rent" && (
+          <Servicerent
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* industrial shed -> owner -> lease */}
+        {four === "industrial_shed" && second === "Lease" && (
+          <Servicelease
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* factory sell  */}
+        {four === "factory" && second === "Sell" && (
+          <FactorySell
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* factory rent  */}
+
+        {four === "factory" && second === "Rent" && (
+          <FactoryRent
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* factory lease */}
+        {four === "factory" && second === "Lease" && (
+          <FactoryLease
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* service_appartment rent */}
+
+        {four === "service_apartment" && second === "Rent" && (
+          <Apartmentrent
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* service_appartment sale */}
+
+        {four === "service_apartment" && second === "Lease" && (
+          <Apartmentlease
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* pg home rent*/}
+
+        {four === "PG_home" && second === "Rent" && (
+          <Pgrent
+            four={four}
+            activeButton={activeButton}
+            user={user}
+            first={first}
+            second={second}
+            selectedPropType={selectedPropType}
+          />
+        )}
+
+        {/* showroom sale*/}
+        {activeButton === "Owner" &&
+          four &&
+          second === "Sell" &&
+          four !== "service_apartment" &&
+          four !== "industrialbuilding" &&
+          four !== "industrial_shed" &&
+          four !== "factory" &&
+          four !== "PG_home" &&
+          four !== "PG_hostel" && (
+            <Commercialsell
+              four={four}
+              activeButton={activeButton}
+              user={user}
+              first={first}
+              second={second}
+              selectedPropType={selectedPropType}
+            />
+          )}
+        {/* showroom rent*/}
+        {activeButton === "Owner" &&
+          four &&
+          second === "Rent" &&
+          four !== "service_apartment" &&
+          four !== "industrialbuilding" &&
+          four !== "industrial_shed" &&
+          four !== "factory" &&
+          four !== "PG_home" &&
+          four !== "PG_hostel" && (
+            <Commercialrent
+              activeButton={activeButton}
+              user={user}
+              four={four}
+              second={second}
+              selectedPropType={selectedPropType}
+            />
+          )}
+        {/* showroom rent lease*/}
+        {activeButton === "Owner" &&
+          four &&
+          second === "Lease" &&
+          four !== "service_apartment" &&
+          four !== "industrialbuilding" &&
+          four !== "industrial_shed" &&
+          four !== "factory" &&
+          four !== "PG_home" &&
+          four !== "PG_hostel" && (
+            <Commerciallease
               activeButton={activeButton}
               user={user}
               four={four}

@@ -100,7 +100,7 @@ const Navigation = () => {
   const [tenants, setTenants] = useState("");
   const [postedBy, setPostedBy] = useState("");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(1000000000);
 
   const [minArea, setMinArea] = useState(0);
   const [maxArea, setMaxArea] = useState(500000);

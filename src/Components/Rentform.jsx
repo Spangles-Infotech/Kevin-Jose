@@ -15,9 +15,9 @@ import { Baseurl, UserConfig } from "./request";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { log } from "util";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [plot, setPlot] = useState(false);
   const [land, setLand] = useState(false);
   const [residential, setResidential] = useState(false);
@@ -254,6 +254,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
     agentCommision: "",
   });
 
+  console.log(formData);
   const [errors, setErrors] = useState({});
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -262,9 +263,9 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      toast.error("Please fill required fields beforte submiting",{
-        hideProgressBar:true
-      })
+      toast.error("Please fill required fields beforte submiting", {
+        hideProgressBar: true,
+      });
       return;
     }
 
@@ -306,9 +307,9 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
         errors.agentCommision = "*Please enter agent commision";
       }
     }
-    if(selectedImage.length === 0){
-      errors.image = "*please upload at least 1 image"
-     }
+    if (selectedImage.length === 0) {
+      errors.image = "*please upload at least 1 image";
+    }
 
     return errors;
   };
@@ -326,7 +327,6 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
       [e.target.name]: e.target.value,
     });
   };
- 
 
   const submitForm = async (formData) => {
     const formValue = new FormData();
@@ -346,6 +346,10 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
       formValue.append("plot.length_unit", units.lengthUnit);
       formValue.append("plot.road_width_unit", units.roadWidthUnit);
       formValue.append("plot.total_area_unit", units.totalAreaUnit);
+      content.forEach((element, index) => {
+        formValue.append(`plot.facilities[${index}]name`, element);
+      });
+
       content.forEach((element, index) => {
         formValue.append(`plot.facilities[${index}]name`, element);
       });
@@ -373,11 +377,11 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
       formValue.append("property_type", selectedPropType);
       formValue.append("land.land_type", first);
       formValue.append("land.length", parseInt(formData?.plotSize));
-      formValue.append("land.breadth", parseInt(formData?.plotBreadth));
-      formValue.append("land.road_width", parseInt(formData?.roadWidth));
+      formValue.append("land.breadth", parseInt(formData?.ploatBreadth));
+      formValue.append("land.road_width", parseInt(formData?.ploatWidth));
       formValue.append("land.direction_facing", formData?.direction);
       formValue.append("land.approval", formData?.category);
-      formValue.append("land.total_area", parseInt(formData?.totalArea));
+      formValue.append("land.total_area", parseInt(formData?.ploatArea));
       formValue.append("land.breadth_unit", units.breadthUnit);
       formValue.append("land.length_unit", units.lengthUnit);
       formValue.append("land.road_width_unit", units.roadWidthUnit);
@@ -418,9 +422,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
       formValue.append("agent_commission", formData?.agentCommision);
     }
     formValue.append("advance", formData?.advanceAmount);
-    content.forEach((element, index) => {
-      formValue.append(`plot.facilities[${index}]name`, element);
-    });
+
     formValue.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
@@ -431,29 +433,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
         formValue,
         UserConfig
       );
-      navigate("/check",{state : response.data})
-      // console.log(response.data);
-      // toast.success("Submitted", {
-      //   hideProgressBar: true,
-      //   position: "top-center",
-      // });
-      // setFormData({
-      //   propertyName: "",
-      //   propertyLocation: "",
-      //   plotSize: "",
-      //   ploatBreadth: "",
-      //   ploatArea: "",
-      //   ploatWidth: "",
-      //   rentAmount: "",
-      //   advanceAmount: "",
-      //   description: "",
-      //   AreaUnit:"",
-      //   category:""
-      // })
-      // setContent([])
-      // setSelectedImage([])
-      // setSelectedFile("")
-      // setselectedvalue("")
+      navigate("/check", { state: response.data });
     } catch (error) {
       console.error("Server error", error);
       toast.error("something went wrong", {
@@ -515,7 +495,6 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
             </Form.Group>
           </Col>
         </Row>
-
 
         <Row className="gx-md-5 gx-3 mt-5 mt-5">
           <Col>
@@ -677,77 +656,79 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
           </Col>
         </Row>
       </Form>
-      <h5 className='mt-4'>Direction Facing</h5>
-      <div className="custom-radio d-flex mt-4 flex-column flex-md-row">
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio1"
-        value="east"
-      />
-      <label className="form-check-label mb-1" htmlFor="exampleRadio1">
-        East
-      </label>
-    </div>
-  </div>
+      <h5 className="mt-4">Direction Facing</h5>
+      <div
+        className="custom-radio d-flex mt-4 flex-column flex-md-row"
+        onChange={handleChange}
+      >
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio1"
+              value="east"
+            />
+            <label className="form-check-label mb-1" htmlFor="exampleRadio1">
+              East
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio2"
-        value="west"
-      />
-      <label className="form-check-label" htmlFor="exampleRadio2">
-        West
-      </label>
-    </div>
-  </div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio2"
+              value="west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio2">
+              West
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio3"
-        value="north"
-      />
-      <label className="form-check-label" htmlFor="exampleRadio3">
-        North
-      </label>
-    </div>
-  </div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio3"
+              value="north"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio3">
+              North
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio4"
-        value="south"
-      />
-      <label className="form-check-label" htmlFor="exampleRadio4">
-        South
-      </label>
-    </div>
-  </div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1 mb-3 mb-md-0">
-    <input
-      className="inp flex-grow-1"
-      name="direction"
-     
-      placeholder="other if any..."
-    />
-  </div>
-</div>
+        <div className="flex-grow-1 mb-3 mb-md-0">
+          <input
+            className="inp flex-grow-1"
+            name="direction"
+            placeholder="other if any..."
+          />
+        </div>
+      </div>
 
       <div className="mt-3">
         <h5>Facility</h5>
@@ -890,7 +871,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
                   value={formData.agentCommision}
                   onChange={handleChange}
                 />
-                 {errors.agentCommision && (
+                {errors.agentCommision && (
                   <div className="text-danger">{errors.agentCommision}</div>
                 )}
               </Form.Group>
@@ -1174,7 +1155,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
         </div>
       )} */}
       <div className="d-flex justify-content-center">
-      {errors.image && <div className="text-danger">{errors.image}</div>}
+        {errors.image && <div className="text-danger">{errors.image}</div>}
         <button
           type="button"
           onClick={handleSubmit}

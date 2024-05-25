@@ -416,7 +416,7 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
     formValue.append("description", formData?.description);
     formValue.append("location", formData?.propertyLocation);
 
-    formValue.append("lease_amount", formData?.leaseAmount);
+    formValue.append("lease_amount", parseInt(formData?.leaseAmount));
     formValue.append("advance", formData?.advanceAmount);
 
     formValue.forEach((value, key) => {

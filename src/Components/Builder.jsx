@@ -100,6 +100,8 @@ const Builder = () => {
                 {details?.sale_price}
                 {details?.rent}
                 {details?.lease_amount}
+
+                
               </p>
             </Col>
           </Row>

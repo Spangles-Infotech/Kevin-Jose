@@ -482,7 +482,7 @@ const Commercialsell = ({
       formData.append(`showroom_images[${0}]image`, selectedImage);
     }
     if (selectedFile) {
-      formData.append(`showroom_images[${1}]section`, "interior_view");
+      formData.append(`showroom_images[${1}]section`, "interior");
       formData.append(`showroom_images[${1}]image`, selectedFile);
     }
     if (selectedroom) {

@@ -126,7 +126,7 @@ const Postcheck = () => {
             </div>
           </div>
 
-          {/* plot */}
+          {/* Plot */}
           {details?.property_type === "plot" && (
             <div className="d-flex flex-wrap gap-3 mx-4">
               {details?.plot_properties?.plot_images?.map((img, index) => (
@@ -189,105 +189,213 @@ const Postcheck = () => {
           )}
 
           {/* residential */}
-
           {details?.property_type === "residential" && (
             <div className="d-flex flex-wrap gap-3 mx-4">
-              {details?.residential_properties?.house?.house_images?.map ||
-                details?.residential_properties?.apartment?.apartment_images?.map(
-                  (img, index) => (
-                    <img
-                      src={img.image}
-                      alt={`Image ${index + 1}`}
-                      style={
-                        index === 0
-                          ? { width: "440px", height: "260px" }
-                          : index === 1
-                          ? { width: "270px", height: "260px" }
-                          : index === 2
-                          ? { width: "330px", height: "260px" }
-                          : index === 3
-                          ? { width: "330px", height: "260px" }
-                          : index === 4
-                          ? { width: "330px", height: "260px" }
-                          : index === 5
-                          ? { width: "270px", height: "260px" }
-                          : index === 6
-                          ? { width: "270px", height: "260px" }
-                          : {}
-                      }
-                      className="mx-2 img-fluid rounded-3"
-                      key={index}
-                    />
-                  )
-                )}
+              {/* house */}
+              {details?.residential_properties?.house?.house_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
+              {/* appartment */}
+              {details?.residential_properties?.apartment?.apartment_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
             </div>
           )}
 
           {/* commercial */}
           {details?.property_type === "commercial" && (
             <div className="d-flex flex-wrap gap-3 mx-4">
-              {details?.commercial_properties?.industrialbuilding
-                ?.industrialbuilding_images?.map ||
-                details?.commercial_properties?.showroom?.showroom_images?.map(
-                  (img, index) => (
-                    <img
-                      src={img.image}
-                      alt={`Image ${index + 1}`}
-                      style={
-                        index === 0
-                          ? { width: "440px", height: "260px" }
-                          : index === 1
-                          ? { width: "270px", height: "260px" }
-                          : index === 2
-                          ? { width: "330px", height: "260px" }
-                          : index === 3
-                          ? { width: "330px", height: "260px" }
-                          : index === 4
-                          ? { width: "330px", height: "260px" }
-                          : index === 5
-                          ? { width: "270px", height: "260px" }
-                          : index === 6
-                          ? { width: "270px", height: "260px" }
-                          : {}
-                      }
-                      className="mx-2 img-fluid rounded-3"
-                      key={index}
-                    />
-                  )
-                )}
+              {/* showroom */}
+              {details?.commercial_properties?.showroom?.showroom_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
+              {/* industrial building */}
+              {details?.commercial_properties?.industrialbuilding?.industrialbuilding_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
+              {/*service_apartment */}
+              {details?.commercial_properties?.service_apartment?.service_apartment_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
+              {/*factory */}
+              {details?.commercial_properties?.factory?.factory_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
+              {/*pg_colony */}
+              {details?.commercial_properties?.pg_colony?.pgcolony_images?.map(
+                (img, index) => (
+                  <img
+                    src={img.image}
+                    alt={`Image ${index + 1}`}
+                    style={
+                      index === 0
+                        ? { width: "440px", height: "260px" }
+                        : index === 1
+                        ? { width: "270px", height: "260px" }
+                        : index === 2
+                        ? { width: "330px", height: "260px" }
+                        : index === 3
+                        ? { width: "330px", height: "260px" }
+                        : index === 4
+                        ? { width: "330px", height: "260px" }
+                        : index === 5
+                        ? { width: "270px", height: "260px" }
+                        : index === 6
+                        ? { width: "270px", height: "260px" }
+                        : {}
+                    }
+                    className="mx-2 img-fluid rounded-3"
+                    key={index}
+                  />
+                )
+              )}
             </div>
           )}
 
-          <Card.Body>
-            <table style={{ borderCollapse: "collapse", width: "100%" }}>
-              <tbody>
-                {data.map((row, rowIndex) => (
-                  <tr
-                    key={rowIndex}
-                    style={rowIndex === 0 ? tableCellStyle : headerCellStyle}
-                  >
-                    {row.map((cell, cellIndex) => (
-                      <td
-                        key={cellIndex}
-                        style={
-                          rowIndex === 0 ? headerCellStyle : tableCellStyle
-                        }
-                      >
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <hr />
-          </Card.Body>
-        </Card>
-
-        <Card
-          className="mt-5"
-          style={{ width: "1170px", border: " 1px solid #D7242A" }}
-        >
           <Card.Body>
             <p
               className="ms-3 mt-2"
@@ -300,7 +408,6 @@ const Postcheck = () => {
             >
               More Details
             </p>
-
             {/* plot */}
 
             {details.property_type == "plot" && (
@@ -380,7 +487,9 @@ const Postcheck = () => {
                     <td>
                       {details?.plot_properties?.facilities.map(
                         (indoor, ind) => (
-                          <span key={ind}>{indoor?.name}</span>
+                          <span key={ind}>
+                            {indoor?.name} {""}
+                          </span>
                         )
                       )}
                     </td>
@@ -416,15 +525,55 @@ const Postcheck = () => {
                   )}
 
                   {details?.you_are_here_to === "lease" && (
-                    <tr>
-                      <td>Lease Price</td>
-                      <td>{details?.lease_amount}</td>
-                    </tr>
+                    <>
+                      <tr>
+                        <td>Lease Price</td>
+                        <td>{details?.lease_amount}</td>
+                      </tr>
+
+                      <tr>
+                        <td>Advance Amount</td>
+                        <td>{details?.advance}</td>
+                      </tr>
+                    </>
                   )}
                   <tr>
                     <td>Address</td>
                     <td>{details?.location}</td>
                   </tr>
+
+                  {details?.owner && (
+                    <tr>
+                      <td>Posted by</td>
+                      <td>Owner</td>
+                    </tr>
+                  )}
+
+                  {details?.agent && (
+                    <>
+                      <tr>
+                        <td>Posted by</td>
+                        <td>Agent</td>
+                      </tr>
+                      <tr>
+                        <td>Agent Commision</td>
+                        <td>55</td>
+                      </tr>
+                    </>
+                  )}
+
+                  {details?.builder && (
+                    <>
+                      <tr>
+                        <td>Posted by</td>
+                        <td>Agent</td>
+                      </tr>
+                      <tr>
+                        <td>Agent Commision</td>
+                        <td>55</td>
+                      </tr>
+                    </>
+                  )}
 
                   <tr>
                     <td>Area</td>
@@ -498,21 +647,46 @@ const Postcheck = () => {
                         <td>Price per sqft</td>
                         <td>{details?.sale_price_per_sqft}</td>
                       </tr>
+
+                      {details.agent && (
+                        <tr>
+                          <td>Agent Commision</td>
+                          <td>{details?.agent_commission}</td>
+                        </tr>
+                      )}
                     </>
                   )}
 
                   {details?.you_are_here_to === "rent" && (
-                    <tr>
-                      <td>Rent Price</td>
-                      <td>{details?.rent}</td>
-                    </tr>
+                    <>
+                      <tr>
+                        <td>Rent Price</td>
+                        <td>{details?.rent}</td>
+                      </tr>
+
+                      {details.agent && (
+                        <tr>
+                          <td>Agent Commision</td>
+                          <td>{details?.agent_commission}</td>
+                        </tr>
+                      )}
+                    </>
                   )}
 
                   {details?.you_are_here_to === "lease" && (
-                    <tr>
-                      <td>Lease Price</td>
-                      <td>{details?.lease_amount}</td>
-                    </tr>
+                    <>
+                      <tr>
+                        <td>Lease Price</td>
+                        <td>{details?.lease_amount}</td>
+                      </tr>
+
+                      {details.agent && (
+                        <tr>
+                          <td>Agent Commision</td>
+                          <td>{details?.agent_commission}</td>
+                        </tr>
+                      )}
+                    </>
                   )}
                   <tr>
                     <td>Address</td>
@@ -522,17 +696,20 @@ const Postcheck = () => {
                   <tr>
                     <td>Furnishing</td>
                     <td>
+                      {details?.residential_properties?.house?.status}
                       {details?.residential_properties?.apartment?.status}
                     </td>
-                    <td>{details?.residential_properties?.house?.status}</td>
                   </tr>
 
                   <tr>
                     <td>Condition</td>
+                    {/* <td>
+                      {details?.residential_properties?.apartment?.condition}
+                    </td> */}
                     <td>
+                      {details?.residential_properties?.house?.condition}
                       {details?.residential_properties?.apartment?.condition}
                     </td>
-                    <td>{details?.residential_properties?.house?.condition}</td>
                   </tr>
 
                   <tr>
@@ -561,17 +738,16 @@ const Postcheck = () => {
 
                   <tr>
                     <td>Indoor Facilities</td>
-                    <td>
-                      {details?.residential_properties?.apartment?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name}</span>
-                        )
-                      )}
-                    </td>
+
                     <td>
                       {details?.residential_properties?.house?.indoor_facilities.map(
                         (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name}</span>
+                          <span key={ind}>{indoor.facility.name} </span>
+                        )
+                      )}
+                      {details?.residential_properties?.apartment?.indoor_facilities.map(
+                        (indoor, ind) => (
+                          <span key={ind}>{indoor.facility.name} </span>
                         )
                       )}
                     </td>
@@ -579,17 +755,16 @@ const Postcheck = () => {
 
                   <tr>
                     <td>Outdoor Facilities</td>
-                    <td>
-                      {details?.residential_properties?.apartment?.outdoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name}</span>
-                        )
-                      )}
-                    </td>
+
                     <td>
                       {details?.residential_properties?.house?.outdoor_facilities.map(
                         (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name}</span>
+                          <span key={ind}>{indoor.facility.name} </span>
+                        )
+                      )}
+                      {details?.residential_properties?.apartment?.outdoor_facilities.map(
+                        (indoor, ind) => (
+                          <span key={ind}>{indoor.facility.name} </span>
                         )
                       )}
                     </td>
@@ -599,252 +774,277 @@ const Postcheck = () => {
             )}
 
             {/* commercial forms */}
-            {details.property_type == "commercial" && (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <td>Sale Price</td>
-                    <td>{details?.sale_price}</td>
-                  </tr>
+            {
+              details.property_type === "commercial" && (
+                // details?.commercial_properties?.commercial_type === "office" || "industrialbuilding" || "factory"  && (
+                <table className="table">
+                  <thead>
+                    {details?.you_are_here_to == "sell" && (
+                      <>
+                        <tr>
+                          <td>Sale Price</td>
+                          <td>{details?.sale_price}</td>
+                        </tr>
+                        <tr>
+                          <td>Price per sqft</td>
+                          <td>{details?.sale_price_per_sqft}</td>
+                        </tr>
+                      </>
+                    )}
+                    {details?.you_are_here_to == "rent" && (
+                      <>
+                        <tr>
+                          <td>Rent Price</td>
+                          <td>
+                            {details?.rent}
+                            {details?.advance}
+                          </td>
+                        </tr>
+                        {details?.agent_commission && (
+                          <tr>
+                            <td>Agent Commision</td>
+                            <td>{details?.agent_commission}</td>
+                          </tr>
+                        )}
+                      </>
+                    )}
+                    {details?.you_are_here_to == "lease" && (
+                      <tr>
+                        <td>Lease Price</td>
+                        <td>{details?.lease_amount}</td>
+                      </tr>
+                    )}
 
-                  <tr>
-                    <td>Price per sqft</td>
-                    <td>{details?.sale_price_per_sqft}</td>
-                  </tr>
+                    <tr>
+                      <td>Address</td>
+                      <td>{details?.location}</td>
+                    </tr>
+                    <tr>
+                      <td>Furnishing</td>
+                      <td>
+                        {
+                          details?.commercial_properties?.industrialbuilding
+                            ?.status
+                        }
+                        {details?.commercial_properties?.showroom?.status}
+                        {
+                          details?.commercial_properties?.service_apartment
+                            ?.status
+                        }
+                        {details?.commercial_properties?.factory?.status}
+                        {details?.commercial_properties?.pg_colony?.status}
+                      </td>
+                    </tr>
+                    {details?.commercial_properties?.industrialbuilding && (
+                      <>
+                        <tr>
+                          <td>Condition</td>
+                          <td>
+                            {details?.commercial_properties?.industrialbuilding
+                              ?.condition ||
+                              details?.commercial_properties?.showroom
+                                ?.condition ||
+                              details?.commercial_properties?.factory
+                                ?.condition ||
+                              details?.commercial_properties?.pg_colony
+                                ?.condition}
+                          </td>
+                        </tr>
+                      </>
+                    )}
+                    {details?.commercial_properties?.industrialbuilding && (
+                      <tr>
+                        <td>Type</td>
+                        <td>
+                          {details?.commercial_properties?.industrialbuilding
+                            ?.category_of_project ||
+                            details?.commercial_properties?.showroom
+                              ?.category_of_project}
+                        </td>
+                      </tr>
+                    )}
+                    {details?.commercial_properties?.service_apartment && (
+                      <>
+                        <tr>
+                          <td>Area</td>
+                          <td>
+                            {
+                              details?.commercial_properties?.service_apartment
+                                ?.built_up_area
+                            }{" "}
+                            Sqft
+                          </td>
+                        </tr>
 
-                  <tr>
-                    <td>Address</td>
-                    <td>
-                      {
-                        details?.location
-                      }
-                    </td>
-                  </tr>
+                        <tr>
+                          <td>Floors</td>
+                          <td>
+                            {
+                              details?.commercial_properties?.service_apartment
+                                ?.available_floors
+                            }{" "}
+                          </td>
+                        </tr>
 
-                  <tr>
-                    <td>Furnishing</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.status
-                          ||
-                          details?.commercial_properties?.showroom
-                          ?.status
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Condition</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.condition 
-                          ||
-                          details?.commercial_properties?.showroom
-                          ?.condition
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Type</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.category_of_project ||
-                          details?.commercial_properties?.showroom
-                          ?.category_of_project 
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Built Area</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
+                        <tr>
+                          <td>Car Parking</td>
+                          <td>
+                            {
+                              details?.commercial_properties?.service_apartment
+                                ?.no_of_car_parking
+                            }{" "}
+                          </td>
+                        </tr>
+                      </>
+                    )}
+                    <tr>
+                      <td>Built Area</td>
+                      <td>
+                        {details?.commercial_properties?.industrialbuilding
                           ?.built_up_area ||
                           details?.commercial_properties?.showroom
-                          ?.built_up_area
-                      }{" "}
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.built_up_area_unit ||
-                          details?.commercial_properties?.showroom
-                          ?.built_up_area_unit
-                      }
-                    </td>
-                  </tr>
+                            ?.built_up_area}{" "}
+                        {details?.commercial_properties?.industrialbuilding
+                          ?.built_up_area ||
+                          details?.commercial_properties?.factory
+                            ?.built_up_area ||
+                          details?.commercial_properties?.service_apartment
+                            ?.built_up_area}{" "}
+                        Sqft
+                      </td>
+                    </tr>
 
-                  <tr>
-                    <td>Plot Area</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.plot_area
-                      }{" "}
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.plot_area_unit
-                      }
-                    </td>
-                  </tr>
+                    {details?.commercial_properties?.industrialbuilding && (
+                      <tr>
+                        <td>Road Width</td>
+                        <td>
+                          {
+                            details?.commercial_properties?.industrialbuilding
+                              ?.road_width
+                          }{" "}
+                          {
+                            details?.commercial_properties?.industrialbuilding
+                              ?.road_width_unit
+                          }
+                        </td>
+                      </tr>
+                    )}
 
-                  {details?.commercial_properties?.industrialbuilding && <tr>
-                    <td>Road Width</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.road_width
-                      }{" "}
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.road_width_unit
-                      }
-                    </td>
-                  </tr>}
+                    {details?.commercial_properties?.pg_colony && (
+                      <>
+                        <tr>
+                          <td>Gender</td>
+                          <td>
+                            {details?.commercial_properties?.pg_colony?.gender}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Tenanats Preffered</td>
+                          <td>
+                            {
+                              details?.commercial_properties?.pg_colony
+                                ?.tenants_preferred
+                            }
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Total Floors</td>
+                          <td>
+                            {
+                              details?.commercial_properties?.pg_colony
+                                ?.total_floors
+                            }
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Security Deposit</td>
+                          <td>
+                            {
+                              details?.commercial_properties?.pg_colony
+                                ?.security_deposit
+                            }
+                          </td>
+                        </tr>
+                      </>
+                    )}
 
-                  <tr>
-                    <td>Indoor Facilities</td>
-                    <td>
-                      {details?.commercial_properties?.industrialbuilding?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name}</span>
-                        )
-                      )}
-                    </td>
-                  </tr>
-                </thead>
-              </table>
-            )}
+                    <tr>
+                      <td>Indoor Facilities</td>
+                      <td>
+                        {details?.commercial_properties?.showroom?.indoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.industrialbuilding?.indoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.service_apartment?.indoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.factory?.indoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.pg_colony?.indoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                      </td>
+                    </tr>
 
-            {/* commercial forms
-            {details.property_type == "commercial" && (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <td>Sale Price</td>
-                    <td>{details?.sale_price}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Price per sqft</td>
-                    <td>{details?.sale_price_per_sqft}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Address</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.address
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Furnishing</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.status
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Condition</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.condition
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Type</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.category_of_project
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Built Area</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.built_up_area
-                      }{" "}
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.built_up_area_unit
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Plot Area</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.plot_area
-                      }{" "}
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.plot_area_unit
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Road Width</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.road_width
-                      }{" "}
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.road_width_unit
-                      }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Indoor Facilities</td>
-                    <td>
-                      {details?.commercial_properties?.industrialbuilding?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name}</span>
-                        )
-                      )}
-                    </td>
-                  </tr>
-                </thead>
-              </table>
-            )} */}
+                    <tr>
+                      <td>Outdoor Facilities</td>
+                      <td>
+                        {details?.commercial_properties?.showroom?.outdoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.industrialbuilding?.outdoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.service_apartment?.outdoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.factory?.outdoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                        {details?.commercial_properties?.pg_colony?.outdoor_facilities.map(
+                          (indoor, ind) => (
+                            <span key={ind}>{indoor.facility.name} </span>
+                          )
+                        )}
+                      </td>
+                    </tr>
+                  </thead>
+                </table>
+              )
+              // )
+            }
 
             <div className="">
               <span className="mx-3" style={{ fontWeight: "bold" }}>
                 Description:
               </span>
-              <span>
-                {details.description}
-                {/* {" "}
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. Lorem
-                Ipsum is simply dummy text of the printing......{" "} */}
-              </span>
+              <span>{details?.description}</span>
             </div>
           </Card.Body>
         </Card>
+
+         
 
         <Card className="container" style={{ width: "1170px", border: "none" }}>
           <Card.Body>
