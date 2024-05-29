@@ -263,6 +263,7 @@ const Restland = ({
     " Community Hall": false,
     Saloon: false,
     Pool: false,
+    "CCTV":false
   });
 
   const newvalue = [
@@ -275,6 +276,7 @@ const Restland = ({
     " Community Hall",
     "Saloon",
     "Pool",
+    "CCTV"
   ];
 
   const [data, setData] = useState([]);
@@ -747,7 +749,7 @@ const Restland = ({
             <label className="form-check-label" htmlFor="exampleRadio2">
               Unfurnished
             </label>
-          </div>
+          </div> 
         </div>
       </div>
       <h5 className="mt-4">Condition</h5>
@@ -767,7 +769,7 @@ const Restland = ({
           </div>
         </div>
 
-        <div className="flex-grow-1 ms-2">
+        {/* <div className="flex-grow-1 ms-2">
           <div className="form-check ms-2">
             <input
               className="form-check-input"
@@ -780,7 +782,7 @@ const Restland = ({
               Under Construction
             </label>
           </div>
-        </div>
+        </div> */}
         <div className="flex-grow-1 me-3">
           <input
             className="inp"
@@ -817,7 +819,7 @@ const Restland = ({
                 ))}
                 {/** check this page --> sell --> residential --? duplex */}
                 <input
-                  placeholder="Typesomething"
+                  placeholder="Add facilities"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
@@ -868,7 +870,7 @@ const Restland = ({
                   </button>
                 ))}
                 <input
-                  placeholder="Type something"
+                 placeholder="Add facilities"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeys}

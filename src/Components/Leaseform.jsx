@@ -15,9 +15,9 @@ import { Baseurl, UserConfig } from "./request";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { log } from "util";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [plot, setPlot] = useState(false);
   const [land, setLand] = useState(false);
   const [residential, setResidential] = useState(false);
@@ -433,7 +433,7 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
         formValue,
         UserConfig
       );
-      navigate("/check",{state : response.data})
+      navigate("/check", { state: response.data });
       // console.log(response.data);
       // toast.success("Submitted", {
       //   hideProgressBar: true,
@@ -601,7 +601,7 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
           {/* Third Row */}
           <Col md={6}>
             <Form.Group controlId="formGroup5">
-              <Form.Label></Form.Label>
+              <Form.Label>Area</Form.Label>
 
               <div
                 className="rounded-pill"
@@ -638,7 +638,7 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
           </Col>
           <Col md={6}>
             <Form.Group controlId="formGroup6">
-              <Form.Label></Form.Label>
+              <Form.Label>Width</Form.Label>
 
               <div
                 className="rounded-pill"
@@ -742,13 +742,64 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
           </div>
         </div>
 
-        <div className="flex-grow-1 mb-5">
-          <input
-            className="inp flex-grow-1"
-            name="direction"
-            onChange={handleChange}
-            placeholder="other if any..."
-          />
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="north_east"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              North-east
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="north_west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              North-west
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south_east"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South-east
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south_west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South-west
+            </label>
+          </div>
         </div>
       </div>
 
@@ -775,7 +826,7 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
                   </button>
                 ))}
                 <input
-                  placeholder="Type something"
+                  placeholder="Add facility"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
@@ -843,9 +894,7 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
         <Row className="mt-5">
           <Col className="">
             <Form.Group controlId="formGroup3">
-              <Form.Label>
-                Lease Amount <span className="month">(per year)</span>
-              </Form.Label>
+              <Form.Label>Lease Amount</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Rs"
@@ -860,9 +909,28 @@ const Leaseform = ({ activeButton, user, first, second, selectedPropType }) => {
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
+
+          <Col className="">
+            <Form.Group controlId="formGroup3">
+              <Form.Label>Lease Period</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="lease period"
+                style={formControlStyle}
+                name="leasePeriod"
+                isInvalid={!!errors.leaseAmount}
+                value={formData.leaseAmount}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.leaseAmount}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+
           <Col>
             <Form.Group controlId="formGroup4">
-              <Form.Label>Advance Amount</Form.Label>
+              <Form.Label className="mt-3">Advance Amount</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Rs"

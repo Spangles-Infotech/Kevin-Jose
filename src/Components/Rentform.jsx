@@ -581,7 +581,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
           {/* Third Row */}
           <Col>
             <Form.Group controlId="formGroup5">
-              <Form.Label></Form.Label>
+            <Form.Label>Area</Form.Label>
 
               <div
                 className="rounded-pill"
@@ -618,7 +618,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
           </Col>
           <Col>
             <Form.Group controlId="formGroup6">
-              <Form.Label></Form.Label>
+            <Form.Label>Width</Form.Label>
 
               <div
                 className="rounded-pill"
@@ -721,12 +721,64 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
           </div>
         </div>
 
-        <div className="flex-grow-1 mb-3 mb-md-0">
-          <input
-            className="inp flex-grow-1"
-            name="direction"
-            placeholder="other if any..."
-          />
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="north_east"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              North-east
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="north_west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              North-west
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south_east"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South-east
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south_west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South-west
+            </label>
+          </div>
         </div>
       </div>
 
@@ -753,7 +805,7 @@ const Rentform = ({ activeButton, user, first, second, selectedPropType }) => {
                   </button>
                 ))}
                 <input
-                  placeholder="Type something"
+                  placeholder="Add facility"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}

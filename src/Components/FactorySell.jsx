@@ -167,6 +167,7 @@ const FactorySell = ({ activeButton,
      "Community Hall": false,
      Saloon: false,
      Pool: false,
+     "CCTV" : false
         
    
    });
@@ -183,6 +184,7 @@ const FactorySell = ({ activeButton,
     "Community Hall" ,
     "Saloon" ,
     "Pool",
+    "CCTV"
         
    
    ];
@@ -1010,7 +1012,7 @@ const FactorySell = ({ activeButton,
             </div>
           </div>
 
-          <div className="flex-grow-1 ms-2">
+          {/* <div className="flex-grow-1 ms-2">
             <div className="form-check ms-2">
               <input
                 className="form-check-input"
@@ -1023,7 +1025,7 @@ const FactorySell = ({ activeButton,
                 Under Construction
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex-grow-1 me-3">
             <input
@@ -1062,7 +1064,7 @@ const FactorySell = ({ activeButton,
               ))}
               {/** check this page --> sell --> residential --? duplex */}
               <input
-                placeholder="Typesomething"
+                placeholder="Add facilities"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -1113,7 +1115,7 @@ const FactorySell = ({ activeButton,
                 </button>
               ))}
               <input
-                placeholder="Type something"
+                 placeholder="Add facilities"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeys}

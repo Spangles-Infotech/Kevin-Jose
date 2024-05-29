@@ -1,5 +1,3 @@
-
-
 // import React from 'react'
 // import { Button, Card, Form, Row, Col, Dropdown, DropdownToggle } from 'react-bootstrap';
 // import { useState } from 'react';
@@ -46,8 +44,6 @@
 //         }
 //     };
 
-
-
 //     const formControlStyle = {
 //         borderColor: '#D7242A',
 //         width: '500px',
@@ -61,7 +57,6 @@
 //         borderRadius: '20px'
 //     }
 //     // images upload code
-
 
 //     const navLinkHoverStyle = {
 //         Color: '#D7242A',
@@ -94,7 +89,6 @@
 //         color: '#000000',
 //         fontSize: '12px'
 //     };
-
 
 //     // const [buttonAdd, setButtonAdd] = useState({
 //     //     CarParking: false,
@@ -174,8 +168,6 @@
 //         "Avenue Trees": false,
 //         Compound: false,
 
-
-
 //       });
 
 //       const newvalue = [
@@ -183,7 +175,6 @@
 //         "Security",
 //         "Street Lights",
 //         "Avenue Trees",
-
 
 //         "Compound"
 //       ];
@@ -263,13 +254,8 @@
 
 //      }
 
-
-
-
 //     const handleImageChange = (event) => {
 //       const file = event.target.files[0];
-
-
 
 //       setSelectedImage(file);
 
@@ -281,15 +267,11 @@
 //     const handleImagevalue = (event) => {
 //     const file = event.target.files[0];
 
-
-
 //     setselectedvalue(file);
 
 //     };
 //      const handleImagerooms = (event) =>{
 //       const file = event.target.files[0];
-
-
 
 //       setselectedroom(file);
 
@@ -298,13 +280,11 @@
 //     const handleFileKitchen =(event)=>{
 //       const file = event.target.files[0];
 
-
 //       setselectedKitchen(file);
 //     }
 
 //     const handleImageplan =(event)=>{
 //       const file = event.target.files[0];
-
 
 //       setselectedPlan(file);
 //     }
@@ -316,8 +296,6 @@
 //     const handleImageLogo = (event) => {
 //     const file = event.target.files[0];
 
-
-
 //     setselectedLogo(file);
 
 //     };
@@ -328,7 +306,6 @@
 //     const removeSelectedImage1 = () => {
 //     setSelectedFile('');
 //     };
-
 
 //     const removeSelectedImage2 = () => {
 //     setselectedvalue('');
@@ -350,7 +327,7 @@
 //     setselectedLogo('');
 //     };
 
-//   ////////////// api integration/////// 
+//   ////////////// api integration///////
 
 //   const [errors, setErrors] = useState({});
 //   const [formValue, setFormValue] = useState({
@@ -381,7 +358,7 @@
 //       ...errors,
 //       [name]: "",
 //     });
-//   }; 
+//   };
 
 //   //form validation
 //   const validateFormData = (data) => {
@@ -754,7 +731,7 @@
 //                                 id="exampleRadio2"
 //                                 value="resale"
 //                             />
-//                             <label 
+//                             <label
 //                             className="form-check-label"
 //                              htmlFor="exampleRadio2">
 //                                 Resale
@@ -853,8 +830,8 @@
 //                     </div>
 
 //                     <div className="flex-grow-1 me-3">
-//                         <input className="inp text-start" 
-//                         placeholder="If under construction...." 
+//                         <input className="inp text-start"
+//                         placeholder="If under construction...."
 //                         onChange={handleChange}
 //                         name="condition"/>
 //                     </div>
@@ -967,13 +944,12 @@
 
 //                 <Form className="mx-2">
 
-
 //                     <Row className="mt-5">
 //                         <Col className="">
 //                             <Form.Group controlId="formGroup3">
-//                                 <Form.Label>Lease Amount 
+//                                 <Form.Label>Lease Amount
 //                                    <span className='month'> (per year)</span></Form.Label>
-//                                 <Form.Control type="number" placeholder="Rs" 
+//                                 <Form.Control type="number" placeholder="Rs"
 //                                 style={formControlStyle}
 //                                 name="leaseprice"
 //                                 isInvalid={!!errors.leaseprice}
@@ -994,9 +970,6 @@
 //                     <Row className="mt-5">
 //                         {activeButton === "Agent" &&
 
-
-
-
 //                             <Col className="">
 //                                 <Form.Group controlId="formGroup3">
 //                                     <Form.Label>Agentcommision</Form.Label>
@@ -1005,7 +978,6 @@
 //                             </Col>
 //                         }
 
-
 //                         <Col>
 //                             <Form.Group controlId="formGroup4">
 //                                 <Form.Label></Form.Label>
@@ -1013,8 +985,6 @@
 //                             </Form.Group>
 //                         </Col>
 //                     </Row>
-
-
 
 //                 </Form>
 //                 <h5 className='mt-5 gy-3'>Description</h5>
@@ -1389,8 +1359,6 @@
 //           </Card.Body>
 //         </Card>
 
-
-
 //             </div>
 //             <div className="d-flex justify-content-center">
 //         <button
@@ -1407,12 +1375,7 @@
 //     )
 // }
 
-// export default Commerciallease 
-
-
-
-
-
+// export default Commerciallease
 
 // import React from 'react'
 // import { Button, Card, Form,Row,Col ,Dropdown,DropdownToggle} from 'react-bootstrap';
@@ -1460,8 +1423,6 @@
 //   }
 // };
 
-
-
 // const formControlStyle = {
 //     borderColor: '#D7242A',
 //     width:'500px',
@@ -1475,7 +1436,6 @@
 //     borderRadius:'20px'
 //   }
 //   // images upload code
-
 
 //   const navLinkHoverStyle = {
 //     Color: '#D7242A',
@@ -1494,9 +1454,9 @@
 
 //   const buttonStyle = {
 //     backgroundColor: '#FFFFFF',
-//     color: '#656565', 
+//     color: '#656565',
 //     border: '1px solid #C5C5C5',
-//     margin: '0 0.5rem', 
+//     margin: '0 0.5rem',
 
 //   };
 //       const navbarStyle = {
@@ -1505,7 +1465,7 @@
 //         width: '100%',
 //       };
 //       const navLinkStyle = {
-//         color: '#000000', 
+//         color: '#000000',
 //         fontSize:'12px'
 //       };
 //       const newArray = [
@@ -1573,8 +1533,6 @@
 //         "Avenue Trees": false,
 //         Compound: false,
 
-
-
 //       });
 
 //       const newvalue = [
@@ -1582,7 +1540,6 @@
 //         "Security",
 //         "Street Lights",
 //         "Avenue Trees",
-
 
 //         "Compound"
 //       ];
@@ -1662,13 +1619,8 @@
 
 //      }
 
-
-
-
 //     const handleImageChange = (event) => {
 //      const file = event.target.files[0];
-
-
 
 //       setSelectedImage(file);
 
@@ -1680,15 +1632,11 @@
 //     const handleImagevalue = (event) => {
 //     const file = event.target.files[0];
 
-
-
 //     setselectedvalue(file);
 
 //     };
 //      const handleImagerooms = (event) =>{
 //       const file = event.target.files[0];
-
-
 
 //       setselectedroom(file);
 
@@ -1697,13 +1645,11 @@
 //     const handleFileKitchen =(event)=>{
 //       const file = event.target.files[0];
 
-
 //       setselectedKitchen(file);
 //     }
 
 //     const handleImageplan =(event)=>{
 //       const file = event.target.files[0];
-
 
 //       setselectedPlan(file);
 //     }
@@ -1715,8 +1661,6 @@
 //     const handleImageLogo = (event) => {
 //     const file = event.target.files[0];
 
-
-
 //     setselectedLogo(file);
 
 //     };
@@ -1727,7 +1671,6 @@
 //     const removeSelectedImage1 = () => {
 //     setSelectedFile('');
 //     };
-
 
 //     const removeSelectedImage2 = () => {
 //     setselectedvalue('');
@@ -1941,9 +1884,9 @@
 //             <Col>
 //               <Form.Group controlId="formGroup1">
 //                 <Form.Label>Property Name</Form.Label>
-//                 <Form.Control type="text" 
+//                 <Form.Control type="text"
 //                 placeholder="Enter Name"
-//                  style={{ ...formControllStyle }} 
+//                  style={{ ...formControllStyle }}
 //                  name="propertyName"
 //                  isInvalid={!!errors.propertyName}
 //                  value={formValue.propertyName}
@@ -1958,7 +1901,7 @@
 //                 <Form.Label>Property Location</Form.Label>
 //                 <Form.Control type="text"
 //                  placeholder="Property Location"
-//                   style={{ ...formControlStyle }} 
+//                   style={{ ...formControlStyle }}
 //                   name="propertyLocation"
 //                   isInvalid={!!errors.propertyLocation}
 //                   value={formValue.propertyLocation}
@@ -1971,9 +1914,9 @@
 //             <Col md={6}>
 //               <Form.Group controlId="formGroup4">
 //                 <Form.Label>City</Form.Label>
-//                 <Form.Control type="text" 
-//                 placeholder="City" 
-//                 style={{ ...formControlStyle }} 
+//                 <Form.Control type="text"
+//                 placeholder="City"
+//                 style={{ ...formControlStyle }}
 //                 name="city"
 //                 isInvalid={!!errors.city}
 //                 value={formValue.city}
@@ -1985,13 +1928,12 @@
 //             </Col>
 //           </Row>
 
-
 //           <Row className="gx-md-3 mt-5">
 //             {/* Third Row */}
 //             <Col md={6}>
 //               <Form.Group controlId="formGroup5">
 //                 <Form.Label>Built Up Area of a Flat</Form.Label>
-//                 <div className='rounded-pill' 
+//                 <div className='rounded-pill'
 //                 style={{ position: 'relative',
 //                  display: 'inline-block' }}>
 //             <Form.Control
@@ -2014,14 +1956,13 @@
 //                   <div className="text-danger">{errors.area}</div>
 //                 )}
 
-
 //               </Form.Group>
 //             </Col>
 //             <Col md={6}>
 //               <Form.Group controlId="formGroup6">
 //                 <Form.Label>Availabe Floors</Form.Label>
 //                 <Form.Control type="number"
-//                  placeholder="Availabe Floors" 
+//                  placeholder="Availabe Floors"
 //                  style={{ ...formControlStyle }}
 //                  name="floors"
 //                  isInvalid={!!errors.floors}
@@ -2053,9 +1994,9 @@
 //             <Col md={6}>
 //               <Form.Group controlId="formGroup6">
 //                 <Form.Label>Total Floors</Form.Label>
-//                 <Form.Control type="number" 
-//                 placeholder="Floor Number" 
-//                 style={{ ...formControlStyle }} 
+//                 <Form.Control type="number"
+//                 placeholder="Floor Number"
+//                 style={{ ...formControlStyle }}
 //                 name="totalFloor"
 //                 isInvalid={!!errors.totalFloor}
 //                 value={formValue.totalFloor}
@@ -2086,7 +2027,7 @@
 //                 <Form.Label>Number of Car Parking</Form.Label>
 //                 <Form.Control type="number"
 //                  placeholder="Car Parking"
-//                   style={{ ...formControlStyle }} 
+//                   style={{ ...formControlStyle }}
 //                   name="carParking"
 //                   isInvalid={!!errors.carParking}
 //                   value={formValue.carParking}
@@ -2187,7 +2128,6 @@
 //             </div>
 //           </div>
 //         </div>
-
 
 //  <h5 className='mt-4'>Condition</h5>
 //  <div className="custom-radio d-flex mt-4" onChange={handleChange}>
@@ -2332,20 +2272,18 @@
 //               </div>
 //             </div>
 
-
 //           </div>
 //         </Card.Body>
 //       </Card>
 //     </div>
 //  <Form className=" mx-2">
 
-
 //          <Row className="mt-5">
 //            <Col className="">
 //              <Form.Group controlId="formGroup3">
 //                <Form.Label>Rent Price<span className='month'> (per month)</span></Form.Label>
 //                <Form.Control type="number"
-//                 placeholder="Rs" 
+//                 placeholder="Rs"
 //                 style={formControlStyle}
 //                 name="rentprice"
 //                 isInvalid={!!errors.rentPrice}
@@ -2356,9 +2294,9 @@
 //            <Col>
 //              <Form.Group controlId="formGroup4">
 //                <Form.Label>Advance Amount</Form.Label>
-//                <Form.Control type="number" 
-//                placeholder="Rs" 
-//                style={formControlStyle} 
+//                <Form.Control type="number"
+//                placeholder="Rs"
+//                style={formControlStyle}
 //                name="advanceAmount"
 //                isInvalid={!!errors.advanceAmount}
 //                value={formValue.advanceAmount}
@@ -2373,15 +2311,12 @@
 //          <Row className="mt-5">
 //            {activeButton ==="Agent"&&
 
-
-
-
 //         <Col className="">
 //         <Form.Group controlId="formGroup3">
 //           <Form.Label>Agentcommision</Form.Label>
 //           <Form.Control type="number"
-//            placeholder="Agentcommision" 
-//            style={formControlStyle} 
+//            placeholder="Agentcommision"
+//            style={formControlStyle}
 //            name="agentCommision"
 //            isInvalid={!!errors.agentCommision}
 //            value={formValue.agentCommision}
@@ -2389,7 +2324,6 @@
 //         </Form.Group>
 //       </Col>
 //       }
-
 
 //            <Col>
 //              <Form.Group controlId="formGroup4">
@@ -2399,14 +2333,12 @@
 //            </Col>
 //          </Row>
 
-
-
 //      </Form>
 //      <h5 className='mt-5 gy-3'>Description</h5>
 //      <textarea className="form-control mt-4"
 //      style={{width: '1170px',height:"270px",
 //      borderRadius:'30px',
-//      border: '1px solid #D7242A'}} 
+//      border: '1px solid #D7242A'}}
 //      placeholder="Type something...."
 //      id="message"
 //       rows="5"
@@ -2822,7 +2754,7 @@ import { log } from "util";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Baseurl, UserConfig } from "./request";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const Commerciallease = ({
   activeButton,
   user,
@@ -2830,7 +2762,7 @@ const Commerciallease = ({
   second,
   selectedPropType,
 }) => {
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
   const [plot, setPlot] = useState(false);
   const [land, setLand] = useState(false);
   const [residential, setResidential] = useState(false);
@@ -2990,6 +2922,7 @@ const Commerciallease = ({
     "Street Lights": false,
     "Avenue Trees": false,
     Compound: false,
+    CCTV: false,
   });
 
   const newvalue = [
@@ -2999,6 +2932,7 @@ const Commerciallease = ({
     "Avenue Trees",
 
     "Compound",
+    "CCTV",
   ];
 
   const [data, setData] = useState([]);
@@ -3162,9 +3096,9 @@ const Commerciallease = ({
     leaseprice: "",
     advanceAmount: "",
     description: "",
-    agentCommision:"",
-    age:"",
-    month:""
+    agentCommision: "",
+    age: "",
+    month: "",
   });
 
   //onchange function
@@ -3220,12 +3154,12 @@ const Commerciallease = ({
     if (!data.description.trim()) {
       errors.description = "Please enter description";
     }
-    if(activeButton === "Agent"){
+    if (activeButton === "Agent") {
       if (!data.agentCommision.trim()) {
         errors.agentCommision = "Please enter agentCommision";
       }
     }
-     
+
     return errors;
   };
 
@@ -3253,7 +3187,7 @@ const Commerciallease = ({
     formData.append("phone", `+${user?.phone}`);
     formData.append("email", user?.email);
     formData.append("property_type", selectedPropType);
-    formData.append("commercial.commercial_type",four);
+    formData.append("commercial.commercial_type", four);
     formData.append("you_are_here_to", second.toLowerCase());
     formData.append("owner", activeButton === "Owner");
     formData.append("agent", activeButton === "Agent");
@@ -3336,7 +3270,7 @@ const Commerciallease = ({
         formData,
         UserConfig
       );
-      navigate("/check",{state : response.data})
+      navigate("/check", { state: response.data });
     } catch (error) {
       console.error("Server error", error);
       toast.error("something went wrong", {
@@ -3644,30 +3578,12 @@ const Commerciallease = ({
             </div>
           </div>
 
-          <div className="flex-grow-1 ms-2">
-            <div className="form-check ms-2">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="condition"
-                id="exampleRadio2"
-                value="under_construction"
-              />
-              <label className="form-check-label" htmlFor="exampleRadio2">
-                Under Construction
-              </label>
-            </div>
-          </div>
-
           <div className="flex-grow-1 me-3">
             <input
               className="inp text-start"
               placeholder="If under construction...."
               onChange={handleChange}
               name="month"
-              
-
-
             />
           </div>
         </div>
@@ -3698,7 +3614,7 @@ const Commerciallease = ({
                   ))}
                   {/** check this page --> sell --> residential --? duplex */}
                   <input
-                    placeholder="Typesomething"
+                    placeholder="Add facilities"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
@@ -3712,8 +3628,9 @@ const Commerciallease = ({
                     {Object.keys(buttonValue).map((type) => (
                       <div key={type} className="col mb-2 me-2">
                         <button
-                          className={`btn ${buttonValue[type] ? "btn-Nam" : "btn-Name"
-                            }`}
+                          className={`btn ${
+                            buttonValue[type] ? "btn-Nam" : "btn-Name"
+                          }`}
                           onClick={() => handleButton(type)}
                           style={{ width: "100%" }}
                         >
@@ -3749,7 +3666,7 @@ const Commerciallease = ({
                     </button>
                   ))}
                   <input
-                    placeholder="Type something"
+                    placeholder="Add facilities"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeys}
@@ -3762,8 +3679,9 @@ const Commerciallease = ({
                     {Object.keys(buttonAdd).map((datta) => (
                       <div key={datta} className="col mb-2 me-2">
                         <button
-                          className={`btn ${buttonAdd[datta] ? "btn-Nam" : "btn-Name"
-                            }`}
+                          className={`btn ${
+                            buttonAdd[datta] ? "btn-Nam" : "btn-Name"
+                          }`}
                           onClick={() => handleButtonClickss(datta)}
                           style={{ width: "100%" }}
                         >
@@ -3780,7 +3698,6 @@ const Commerciallease = ({
 
         <Form className=" mx-2">
           <Row className="mt-5">
-            
             {/* <Col className="">
              <Form.Group controlId="formGroup3">
                <Form.Label>Rent Price<span className='month'> (per month)</span></Form.Label>
@@ -3799,21 +3716,46 @@ const Commerciallease = ({
 
             <Col className="">
               <Form.Group controlId="formGroup3">
-                <Form.Label>Lease Amount
-                  <span className='month'> (per year)</span></Form.Label>
-                <Form.Control type="number" placeholder="Rs"
+                <Form.Label>
+                  Lease Amount
+                  
+                </Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Rs"
                   style={formControlStyle}
                   name="leaseprice"
                   isInvalid={!!errors.leaseprice}
                   value={formValue.leaseprice}
-                  onChange={handleChange} />
+                  onChange={handleChange}
+                />
                 <Form.Control.Feedback type="invalid">
-                  {errors.leaseprice}</Form.Control.Feedback>
+                  {errors.leaseprice}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
+
+            <Col className="">
+            <Form.Group controlId="formGroup3">
+              <Form.Label>Lease Period</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="lease period"
+                style={formControlStyle}
+                name="leasePeriod"
+                isInvalid={!!errors.leaseAmount}
+                value={formValue.leaseAmount}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.leaseAmount}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+
             <Col>
               <Form.Group controlId="formGroup4">
-                <Form.Label>Advance Amount</Form.Label>
+                <Form.Label className="mt-3">Advance Amount</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Rs"
@@ -3846,9 +3788,9 @@ const Commerciallease = ({
                     value={formValue.agentCommision}
                     onChange={handleChange}
                   />
-                   <Form.Control.Feedback type="invalid">
-                  {errors.agentCommision}
-                </Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.agentCommision}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             )}
@@ -3900,8 +3842,9 @@ const Commerciallease = ({
                 <ul className="navbar-nav value d-flex justify-content-between w-100">
                   <li className="nav-item ">
                     <a
-                      className={`nav-link ${upload === "Exterior View" ? "design" : ""
-                        }`}
+                      className={`nav-link ${
+                        upload === "Exterior View" ? "design" : ""
+                      }`}
                       style={navLinkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -3913,8 +3856,9 @@ const Commerciallease = ({
 
                   <li className="nav-item ">
                     <a
-                      className={`nav-link ${upload === "Interior" ? "design" : ""
-                        }`}
+                      className={`nav-link ${
+                        upload === "Interior" ? "design" : ""
+                      }`}
                       style={navLinkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -3925,8 +3869,9 @@ const Commerciallease = ({
                   </li>
                   <li className="nav-item">
                     <a
-                      className={`nav-link ${upload === "Washroom" ? "design" : ""
-                        }`}
+                      className={`nav-link ${
+                        upload === "Washroom" ? "design" : ""
+                      }`}
                       style={navLinkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -3937,8 +3882,9 @@ const Commerciallease = ({
                   </li>
                   <li className="nav-item">
                     <a
-                      className={`nav-link ${upload === "Floor Plan" ? "design" : ""
-                        }`}
+                      className={`nav-link ${
+                        upload === "Floor Plan" ? "design" : ""
+                      }`}
                       style={navLinkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -3949,8 +3895,9 @@ const Commerciallease = ({
                   </li>
                   <li className="nav-item ">
                     <a
-                      className={`nav-link ${upload === "Location Map" ? "design" : ""
-                        }`}
+                      className={`nav-link ${
+                        upload === "Location Map" ? "design" : ""
+                      }`}
                       style={navLinkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -3962,8 +3909,9 @@ const Commerciallease = ({
                   {activeButton === "Builder" && (
                     <li className="nav-item ">
                       <a
-                        className={`nav-link ${upload === "Logo" ? "design" : ""
-                          }`}
+                        className={`nav-link ${
+                          upload === "Logo" ? "design" : ""
+                        }`}
                         style={navLinkStyle}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
@@ -4260,4 +4208,3 @@ const Commerciallease = ({
 };
 
 export default Commerciallease;
-

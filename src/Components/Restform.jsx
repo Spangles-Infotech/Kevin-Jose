@@ -161,6 +161,7 @@ const Restform = ({
     " Community Hall": false,
     Saloon: false,
     Pool: false,
+    "CCTV" :false
   });
 
   const newvalue = [
@@ -173,6 +174,7 @@ const Restform = ({
     " Community Hall",
     "Saloon",
     "Pool",
+    "CCTV"
   ];
 
   const [data, setData] = useState([]);
@@ -743,7 +745,7 @@ const Restform = ({
           </div>
         </div>
 
-        <div className="flex-grow-1 ms-2">
+        {/* <div className="flex-grow-1 ms-2">
           <div className="form-check ms-2">
             <input
               className="form-check-input"
@@ -756,7 +758,7 @@ const Restform = ({
               Under Construction
             </label>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex-grow-1 me-3">
           <input
@@ -794,7 +796,7 @@ const Restform = ({
                 ))}
                 {/** check this page --> sell --> residential --? duplex */}
                 <input
-                  placeholder="Typesomething"
+                  placeholder="Add facilities"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
@@ -845,7 +847,7 @@ const Restform = ({
                   </button>
                 ))}
                 <input
-                  placeholder="Type something"
+                 placeholder="Add facilities"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeys}

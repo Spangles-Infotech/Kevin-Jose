@@ -14,7 +14,7 @@ import { FaTimes } from "react-icons/fa";
 import request, { Baseurl, UserConfig, token } from "./request";
 import { log } from "util";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const Sellform = ({ activeButton, user, first, second, selectedPropType }) => {
   const [plot, setPlot] = useState(false);
@@ -27,13 +27,13 @@ const Sellform = ({ activeButton, user, first, second, selectedPropType }) => {
   const [city, setCity] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [activeLink, setActiveLink] = useState(1);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formValue, setFormValue] = useState({});
 
   const handleCityChange = (e) => {
     setCity(e.target.value);
   };
- 
+
   const [plotSizeUnit, setPlotSizeUnit] = useState("");
   const handleplotClick = (items) => {
     if (items === 1) {
@@ -117,9 +117,9 @@ const navigate = useNavigate()
         errors.agentCommision = "*Please enter agent commision";
       }
     }
-   if(selectedImage.length === 0){
-    errors.image = "*please upload at least 1 image"
-   }
+    if (selectedImage.length === 0) {
+      errors.image = "*please upload at least 1 image";
+    }
 
     return errors;
   };
@@ -292,11 +292,10 @@ const navigate = useNavigate()
   const handleImageChange = (event) => {
     const files = event.target.files;
     if (files.length + selectedImage.length > 6) {
-     
       alert("You can only upload a maximum of 6 images.");
       return;
     }
-   
+
     setSelectedImage((prevImages) => [...prevImages, ...files]);
   };
 
@@ -314,7 +313,6 @@ const navigate = useNavigate()
 
     setselectedLogo(file);
   };
- 
 
   const removeSelectedImage = (indexToRemove) => {
     setSelectedImage((prevSelectedImages) =>
@@ -457,8 +455,7 @@ const navigate = useNavigate()
         //   hideProgressBar: true,
         //   position: "top-center",
         // });
-        navigate("/check",{state : response.data})
-        
+        navigate("/check", { state: response.data });
       } catch (error) {
         console.error("Server error", error);
         toast.error("something went wrong", {
@@ -544,7 +541,7 @@ const navigate = useNavigate()
                   onChange={handleUnit}
                 >
                   <option value="ft">ft</option>
-                  <option value="mt">mt</option>
+                  <option value="m">mt</option>
                 </select>
               </div>
               {errors.plotSize && (
@@ -581,7 +578,7 @@ const navigate = useNavigate()
                   onChange={handleUnit}
                 >
                   <option value="ft">ft</option>
-                  <option value="mt">mt</option>
+                  <option value="m">mt</option>
                 </select>
               </div>
               {errors.plotBreadth && (
@@ -594,9 +591,7 @@ const navigate = useNavigate()
         <Row className="gx-md-5 gx-5 mt-5">
           <Col>
             <Form.Group controlId="formGroup5">
-              <Form.Label>
-
-              </Form.Label>
+            <Form.Label>Area</Form.Label>
 
               <div
                 className="rounded-pill"
@@ -632,8 +627,7 @@ const navigate = useNavigate()
           </Col>
           <Col>
             <Form.Group controlId="formGroup6">
-              <Form.Label></Form.Label>
-
+            <Form.Label>Width</Form.Label>
               <div
                 className="rounded-pill"
                 style={{ position: "relative", display: "inline-block" }}
@@ -670,77 +664,130 @@ const navigate = useNavigate()
         </Row>
       </Form>
       <h5 className="mt-4">Direction Facing</h5>
-      <div className="custom-radio d-flex mt-4 flex-column flex-md-row" onChange={handleChange}>
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio1"
-        value="east"
-      />
-      <label className="form-check-label mb-1" htmlFor="exampleRadio1">
-        East
-      </label>
-    </div>
-  </div>
+      <div
+        className="custom-radio d-flex mt-4 flex-column flex-md-row"
+        onChange={handleChange}
+      >
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio1"
+              value="east"
+            />
+            <label className="form-check-label mb-1" htmlFor="exampleRadio1">
+              East
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio2"
-        value="west"
-      />
-      <label className="form-check-label" htmlFor="exampleRadio2">
-        West
-      </label>
-    </div>
-  </div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio2"
+              value="west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio2">
+              West
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio3"
-        value="north"
-      />
-      <label className="form-check-label" htmlFor="exampleRadio3">
-        North
-      </label>
-    </div>
-  </div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio3"
+              value="north"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio3">
+              North
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1">
-    <div className="form-check">
-      <input
-        className="form-check-input"
-        type="radio"
-        name="direction"
-        id="exampleRadio4"
-        value="south"
-      />
-      <label className="form-check-label" htmlFor="exampleRadio4">
-        South
-      </label>
-    </div>
-  </div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South
+            </label>
+          </div>
+        </div>
 
-  <div className="flex-grow-1 mb-3 mb-md-0">
-    <input
-      className="inp flex-grow-1"
-      name="direction"
-      onChange={handleChange}
-      placeholder="other if any..."
-    />
-  </div>
-</div>
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="north_east"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              North-east
+            </label>
+          </div>
+        </div>
 
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="north_west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              North-west
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south_east"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South-east
+            </label>
+          </div>
+        </div>
+
+        <div className="flex-grow-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="direction"
+              id="exampleRadio4"
+              value="south_west"
+            />
+            <label className="form-check-label" htmlFor="exampleRadio4">
+              South-west
+            </label>
+          </div>
+        </div>
+      </div>
 
       <div className="mt-3">
         <h5>Facility</h5>
@@ -765,7 +812,7 @@ const navigate = useNavigate()
                   </button>
                 ))}
                 <input
-                  placeholder="Type something"
+                  placeholder="Add facility"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
@@ -1167,7 +1214,7 @@ const navigate = useNavigate()
           </Card.Body>
         </Card>
         <div className="d-flex justify-content-center">
-      {errors.image && <div className="text-danger">{errors.image}</div>}
+          {errors.image && <div className="text-danger">{errors.image}</div>}
           <button
             type="button"
             className="buttonmobile mt-5"

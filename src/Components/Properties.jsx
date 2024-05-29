@@ -70,16 +70,18 @@ const Properties = () => {
                     chunkIndex === 0 ? "active" : ""
                   }`}
                 >
-                  <div className="row row-cols-1 row-cols-md-3 g-4 g-md-3">
+                  <div className="row row-cols-1 row-cols-md-3   g-md-3">
                     {chunk.map((item) => (
-                      <div key={item.id} className="col">
-                        <div className="card properties">
+                      <div key={item.id} className="col ">
+                        <div className="card properties " style={{width:"340px",height:"400px"}}  >
                           {/* plot image */}
                           {item.property_type === "plot" && (
                             <img
+                            
                               src={item?.plot_properties?.plot_images[0].image}
                               className="card-img-top car-img"
                               alt="Property"
+                              
                             />
                           )}
 

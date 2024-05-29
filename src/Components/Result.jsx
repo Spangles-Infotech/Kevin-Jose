@@ -43,6 +43,7 @@ const Result = () => {
     const postedby = queryParams.get("postedby");
     const bhk = queryParams.get("bhk");
     const status = queryParams.get("status");
+    const you_are_here_to = queryParams.get("you_are_here_to");
     const condition = queryParams.get("condition");
     const locality = queryParams.get("location");
     setLocality(locality);
@@ -60,6 +61,7 @@ const Result = () => {
             max_area: max_area,
             min_price: min_price,
             max_price: max_price,
+            you_are_here_to:you_are_here_to,
           },
           UserConfig,
         })

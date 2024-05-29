@@ -4,15 +4,6 @@ import { Row, Col } from "react-bootstrap";
 import { FaRegHeart } from "react-icons/fa";
 import { RiShareForwardLine } from "react-icons/ri";
 import { FiArrowLeft } from "react-icons/fi";
-import l1 from "../Images/l1.png";
-import l2 from "../Images/l2.png";
-import l3 from "../Images/l3.png";
-import B1 from "../Images/B1.png";
-import B2 from "../Images/B2.png";
-import b3 from "../Images/b3.png";
-import b4 from "../Images/b4.png";
-import b5 from "../Images/b5.png";
-import b6 from "../Images/b6.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -30,27 +21,6 @@ const Postcheck = () => {
     navigate("/");
   };
 
-  const commercialTable = ["Price", "price per sqft", "sd"];
-  const data = [
-    ["Super Built-Up Area", "Developer", "Project", "Transaction Type"],
-    ["1662 sqft", "Risland India", details?.title, "New Property"],
-    [details?.sale_price, "", "", ""],
-    ["Status", "Lifts", "Furnished Status", "Bedroom"],
-    ["Ready to Move", "3", "Unfurnished", "3"],
-  ];
-
-  const value = [
-    ["Price Breakup"],
-    ["Booking Amount", "₹ 1,00,000"],
-    ["RERA ID", "TN/01/Building/0111/2019"],
-    ["Address", "Perungudi, Chennai - South, Tamil Nadu"],
-    ["Furnishing", "Unfurnished"],
-    ["Flooring", "Verified"],
-    ["Water Availability", "24 Hours Available"],
-    ["Status of Electricity", "No/Rare Powercut"],
-    ["Floors allowed for construction", "10"],
-    ["No. of lift", "3"],
-  ];
   const tableCellStyle = {
     border: "none",
     padding: "8px",
@@ -1043,8 +1013,6 @@ const Postcheck = () => {
             </div>
           </Card.Body>
         </Card>
-
-         
 
         <Card className="container" style={{ width: "1170px", border: "none" }}>
           <Card.Body>

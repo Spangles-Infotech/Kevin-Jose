@@ -166,6 +166,7 @@ const Flatapartlease = ({
     "Coffee Bar": false,
 
     Gym: false,
+    "CCTV" :false
   });
 
   const newvalue = [
@@ -182,6 +183,7 @@ const Flatapartlease = ({
     "Pharmacy",
     "Coffee Bar",
     " Gym",
+    "CCTV"
   ];
 
   const [data, setData] = useState([]);
@@ -830,7 +832,7 @@ const Flatapartlease = ({
             </div>
           </div>
 
-          <div className="flex-grow-1 ms-2">
+          {/* <div className="flex-grow-1 ms-2">
             <div className="form-check ms-2">
               <input
                 className="form-check-input"
@@ -843,7 +845,7 @@ const Flatapartlease = ({
                 Under Construction
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex-grow-1 me-3">
             <input
@@ -881,7 +883,7 @@ const Flatapartlease = ({
                   ))}
                   {/** check this page --> sell --> residential --? duplex */}
                   <input
-                    placeholder="Typesomething"
+                    placeholder="Add facilities"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
@@ -932,7 +934,7 @@ const Flatapartlease = ({
                     </button>
                   ))}
                   <input
-                    placeholder="Type something"
+                    placeholder="Add facilities"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeys}
@@ -967,7 +969,7 @@ const Flatapartlease = ({
             <Col className="">
               <Form.Group controlId="formGroup3">
                 <Form.Label>
-                  Lease Amount <span className="month"> (per year)</span>
+                  Lease Amount  
                 </Form.Label>
                 <Form.Control
                   type="number"
@@ -983,9 +985,28 @@ const Flatapartlease = ({
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
+
+            <Col className="">
+            <Form.Group controlId="formGroup3">
+              <Form.Label>Lease Period</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="lease period"
+                style={formControlStyle}
+                name="leasePeriod"
+                isInvalid={!!errors.leaseAmount}
+                value={formValue.leaseAmount}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.leaseAmount}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+
             <Col>
               <Form.Group controlId="formGroup4">
-                <Form.Label>Advance Amount</Form.Label>
+                <Form.Label className="mt-3">Advance Amount</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Rs"

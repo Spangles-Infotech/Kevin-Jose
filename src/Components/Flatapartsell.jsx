@@ -168,6 +168,7 @@ const Flatapartsell = ({
     "Coffee Bar": false,
 
     Gym: false,
+    "CCTV":false
   });
 
   const newvalue = [
@@ -184,6 +185,7 @@ const Flatapartsell = ({
     "Pharmacy",
     "Coffee Bar",
     " Gym",
+    "CCTV"
   ];
 
   const [data, setData] = useState([]);
@@ -678,7 +680,7 @@ const Flatapartsell = ({
                   isInvalid={!!errors.plotArea}
                   value={formValue.plotArea}
                   onChange={handleChange}
-                />
+                /> 
                 <Form.Control.Feedback type="invalid">
                   {errors.plotArea}
                 </Form.Control.Feedback>
@@ -828,7 +830,7 @@ const Flatapartsell = ({
             </div>
           </div>
 
-          <div className="flex-grow-1 ms-2">
+          {/* <div className="flex-grow-1 ms-2">
             <div className="form-check ms-2">
               <input
                 className="form-check-input"
@@ -841,7 +843,7 @@ const Flatapartsell = ({
                 Under Construction
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex-grow-1 me-3">
             <input
@@ -879,7 +881,7 @@ const Flatapartsell = ({
                   ))}
                   {/** check this page --> sell --> residential --? duplex */}
                   <input
-                    placeholder="Typesomething"
+                    placeholder="Add facilities"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
@@ -931,7 +933,7 @@ const Flatapartsell = ({
                     </button>
                   ))}
                   <input
-                    placeholder="Type something"
+                   placeholder="Add facilities"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeys}

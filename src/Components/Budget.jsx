@@ -1,43 +1,39 @@
 import React, { useState } from "react";
 
 import "../Components/Budget.css";
-const Budget = ({
-  name,
-  minArea,
-  setMinArea,
-  maxArea,
-  setMaxArea,
-}) => {
+const Budget = ({ name, minArea, setMinArea, maxArea, setMaxArea }) => {
   const [selectedCar, setSelectedCar] = useState("volvo");
 
   const handleChange = (event) => {
     setSelectedCar(event.target.value);
   };
 
-  // const handleMinPriceChange = (e) => {
+  // const handleMinAreaChange = (e) => {
   //   const newMinPrice = parseInt(e.target.value);
-  //   if (newMinPrice <= maxPrice - 100000000) {
-  //     setMinPrice(newMinPrice);
+  //   if (newMinPrice <= maxArea - 100000) {
+  //     setMinArea(newMinPrice);
   //   }
-  // };
 
-  // const handleMaxPriceChange = (e) => {
-  //   const newMaxPrice = parseInt(e.target.value);
-  //   if (newMaxPrice >= minPrice + 100000000) {
-  //     setMaxPrice(newMaxPrice);
-  //   }
   // };
 
   const handleMinAreaChange = (e) => {
-    const newMinPrice = parseInt(e.target.value);
-    if (newMinPrice <= maxArea - 100000) {
-      setMinArea(newMinPrice);
+    const newMinArea = parseInt(e.target.value);  
+    if (newMinArea < maxArea) { 
+      setMinArea(newMinArea);
     }
   };
 
+  // const handleMaxAreaChange = (e) => {
+  //   const newMaxPrice = parseInt(e.target.value);
+  //   if (newMaxPrice >= minArea + 100000) {
+  //     setMaxArea(newMaxPrice);
+  //   }
+  // };
+
+  
   const handleMaxAreaChange = (e) => {
     const newMaxPrice = parseInt(e.target.value);
-    if (newMaxPrice >= minArea + 100000) {
+    if (newMaxPrice > minArea && newMaxPrice <= 1000000 ) {
       setMaxArea(newMaxPrice);
     }
   };
@@ -55,26 +51,6 @@ const Budget = ({
                 onChange={handleChange}
               >
                 <option value="sqft">sqft</option>
-                <option value="sq.yard">sq.yard</option>
-                <option value="sq.m">sq.m</option>
-                <option value="Acre">Acre</option>
-                <option value="Bigha">Bigha</option>
-                <option value="Hectare">Hectare</option>
-                <option value="Marla">Marla</option>
-                <option value="Kanal">Kanal</option>
-                <option value="Biswa1">Biswa1</option>
-                <option value="Biswa2">Biswa2</option>
-                <option value="Ground">Ground</option>
-                <option value="Aankadam">Aankadam</option>
-                <option value="Chatak">Chatak</option>
-                <option value="Kottah">Kottah</option>
-                <option value="Ground">Ground</option>
-                <option value="Kottah">Kottah</option>
-                <option value="Marla">Marla</option>
-                <option value="Cent">Cent</option>
-                <option value="Perch">Perch</option>
-                <option value="Guntha">Guntha</option>
-                <option value="Are">Are</option>
               </select>
 
               <input

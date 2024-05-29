@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import background from "../Images/bg.jpg";
 import image1 from "../Images/image1.png";
 import image2 from "../Images/f1.png";
@@ -13,7 +13,7 @@ import Budget from "./Budget";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import RealBudget from "./realBudjet";
- 
+
 const Navigation = () => {
   const navigate = useNavigate();
 
@@ -64,10 +64,24 @@ const Navigation = () => {
   const activeLinkStyle = {
     color: "#D7242A",
   };
+  const dropdownRef = useRef(null);
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setPropertyType(false);
+      setprice(false)
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const [color, setcolor] = useState("");
-  const [activeDropdown, setActiveDropdown] = useState("");
-  const [propertyType, setPropertyType] = useState("");
+  const [activeDropdown, setActiveDropdown] = useState("plot");
+  const [propertyType, setPropertyType] = useState(false);
   const [plott, setPlott] = useState("");
   const [facing, setFacing] = useState("");
   const [residential, setResidential] = useState("");
@@ -77,9 +91,9 @@ const Navigation = () => {
   const [pgrent, setPgrent] = useState(false);
   const [Gender, setGender] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
-  const [activeLink, setActiveLink] = useState("");
+  const [activeLink, setActiveLink] = useState("plot");
   const [price, setprice] = useState(false);
-  const [link, setLink] = useState("Buy"); // State to track active link
+  const [link, setLink] = useState("sell"); // State to track active link
   const handleDropdownClick = (dropdown) => {
     setActiveDropdown(dropdown);
     setActiveLink(dropdown);
@@ -99,8 +113,8 @@ const Navigation = () => {
   const [rooms, setRooms] = useState("");
   const [tenants, setTenants] = useState("");
   const [postedBy, setPostedBy] = useState("");
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000000000);
+  const [minPrice, setMinPrice] = useState(100000);
+  const [maxPrice, setMaxPrice] = useState(500000000);
 
   const [minArea, setMinArea] = useState(0);
   const [maxArea, setMaxArea] = useState(500000);
@@ -138,18 +152,18 @@ const Navigation = () => {
   const handleSearch = () => {
     if (activeDropdown === "plot" || activeDropdown === "land") {
       navigate(
-        `/result?property_type=${activeDropdown}&subtype=${plott}&location=${location}&direction_facing=${selectedOption}&postedby=${postedBy}&min_area=${minArea}&max_area=${maxArea}&min_price=${minPrice}&max_price=${maxPrice}`
+        `/result?property_type=${activeDropdown}&subtype=${plott}&location=${location}&you_are_here_to=${link}&direction_facing=${selectedOption}&postedby=${postedBy}&min_area=${minArea}&max_area=${maxArea}&min_price=${minPrice}&max_price=${maxPrice}`
       );
     } else if (activeDropdown === "residential") {
       navigate(
-        `/result?property_type=${activeDropdown}&subtype=${residential}&location=${location}&bhk=${selectedOption}&status=${furnishing}&condition=${condition}&postedby=${postedBy}&min_price=${minPrice}&max_price=${maxPrice}`
+        `/result?property_type=${activeDropdown}&subtype=${residential}&location=${location}&you_are_here_to=${link}&bhk=${selectedOption}&status=${furnishing}&condition=${condition}&postedby=${postedBy}&min_price=${minPrice}&max_price=${maxPrice}`
       );
     } else if (activeDropdown === "commercial") {
       navigate(
-        `/result?property_type=${activeDropdown}&subtype=${color}&location=${location}&category=${selectedOption}&status=${furnishing}&condition=${condition}&min_price=${minPrice}&max_price=${maxPrice}`
+        `/result?property_type=${activeDropdown}&subtype=${color}&location=${location}&you_are_here_to=${link}&category=${selectedOption}&status=${furnishing}&condition=${condition}&min_price=${minPrice}&max_price=${maxPrice}`
       );
-    }else{
-      navigate(`/result?property_type=${activeDropdown}&location=${location}`)
+    } else {
+      navigate(`/result?property_type=${activeDropdown}&location=${location}`);
     }
   };
 
@@ -157,8 +171,8 @@ const Navigation = () => {
     setSelectedOption(option);
   };
 
-  const handlePropertyTypeClick = (type) => {
-    setPropertyType(type);
+  const handlePropertyTypeClick = () => {
+    setPropertyType(!propertyType);
     setprice(false);
   };
   const handleButtonClick = (items) => {
@@ -195,46 +209,38 @@ const Navigation = () => {
   const handleBudget = (budget) => {
     setprice((prevPrice) => !prevPrice);
     setPropertyType(false);
-    setActiveDropdown(false);
+    // setActiveDropdown(false);
   };
 
   const handleLinkClick = (link) => {
     setLink(link);
+    console.log(link);
   };
   return (
     <div className="bg-image" style={navStyle}>
       <nav className="navbar navbar-expand-lg ">
         <div className="" style={navbarStyle}>
-          <ul className="navbar-nav d-flex flex-row justify-content-between mx-5">
-            <li className="nav-item">
-              <Link
-                to="/"
-                className="nav-link"
-                style={link === "Buy" ? activeLinkStyle : navLinkStyle}
-                onClick={() => handleLinkClick("Buy")}
-              >
-                Buy
-              </Link>
+          <ul className="navbar-nav d-flex flex-row align-items-center justify-content-between mx-5">
+            <li
+              className="nav-item"
+              style={link === "sell" ? activeLinkStyle : navLinkStyle}
+              onClick={() => handleLinkClick("sell")}
+            >
+              Buy
             </li>
-            <li className="nav-item">
-              <Link
-                to="/Rent"
-                className="nav-link"
-                style={link === "Rent" ? activeLinkStyle : navLinkStyle}
-                onClick={() => handleLinkClick("Rent")}
-              >
-                Rent
-              </Link>
+            <li
+              className="nav-item"
+              style={link === "rent" ? activeLinkStyle : navLinkStyle}
+              onClick={() => handleLinkClick("rent")}
+            >
+              Rent
             </li>
-            <li className="nav-item">
-              <Link
-                to="/Lease"
-                className="nav-link"
-                style={link === "Lease" ? activeLinkStyle : navLinkStyle}
-                onClick={() => handleLinkClick("Lease")}
-              >
-                Lease
-              </Link>
+            <li
+              className="nav-item"
+              style={link === "lease" ? activeLinkStyle : navLinkStyle}
+              onClick={() => handleLinkClick("lease")}
+            >
+              Lease
             </li>
             <li className="nav-item">
               <Link
@@ -325,15 +331,15 @@ const Navigation = () => {
         <div className="container">
           <div className="row text-black justify-content-between">
             <div className="col-md-3 col-6 d-flex align-items-center justify-content-center">
-              <a className="" href="/">
+              <a className="">
                 <img className="img-fluid me-2  " src={image1} alt="Logo" />
               </a>
               <input
                 type="text"
                 className="border-0 w-50"
-                placeholder="  Enter Location"
+                placeholder="Enter Location"
                 value={location}
-                onChange={(e)=>setLocation(e.target.value)}
+                onChange={(e) => setLocation(e.target.value)}
                 style={{ outline: "0", background: "#FFFFFF4D" }}
               />
               {/* <span className="ms-2">Chennai</span> */}
@@ -347,7 +353,7 @@ const Navigation = () => {
               <span
                 className="ms-2"
                 style={{ cursor: "pointer" }}
-                onClick={() => handlePropertyTypeClick("Property Type")}
+                onClick={() => handlePropertyTypeClick()}
               >
                 Property Type <IoIosArrowDown />
               </span>
@@ -355,7 +361,7 @@ const Navigation = () => {
             </div>
 
             <div className="col-md-3 col-6 d-flex align-items-center justify-content-center">
-              <a className="" href="/">
+              <a>
                 <img className="img-fluid me-2" src={image3} alt="Logo" />
               </a>
               <span
@@ -383,6 +389,7 @@ const Navigation = () => {
         <Card
           className=" text-dark custom-border-radius mx-auto w-50 right"
           style={{ backgroundColor: "white", zIndex: 1 }}
+           ref={dropdownRef}
         >
           <RealBudget
             minPrice={minPrice}
@@ -400,6 +407,7 @@ const Navigation = () => {
             <div
               className="card bg-light text-dark custom-border-radius mx-auto pb-5 w-100 mx-5 right"
               style={{ backgroundColor: "white", zIndex: 1 }}
+              ref={dropdownRef}
             >
               <div className=" d-flex flex-wrap gap-2 mx-3 my-3">
                 <Button
@@ -439,6 +447,7 @@ const Navigation = () => {
             <div
               className="card bg-light text-dark custom-border-radius mx-auto pb-5 w-100 mx-5 right"
               style={{ backgroundColor: "white", zIndex: 1 }}
+              ref={dropdownRef}
             >
               <div className="d-flex flex-wrap gap-3 mx-3 my-3 ">
                 <Button
@@ -512,6 +521,7 @@ const Navigation = () => {
             <div
               className="card bg-light text-dark custom-border-radius mx-auto pb-5 w-100 mx-5 right"
               style={{ backgroundColor: "white", zIndex: 1 }}
+              ref={dropdownRef}
             >
               <div className="d-flex  flex-wrap gap-2 my-2 mx-2">
                 <Button
@@ -531,6 +541,25 @@ const Navigation = () => {
                   onClick={() => handleButtonres("villa")}
                 >
                   Villa
+                </Button>
+
+                <Button
+                  type="button"
+                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
+                    residential === "flat" ? "rest1" : ""
+                  }`}
+                  onClick={() => handleButtonres("flat")}
+                >
+                  Flat
+                </Button>
+                <Button
+                  type="button"
+                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
+                    residential === "apartment" ? "rest1" : ""
+                  }`}
+                  onClick={() => handleButtonres("apartment")}
+                >
+                  Apartment
                 </Button>
                 <Button
                   type="button"
@@ -566,7 +595,7 @@ const Navigation = () => {
                   }`}
                   onClick={() => handleButtonres("pent_house")}
                 >
-                  Pant House
+                  Pent House
                 </Button>
                 <Button
                   type="button"
@@ -578,24 +607,6 @@ const Navigation = () => {
                   Farm house
                 </Button>
 
-                <Button
-                  type="button"
-                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
-                    residential === "flat" ? "rest1" : ""
-                  }`}
-                  onClick={() => handleButtonres("flat")}
-                >
-                  Flat
-                </Button>
-                <Button
-                  type="button"
-                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
-                    residential === "apartment" ? "rest1" : ""
-                  }`}
-                  onClick={() => handleButtonres("apartment")}
-                >
-                  Apartment
-                </Button>
                 <Button
                   type="button"
                   className={`btn btn-outline-light me-2 customplot rounded-pill ${
@@ -642,6 +653,7 @@ const Navigation = () => {
             <div
               className="card bg-light text-dark custom-border-radius mx-auto pb-5 w-100 mx-5 right"
               style={{ backgroundColor: "white", zIndex: 1 }}
+              ref={dropdownRef}
             >
               <div className="d-flex flex-wrap gap-2 my-2 mx-2">
                 <Button
@@ -671,42 +683,7 @@ const Navigation = () => {
                 >
                   Showroom
                 </Button>
-                <Button
-                  type="button"
-                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
-                    color === "godown" ? "rest1" : ""
-                  }`}
-                  onClick={() => handlecommercial("godown")}
-                >
-                  Godown
-                </Button>
-                <Button
-                  type="button"
-                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
-                    color === "shed" ? "rest1" : ""
-                  }`}
-                  onClick={() => handlecommercial("shed")}
-                >
-                  Shed
-                </Button>
-                <Button
-                  type="button"
-                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
-                    color === "co_working_space" ? "rest1" : ""
-                  }`}
-                  onClick={() => handlecommercial("co_working_space")}
-                >
-                  Co-working Space
-                </Button>
-                <Button
-                  type="button"
-                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
-                    color === "commercial_complex" ? "rest1" : ""
-                  }`}
-                  onClick={() => handlecommercial("commercial_complex")}
-                >
-                  Commercial complex
-                </Button>
+
                 <Button
                   type="button"
                   className={`btn btn-outline-light me-2 customplot rounded-pill ${
@@ -725,6 +702,26 @@ const Navigation = () => {
                 >
                   Industrial shed
                 </Button>
+
+                <Button
+                  type="button"
+                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
+                    color === "co_working_space" ? "rest1" : ""
+                  }`}
+                  onClick={() => handlecommercial("co_working_space")}
+                >
+                  Co-working Space
+                </Button>
+                <Button
+                  type="button"
+                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
+                    color === "commercial_complex" ? "rest1" : ""
+                  }`}
+                  onClick={() => handlecommercial("commercial_complex")}
+                >
+                  Commercial complex
+                </Button>
+
                 <Button
                   type="button"
                   className={`btn btn-outline-light me-2 customplot rounded-pill ${
@@ -760,6 +757,24 @@ const Navigation = () => {
                   onClick={() => handlecommercial("PG_hostel")}
                 >
                   PG Hostel
+                </Button>
+                <Button
+                  type="button"
+                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
+                    color === "godown" ? "rest1" : ""
+                  }`}
+                  onClick={() => handlecommercial("godown")}
+                >
+                  Godown
+                </Button>
+                <Button
+                  type="button"
+                  className={`btn btn-outline-light me-2 customplot rounded-pill ${
+                    color === "shed" ? "rest1" : ""
+                  }`}
+                  onClick={() => handlecommercial("shed")}
+                >
+                  Shed
                 </Button>
               </div>
             </div>

@@ -165,6 +165,7 @@ const Flatapartrent = ({
     "Coffee Bar": false,
 
     Gym: false,
+    "CCTV" :false
   });
 
   const newvalue = [
@@ -181,6 +182,7 @@ const Flatapartrent = ({
     "Pharmacy",
     "Coffee Bar",
     " Gym",
+    "CCTV"
   ];
 
   const [data, setData] = useState([]);
@@ -825,7 +827,7 @@ const Flatapartrent = ({
             </div>
           </div>
 
-          <div className="flex-grow-1 ms-2">
+          {/* <div className="flex-grow-1 ms-2">
             <div className="form-check ms-2">
               <input
                 className="form-check-input"
@@ -838,7 +840,7 @@ const Flatapartrent = ({
                 Under Construction
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex-grow-1 me-3">
             <input
@@ -876,7 +878,7 @@ const Flatapartrent = ({
                   ))}
                   {/** check this page --> sell --> residential --? duplex */}
                   <input
-                    placeholder="Typesomething"
+                    placeholder="Add facilities"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
@@ -927,7 +929,7 @@ const Flatapartrent = ({
                     </button>
                   ))}
                   <input
-                    placeholder="Type something"
+                    placeholder="Add facilities"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeys}
