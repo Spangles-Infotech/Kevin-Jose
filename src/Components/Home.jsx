@@ -6,6 +6,7 @@ import Exclusive from "./Exclusive";
 import Real from "./Real";
 import Enquiry from "./Enquiry";
 import Footer from "./Footer";
+import FeaturedProp from "./FeaturedProp";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <Navigation />
 
       <Properties />
+      {/* <FeaturedProp/> */}
 
       <Exclusive />
 

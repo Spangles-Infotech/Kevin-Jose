@@ -59,6 +59,36 @@
   padding: 9px 4px 9px 40px;
 }
 
+.hover-box:hover {
+  border-bottom-right-radius: 10%;
+  border-bottom-left-radius: 10%;
+  border-top-right-radius: 10%;
+  border-top-left-radius: 10%;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2), 0 6px 20px rgba(255, 0, 0, 0.19);
+
+ 
+}
+.hover-box-border {
+  border-left: solid 1px rgba(128, 128, 128, 0.185);
+  border-right: solid 1px rgba(128, 128, 128, 0.185) ;
+}
+
+.hover-box:hover .hover-box-border {
+  border-left: solid 1px red;
+  border-right: solid 1px red;
+}
+
+.card-head {
+  font-weight: 100;
+}
+.poppins-thin {
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: gray;
+}
 .search-icon {
   position: absolute;
   top: 50%;
