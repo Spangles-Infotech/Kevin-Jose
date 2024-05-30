@@ -53,7 +53,7 @@ const Navbar = () => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-custom fixed-top">
+      <nav className="navbar navbar-expand-lg navbar-custom fixed-top  ">
         <div className="container-fluid mx-5 px-5">
           <a className="navbar-brand" href="/">
             <img

@@ -9,11 +9,9 @@ import { Baseurl } from "./request";
 const Properties = () => {
   const navigate = useNavigate();
 
-  const handleViewDetails = (id) => {
-    navigate(`/builder/${id}`);
-  };
+ 
 
-  const handleViewDetailss = () => {
+  const handleViewDetails = () => {
     navigate("/result");
   };
 
