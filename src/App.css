@@ -89,6 +89,9 @@
   text-transform: uppercase;
   color: gray;
 }
+.slick-slide > div{
+  margin: 0 5px;
+}
 .search-icon {
   position: absolute;
   top: 50%;

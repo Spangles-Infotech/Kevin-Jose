@@ -1,19 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Value } from "./Value"; // Assuming Value is imported correctly
-import { FaArrowRight } from "react-icons/fa";
+import {
+  IoIosArrowDropleftCircle,
+  IoIosArrowDroprightCircle,
+} from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Baseurl } from "./request";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { FaArrowRight } from "react-icons/fa";
+
+const CustomPrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        color: "red",
+        zIndex: 1,
+      }}
+      onClick={onClick}
+    >
+      <IoIosArrowDropleftCircle size={25} />
+    </div>
+  );
+};
+
+const CustomNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        color: "red",
+        zIndex: 1,
+      }}
+      onClick={onClick}
+    >
+      <IoIosArrowDroprightCircle size={25}  />
+    </div>
+  );
+};
 
 const Exclusive = () => {
   const navigate = useNavigate();
-  const handleViewDetailss = () => {
-    navigate("/result");
-  };
+
   const handleViewDetails = (id) => {
-    navigate(`builder/${id}`);
+    navigate(`/builder/${id}`);
   };
 
   const [prop, setProp] = useState([]);
@@ -29,106 +69,88 @@ const Exclusive = () => {
         console.log(err);
       });
   }, []);
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
+  };
+
   return (
     <div className="container">
       <div className="d-flex justify-content-between">
-        <div className="">
-          <h3 className="mt-3 pt-5 mx-1 text-lg-start bigvalue underline">
+        <div>
+          <h3 className="mt-3 pt-5 mx-1 text-lg-start bigvalue underline fw-semibold">
             Recommended Land
           </h3>
         </div>
-
-        <div className="">
+        <div>
           <p
-            className=" pt-5 mx-1 text-lg-end"
+            className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}
-            onClick={() => {
-              handleViewDetailss();
-            }}
+            onClick={() => navigate("/result")}
           >
             See all Projects <FaArrowRight />
           </p>
         </div>
       </div>
-
-      <Carousel className="carousel-value">
-        {prop
-          .filter((item) => item.property_type === "land")
-          .reduce((chunks, items, index) => {
-            const chunkIndex = Math.floor(index / 4);
-            if (!chunks[chunkIndex]) chunks[chunkIndex] = [];
-            chunks[chunkIndex].push(items);
-            return chunks;
-          }, [])
-          .map((chunk, chunkIndex) => (
-            <Carousel.Item key={chunkIndex}>
-              <div className="row">
-                {chunk.map((items) => (
-                  <div key={items.id} className="col-6 col-md-3">
-                    <div className="card properties">
-                      <img
-                        src={items?.land_properties?.land_images[0].image}
-                        style={{ width: "270px", height: "160px" }}
-                        className="card-img-top"
-                        alt="Property"
-                      />
-                      <div className="card-body">
-                        <div className="">
-                          <p
-                            className="card-text"
-                            style={{ fontSize: "10px", color: "#656565" }}
-                          >
-                            {items.title}
-                          </p>
-                          {/* <p className="card-text mx-5" style={{ fontSize: '10px', color: items.hrs === 'Ready to move' ? '#1D8F00' : '#FF0000' }}>{items.hrs}</p> */}
-                        </div>
-                        <div className="d-flex">
-                          <p className="card-title">
-                            {items?.sale_price}
-                            {items?.rent}
-                            {items?.lease_amount}
-                          </p>
-                          <span className="vr mx-3"></span>
-                          <p className="card-text">
-                            {items?.land_properties?.total_area} Sqft
-                          </p>
-                        </div>
-                        <p className="card-text">{items.location} </p>
-
-                        <div className="d-flex">
-                          {items?.owner && (
-                            <p className="card-text">Posted by owner</p>
-                          )}
-                          {items?.agent && (
-                            <p className="card-text">Posted by agent</p>
-                          )}
-                          {items?.builder && (
-                            <p className="card-text">Posted by builder</p>
-                          )}
-                          <p
-                            className="card-text mx-3"
-                            style={{ color: "#1D8F00" }}
-                          >
-                            {items.created_at}
-                          </p>
-                        </div>
-
-                        <button
-                          className="btn btn-danger rounded-pill d-flex 
-                      align-items-center justify-content-center"
-                          onClick={() => handleViewDetails(items?.id)}
-                          style={{ alignSelf: "start" }}
-                        >
-                          View Details
-                        </button>
+      <div className="slider-container">
+        <Slider {...settings}>
+          {prop
+            .filter((item) => item.property_type === "land")
+            .map((property, index) => (
+              <div className=" py-3 m-0" key={index}>
+                <div
+                  onClick={() => handleViewDetails(property.id)}
+                  className="card border-0 hover-box"
+                  style={{ width: "100%", cursor: "pointer" }}
+                  key={property.id}
+                >
+                  <img
+                    src={property.land_properties?.land_images[0]?.image}
+                    className="card-img-top rounded-top-5"
+                    style={{ height: "190px" }}
+                    alt={property.title}
+                  />
+                  <div className="p-2 pt-3 d-flex flex-column gap-2 justify-content-center m-0 border rounded-bottom-5">
+                    <h6 className="card-head poppins-thin">
+                      {property?.land_properties?.land_type}
+                    </h6>
+                    <div className="p-0 m-0 d-flex w-100 fs-6 fw-medium">
+                      <div className="w-50 border-end">
+                        {property.sale_price ||
+                          property.rent ||
+                          property.lease_amount}
+                      </div>
+                      <div className="ps-2 w-50">
+                        {property?.land_properties?.total_area}{" "}
+                        {property?.land_properties?.total_area_unit}
                       </div>
                     </div>
+                    <div className="text-secondary fw-light">
+                      {property.location}
+                    </div>
+                    <div className="p-1">
+                      <button
+                        className="bg-danger text-white border-0 rounded-pill py-1 text-sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewDetails(property.id);
+                        }}
+                      >
+                        View details
+                      </button>
+                    </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </Carousel.Item>
-          ))}
-      </Carousel>
+            ))}
+        </Slider>
+      </div>
     </div>
   );
 };

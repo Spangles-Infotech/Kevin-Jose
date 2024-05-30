@@ -8,6 +8,7 @@ import Enquiry from "./Enquiry";
 import Footer from "./Footer";
 import FeaturedProp from "./FeaturedProp";
 
+
 const Home = () => {
   return (
     <>
@@ -30,3 +31,4 @@ const Home = () => {
 };
 
 export default Home;
+

@@ -31,18 +31,21 @@ const Properties = () => {
       });
   }, []);
   return (
-    <div className="container py-5">
-      <div className="mt-5 pt-5 mx-5 d-flex justify-content-between flex-column flex-md-row">
+    <div className="container py-5 mt-5">
+         <div className="d-flex justify-content-between">
         <div>
-          <h3 className="mt-5 pt-5 mx-1 text-lg-start bigvalue underline">
+          <h3 className="mt-3 pt-5 mx-1 text-lg-start bigvalue underline fw-semibold">
             Recommended Properties
           </h3>
         </div>
+
         <div>
           <p
-            className="mt-3 pt-3"
+            className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}
-            onClick={handleViewDetailss}
+            onClick={() => {
+              handleViewDetails();
+            }}
           >
             See all Projects <FaArrowRight />
           </p>
@@ -117,15 +120,15 @@ const Properties = () => {
                                 ?.status}{" "}
                             {property?.commercial_properties?.commercial_type}
                           </h6>
-                          <div className="p-0 m-0 d-flex w-100 fs-6 fw-medium row">
-                            <div className="col-4 border-end">
+                          <div className="p-0 m-0 d-flex w-100 fs-6 fw-medium">
+                            <div className="w-50 border-end">
                               {property.sale_price ||
                                 property.rent ||
                                 property.lease_amount ||
                                 property?.commercial_properties?.pg_colony
                                   ?.double_room_price_for_ac_display}
                             </div>
-                            <div className="ps-2 col">
+                            <div className="text-center w-50">
                               {property.property_type === "plot"
                                 ? `${
                                     property.plot_properties?.total_area || ""

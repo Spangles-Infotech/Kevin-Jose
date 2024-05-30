@@ -219,7 +219,7 @@ const Navigation = () => {
   return (
     <div className="bg-image" style={navStyle}>
       <nav className="navbar navbar-expand-lg ">
-        <div className="" style={navbarStyle}>
+        {/* <div className="" style={navbarStyle}>
           <ul className="navbar-nav d-flex flex-row align-items-center justify-content-between mx-5">
             <li
               className="nav-item"
@@ -253,9 +253,9 @@ const Navigation = () => {
               </Link>
             </li>
           </ul>
-        </div>
+        </div> */}
       </nav>
-      <h1 className="text-center my-5 text-white-50">
+      <h1 className="text-center my-5 text-white ">
         Welcome back, Let’s continue Your Search{" "}
       </h1>
 
