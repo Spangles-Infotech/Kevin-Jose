@@ -1,65 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
-import { Row, Col } from "react-bootstrap";
-import { FaRegHeart } from "react-icons/fa";
+
 import { RiShareForwardLine } from "react-icons/ri";
-import l1 from "../Images/l1.png";
-import l2 from "../Images/l2.png";
-import l3 from "../Images/l3.png";
-import B1 from "../Images/B1.png";
-import B2 from "../Images/B2.png";
-import b3 from "../Images/b3.png";
-import b4 from "../Images/b4.png";
-import b5 from "../Images/b5.png";
-import b6 from "../Images/b6.png";
+
 import Navbar from "../Components/Navbar";
 import Footer from "./Footer";
 import axios from "axios";
 import { Baseurl, UserConfig } from "./request";
 import { useParams } from "react-router-dom";
 export const Mypropertiesdetail = () => {
-  const data = [
-    ["Super Built-Up Area", "Developer", "Project", "Transaction Type"],
-    ["1662 sqft", "Risland India", "VGN Fairmont", "New Property"],
-    ["₹ 9,868/sqft", "", "", ""],
-    ["Status", "Lifts", "Furnished Status", "Bedroom"],
-    ["Ready to Move", "3", "Unfurnished", "3"],
-  ];
-  const value = [
-    ["Price Breakup", "₹ 2.64 Cr"],
-    ["Booking Amount", "₹ 1,00,000"],
-    ["RERA ID", "TN/01/Building/0111/2019"],
-    ["Address", "Perungudi, Chennai - South, Tamil Nadu"],
-    ["Furnishing", "Unfurnished"],
-    ["Flooring", "Verified"],
-    ["Water Availability", "24 Hours Available"],
-    ["Status of Electricity", "No/Rare Powercut"],
-    ["Floors allowed for construction", "10"],
-    ["No. of lift", "3"],
-  ];
-  const tableCellStyle = {
-    border: "none",
-    padding: "8px",
-
-    fontFamily: "Poppins",
-    fontSize: "16px",
-    fontWeight: "400",
-
-    color: "#717171",
-  };
-
-  const headerCellStyle = {
-    ...tableCellStyle,
-
-    fontSize: "18px",
-
-    color: "#2D2D2D",
-  };
-
   const { id } = useParams();
 
   const [details, setDetails] = useState({});
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   useEffect(() => {
     axios
       .get(`${Baseurl}properties/${id}`, UserConfig)
@@ -83,591 +37,578 @@ export const Mypropertiesdetail = () => {
       });
   };
 
+  const imageStyles = [
+    { width: "440px", height: "260px" },
+    { width: "270px", height: "260px" },
+    { width: "330px", height: "260px" },
+    { width: "330px", height: "260px" },
+    { width: "330px", height: "260px" },
+    { width: "330px", height: "260px" },
+    { width: "270px", height: "260px" },
+    { width: "270px", height: "260px" },
+    { width: "270px", height: "260px" },
+    { width: "200px", height: "260px" },
+    {},
+  ];
+
   return (
-    <div>
-    <Navbar />
+    <>
+      <Navbar />
 
-    <div className="container pt-5">
-      <Card
-        className="mt-5"
-        style={{ width: "1170px", border: " 1px solid #D7242A" }}
+      <div
+        className="border container mx-auto px-4 py-4 rounded-4 border-danger"
+        style={{ marginTop: "8%" }}
       >
-        <Row className="mx-3" style={{ color: "#D7242A" }}>
-          <Col xs={6}>
-            <p
-              className=" my-4 d-flex"
-              style={{
-                color: "#D7242A",
-                fontSize: "40px",
-                fontWeight: "800px",
-              }}
-            >
-              {details?.sale_price}
-              {details?.rent}
-              {details?.lease_amount}
-
-              <span>
-                <button
-                  type="button"
-                  style={{
-                    color: "white",
-                    width: "100px",
-                    height: "30px",
-                    fontSize: "12px",
-                    backgroundColor: "#D76724",
-                    border: "none",
-                  }}
-                  className="btn btn-success  ms-3 mb-2"
-                >
-                  onprogress
-                </button>
-              </span>
-            </p>
-          </Col>
-        </Row>
-        <div className="d-flex justify-content-between mx-4 px-2">
-          <div className="">
-            <p
-              className=""
-              style={{ color: "#2D2D2D", weight: "500", fontSize: "18px" }}
-            >
-              3 BHK Flat for Sale in Perungudi, Chennai
-            </p>
-          </div>
-          <div className="text-end">
-            <p className="" style={{ fontSize: "13px", color: "#717171" }}>
-              Posted {details?.created_at}
-            </p>
+        <div className="d-flex gap-5">
+          <h2
+            className="fw-bold text-danger m-0 p-0 "
+            style={{ fontSize: "40px" }}
+          >
+            {details?.sale_price}
+            {details?.rent}
+            {details?.lease_amount}
+          </h2>
+          <div>
+            {details.approved ? (
+              <button
+                type="button"
+                className="border-0 p-1 px-2 rounded-1 text-white bg-success"
+                style={{ fontSize: "12px" }}
+              >
+                Published
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="border-0 p-1 px-2 rounded-1 text-white"
+                style={{
+                  fontSize: "12px",
+                  backgroundColor: "rgba(215, 103, 36, 1)",
+                }}
+              >
+                On Progress
+              </button>
+            )}
           </div>
         </div>
+        <p className="text-end text-secondary" style={{ fontSize: "12px" }}>
+          Posted {details?.created_at}
+        </p>
 
-        {/* Plot */}
-        {details?.property_type === "plot" && (
-          <div className="d-flex flex-wrap gap-3 mx-4">
-            {details?.plot_properties?.plot_images?.map((img, index) => (
-              <img
-                src={img.image}
-                alt={`Image ${index + 1}`}
-                style={
-                  index === 0
-                    ? { width: "440px", height: "260px" }
-                    : index === 1
-                    ? { width: "270px", height: "260px" }
-                    : index === 2
-                    ? { width: "330px", height: "260px" }
-                    : index === 3
-                    ? { width: "330px", height: "260px" }
-                    : index === 4
-                    ? { width: "330px", height: "260px" }
-                    : index === 5
-                    ? { width: "270px", height: "260px" }
-                    : index === 6
-                    ? { width: "270px", height: "260px" }
-                    : {}
-                }
-                className="mx-2 img-fluid rounded-3"
-                key={index}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* land */}
-        {details?.property_type === "land" && (
-          <div className="d-flex flex-wrap gap-3 mx-4">
-            {details?.land_properties?.land_images?.map((img, index) => (
-              <img
-                src={img.image}
-                alt={`Image ${index + 1}`}
-                style={
-                  index === 0
-                    ? { width: "440px", height: "260px" }
-                    : index === 1
-                    ? { width: "270px", height: "260px" }
-                    : index === 2
-                    ? { width: "330px", height: "260px" }
-                    : index === 3
-                    ? { width: "330px", height: "260px" }
-                    : index === 4
-                    ? { width: "330px", height: "260px" }
-                    : index === 5
-                    ? { width: "270px", height: "260px" }
-                    : index === 6
-                    ? { width: "270px", height: "260px" }
-                    : {}
-                }
-                className="mx-2 img-fluid rounded-3"
-                key={index}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* residential */}
-        {details?.property_type === "residential" && (
-          <div className="d-flex flex-wrap gap-3 mx-4">
-            {/* house */}
-            {details?.residential_properties?.house?.house_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-            {/* appartment */}
-            {details?.residential_properties?.apartment?.apartment_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-          </div>
-        )}
-
-        {/* commercial */}
-        {details?.property_type === "commercial" && (
-          <div className="d-flex flex-wrap gap-3 mx-4">
-            {/* showroom */}
-            {details?.commercial_properties?.showroom?.showroom_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-            {/* industrial building */}
-            {details?.commercial_properties?.industrialbuilding?.industrialbuilding_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-            {/*service_apartment */}
-            {details?.commercial_properties?.service_apartment?.service_apartment_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-            {/*factory */}
-            {details?.commercial_properties?.factory?.factory_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-            {/*pg_colony */}
-            {details?.commercial_properties?.pg_colony?.pgcolony_images?.map(
-              (img, index) => (
-                <img
-                  src={img.image}
-                  alt={`Image ${index + 1}`}
-                  style={
-                    index === 0
-                      ? { width: "440px", height: "260px" }
-                      : index === 1
-                      ? { width: "270px", height: "260px" }
-                      : index === 2
-                      ? { width: "330px", height: "260px" }
-                      : index === 3
-                      ? { width: "330px", height: "260px" }
-                      : index === 4
-                      ? { width: "330px", height: "260px" }
-                      : index === 5
-                      ? { width: "270px", height: "260px" }
-                      : index === 6
-                      ? { width: "270px", height: "260px" }
-                      : {}
-                  }
-                  className="mx-2 img-fluid rounded-3"
-                  key={index}
-                />
-              )
-            )}
-          </div>
-        )}
-        <Card.Body>
-          <p
-            className="ms-3 mt-2"
-            style={{
-              color: "#2D2D2D",
-              fontSize: "20px",
-              fontWeight: "600",
-              fontFamily: "Poppins",
-            }}
-          >
-            More Details
+        {/* plot heading */}
+        {details?.plot_properties && (
+          <p className="fw-medium">
+            {details?.plot_properties?.total_area}{" "}
+            {details?.plot_properties?.total_area_unit}{" "}
+            {details?.plot_properties?.plot_type} for{" "}
+            {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
           </p>
-          {/* plot */}
+        )}
 
-          {details.property_type == "plot" && (
-            <table className="table">
-              <thead>
-                {details?.you_are_here_to === "sell" && (
-                  <>
-                    <tr>
-                      <td>Sale Price</td>
-                      <td>{details?.sale_price}</td>
-                    </tr>
+        {/* land heading*/}
+        {details?.land_properties && (
+          <p className="fw-medium">
+            {details?.land_properties?.total_area}{" "}
+            {details?.land_properties?.total_area_unit}{" "}
+            {details?.land_properties?.land_type} for{" "}
+            {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
 
-                    <tr>
-                      <td>Price per sqft</td>
-                      <td>{details?.sale_price_per_sqft}</td>
-                    </tr>
-                  </>
-                )}
+        {/* residential --> house heading*/}
+        {details?.residential_properties?.house && (
+          <p className="fw-medium">
+            {details?.residential_properties?.house?.available_bhk}{" "}
+            {details?.residential_properties?.residential_type?.toUpperCase()}{" "}
+            for {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+        {/* residential --> apartment heading*/}
+        {details?.residential_properties?.apartment && (
+          <p className="fw-medium">
+            {details?.residential_properties?.apartment?.available_bhk}{" "}
+            {details?.residential_properties?.residential_type?.toUpperCase()}{" "}
+            for {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
 
-                {details?.you_are_here_to === "rent" && (
+        {/* commercial --> industrial heading*/}
+        {details?.commercial_properties?.industrialbuilding && (
+          <p className="fw-medium">
+            {details?.commercial_properties?.industrialbuilding?.built_up_area}{" "}
+            {
+              details?.commercial_properties?.industrialbuilding
+                ?.built_up_area_unit
+            }{" "}
+            {details?.commercial_properties?.commercial_type?.toUpperCase()} for{" "}
+            {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+
+        {/* commercial --> factory*/}
+        {details?.commercial_properties?.factory && (
+          <p className="fw-medium">
+            {details?.commercial_properties?.factory?.built_up_area}{" "}
+            {details?.commercial_properties?.factory?.built_up_area_unit}{" "}
+            {details?.commercial_properties?.commercial_type?.toUpperCase()} for{" "}
+            {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+
+        {/* commercial --> showroom*/}
+        {details?.commercial_properties?.showroom && (
+          <p className="fw-medium">
+            {details?.commercial_properties?.showroom?.built_up_area}{" "}
+            {details?.commercial_properties?.showroom?.built_up_area_unit}{" "}
+            {details?.commercial_properties?.commercial_type?.toUpperCase()} for{" "}
+            {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+
+        {/*plot  image*/}
+        {details?.plot_properties?.plot_images.map((img, index) => (
+          <img
+            src={img.image}
+            alt={`Image ${index + 1}`}
+            style={imageStyles[index] || {}}
+            className="mx-2 img-fluid rounded-3 mt-2"
+            key={index}
+          />
+        ))}
+
+        {/* land image  */}
+        {details?.land_properties?.land_images.map((img, index) => (
+          <img
+            src={img.image}
+            alt={`Image ${index + 1}`}
+            style={imageStyles[index] || {}}
+            className="mx-2 img-fluid rounded-3 mt-2"
+            key={index}
+          />
+        ))}
+
+        {/* residential apartment image*/}
+        {details?.residential_properties?.apartment?.apartment_images.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+
+        {/* residential house image*/}
+        {details?.residential_properties?.house?.house_images.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+
+        {/* commercial industrialbuilding image*/}
+        {details?.commercial_properties?.industrialbuilding?.industrialbuilding_images.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+
+        {/* commercial factory image*/}
+        {details?.commercial_properties?.factory?.factory_images.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+
+        {/* commercial office image*/}
+        {details?.commercial_properties?.showroom?.showroom_images.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+      </div>
+
+      <div className="border container mx-auto px-4 py-3 rounded-4 border-danger">
+        <h4 className="fw-bold ps-2 pb-2">More Details</h4>
+
+        {/* plot and land */}
+        {(details.property_type === "plot" ||
+          details.property_type === "land") && (
+          <table className="table table-borderless w-75">
+            <tbody>
+              {details?.you_are_here_to === "sell" && (
+                <>
+                  <tr>
+                    <td>Sale Price</td>
+                    <td className="fw-semibold">{details?.sale_price}</td>
+                  </tr>
+                  <tr>
+                    <td>Price per sqft</td>
+                    <td className="fw-semibold">
+                      {details?.sale_price_per_sqft}
+                    </td>
+                  </tr>
+                </>
+              )}
+
+              {details?.you_are_here_to === "rent" && (
+                <>
                   <tr>
                     <td>Rent Price</td>
-                    <td>{details?.rent}</td>
+                    <td className="fw-semibold">{details?.rent}</td>
                   </tr>
-                )}
+                </>
+              )}
 
-                {details?.you_are_here_to === "lease" && (
-                  <tr>
-                    <td>Lease Price</td>
-                    <td>{details?.lease_amount}</td>
-                  </tr>
-                )}
+              {details?.you_are_here_to === "lease" && (
                 <tr>
-                  <td>Address</td>
-                  <td>{details?.location}</td>
+                  <td>Lease Price</td>
+                  <td className="fw-semibold">{details?.lease_amount}</td>
                 </tr>
+              )}
 
+              <tr>
+                <td>Advance</td>
+                <td className="fw-semibold">{details?.advance}</td>
+              </tr>
+              <tr>
+                <td>Property Name</td>
+                <td className="fw-semibold">{details?.title}</td>
+              </tr>
+              <tr>
+                <td>Address</td>
+                <td className="fw-semibold">{details?.location}</td>
+              </tr>
+              <tr>
+                <td>Area</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.total_area ||
+                    details?.land_properties?.total_area}{" "}
+                  {details?.plot_properties?.total_area_unit ||
+                    details?.land_properties?.total_area_unit}{" "}
+                </td>
+              </tr>
+              <tr>
+                <td>Length</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.length ||
+                    details?.land_properties?.length}{" "}
+                  {details?.plot_properties?.length_unit ||
+                    details?.land_properties?.length_unit}{" "}
+                </td>
+              </tr>
+              <tr>
+                <td>Type</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.plot_type ||
+                    details?.land_properties?.land_type}
+                </td>
+              </tr>
+              <tr>
+                <td>Breadth</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.breadth ||
+                    details?.land_properties?.breadth}{" "}
+                  {details?.plot_properties?.breadth_unit ||
+                    details?.land_properties?.breadth_unit}{" "}
+                </td>
+              </tr>
+              <tr>
+                <td>Road Width</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.road_width ||
+                    details?.land_properties?.road_width}{" "}
+                  {details?.plot_properties?.road_width_unit ||
+                    details?.land_properties?.road_width_unit}{" "}
+                </td>
+              </tr>
+              <tr>
+                <td>Approval</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.approval ||
+                    details?.land_properties?.approval}
+                </td>
+              </tr>
+              <tr>
+                <td>Posted by</td>
+                {details?.owner && <td className="fw-semibold">Owner</td>}
+                {details?.agent && <td className="fw-semibold">Agent</td>}
+                {details?.builder && <td className="fw-semibold">Builder</td>}
+              </tr>
+
+              {details?.agent && (
                 <tr>
-                  <td>Area</td>
-                  <td>
-                    {details?.plot_properties?.total_area}{" "}
-                    {details?.plot_properties?.total_area_unit}{" "}
-                  </td>
+                  <td>Agent Commission</td>
+                  <td className="fw-semibold">{details?.agent_commission}</td>
                 </tr>
+              )}
 
-                <tr>
-                  <td>Length</td>
-                  <td>
-                    {details?.plot_properties?.length}{" "}
-                    {details?.plot_properties?.length_unit}{" "}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Type</td>
-                  <td>{details?.plot_properties?.plot_type}</td>
-                </tr>
-
-                <tr>
-                  <td>Breadth</td>
-                  <td>
-                    {details?.plot_properties?.breadth}{" "}
-                    {details?.plot_properties?.breadth_unit}{" "}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Road Width</td>
-                  <td>
-                    {details?.plot_properties?.road_width}{" "}
-                    {details?.plot_properties?.road_width_unit}{" "}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Facilities</td>
-                  <td>
-                    {details?.plot_properties?.facilities.map(
-                      (indoor, ind) => (
-                        <span key={ind}>
-                          {indoor?.name} {""}
-                        </span>
+              <tr>
+                <td>Facilities</td>
+                <td className="fw-semibold">
+                  {details?.plot_properties?.facilities?.map(
+                    (facility, ind) => <span key={ind}>{facility?.name} </span>
+                  ) ||
+                    details?.land_properties?.facilities?.map(
+                      (facility, ind) => (
+                        <span key={ind}>{facility?.name} </span>
                       )
                     )}
-                  </td>
-                </tr>
-              </thead>
-            </table>
-          )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        )}
 
-          {/* land */}
+        {/* residential house and apartment */}
+        {details.residential_properties && (
+          <table className="table table-borderless w-75">
+            <thead>
+              {details?.you_are_here_to === "sell" && (
+                <>
+                  <tr>
+                    <td>Sale Price</td>
+                    <td className="fw-semibold">{details?.sale_price}</td>
+                  </tr>
 
-          {details.property_type == "land" && (
-            <table className="table">
-              <thead>
-                {details?.you_are_here_to === "sell" && (
-                  <>
-                    <tr>
-                      <td>Sale Price</td>
-                      <td>{details?.sale_price}</td>
-                    </tr>
+                  <tr>
+                    <td>Price per sqft</td>
+                    <td className="fw-semibold">
+                      {details?.sale_price_per_sqft}
+                    </td>
+                  </tr>
+                </>
+              )}
 
-                    <tr>
-                      <td>Price per sqft</td>
-                      <td>{details?.sale_price_per_sqft}</td>
-                    </tr>
-                  </>
-                )}
-
-                {details?.you_are_here_to === "rent" && (
+              {details?.you_are_here_to === "rent" && (
+                <>
                   <tr>
                     <td>Rent Price</td>
-                    <td>{details?.rent}</td>
+                    <td className="fw-semibold">{details?.rent}</td>
                   </tr>
-                )}
+                </>
+              )}
 
-                {details?.you_are_here_to === "lease" && (
-                  <>
-                    <tr>
-                      <td>Lease Price</td>
-                      <td>{details?.lease_amount}</td>
-                    </tr>
-
-                    <tr>
-                      <td>Advance Amount</td>
-                      <td>{details?.advance}</td>
-                    </tr>
-                  </>
-                )}
+              {details?.you_are_here_to === "lease" && (
                 <tr>
-                  <td>Address</td>
-                  <td>{details?.location}</td>
+                  <td>Lease Price</td>
+                  <td className="fw-semibold">{details?.lease_amount}</td>
                 </tr>
+              )}
 
-                {details?.owner && (
-                  <tr>
-                    <td>Posted by</td>
-                    <td>Owner</td>
-                  </tr>
-                )}
+              <tr>
+                <td>Advance</td>
+                <td className="fw-semibold">{details?.advance}</td>
+              </tr>
+              <tr>
+                <td>Property Name</td>
+                <td className="fw-semibold">{details?.title}</td>
+              </tr>
 
-                {details?.agent && (
-                  <>
-                    <tr>
-                      <td>Posted by</td>
-                      <td>Agent</td>
-                    </tr>
-                    <tr>
-                      <td>Agent Commision</td>
-                      <td>55</td>
-                    </tr>
-                  </>
-                )}
+              <tr>
+                <td>Address</td>
+                <td className="fw-semibold">{details?.location}</td>
+              </tr>
 
-                {details?.builder && (
-                  <>
-                    <tr>
-                      <td>Posted by</td>
-                      <td>Agent</td>
-                    </tr>
-                    <tr>
-                      <td>Agent Commision</td>
-                      <td>55</td>
-                    </tr>
-                  </>
-                )}
+              <tr>
+                <td>Area</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.house?.built_up_area ||
+                    details?.residential_properties?.apartment
+                      ?.built_up_area}{" "}
+                  {details?.residential_properties?.house?.built_up_area_unit ||
+                    details?.residential_properties?.apartment
+                      ?.built_up_area_unit}{" "}
+                </td>
+              </tr>
 
+              <tr>
+                <td>Available BHK</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.house?.available_bhk ||
+                    details?.residential_properties?.apartment?.available_bhk}
+                </td>
+              </tr>
+
+              <tr>
+                <td>Type</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.residential_type}
+                </td>
+              </tr>
+
+              <tr>
+                <td>Condition</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.house?.condition ||
+                    details?.residential_properties?.apartment?.condition}{" "}
+                </td>
+              </tr>
+
+              <tr>
+                <td>Category</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.house
+                    ?.category_of_project ||
+                    details?.residential_properties?.apartment
+                      ?.category_of_project}
+                </td>
+              </tr>
+
+              {details.residential_properties?.house && (
                 <tr>
-                  <td>Area</td>
-                  <td>
-                    {details?.land_properties?.total_area}{" "}
-                    {details?.land_properties?.total_area_unit}{" "}
+                  <td>Units in project</td>
+                  <td className="fw-semibold">
+                    {details?.residential_properties?.house
+                      ?.no_of_units_in_project ||
+                      details?.residential_properties?.apartment
+                        ?.no_of_units_in_project}{" "}
                   </td>
                 </tr>
+              )}
+              <tr>
+                <td>Total floors</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.house?.total_floors ||
+                    details?.residential_properties?.apartment
+                      ?.total_floors}{" "}
+                </td>
+              </tr>
 
+              <tr>
+                <td>Status</td>
+                <td className="fw-semibold">
+                  {details?.residential_properties?.house?.status ||
+                    details?.residential_properties?.apartment?.status}{" "}
+                </td>
+              </tr>
+
+              <tr>
+                <td>Posted by</td>
+                {details?.owner && <td className="fw-semibold">Owner</td>}
+                {details?.agent && <td className="fw-semibold">Agent</td>}
+                {details?.builder && <td className="fw-semibold">Builder</td>}
+              </tr>
+
+              {details?.agent && (
                 <tr>
-                  <td>Length</td>
-                  <td>
-                    {details?.land_properties?.length}{" "}
-                    {details?.land_properties?.length_unit}{" "}
-                  </td>
+                  <td>Agent Commission</td>
+                  <td className="fw-semibold">{details?.agent_commission}</td>
                 </tr>
+              )}
 
-                <tr>
-                  <td>Type</td>
-                  <td>{details?.land_properties?.land_type}</td>
-                </tr>
+              <tr>
+                <td>Indoor Facilities</td>
+                <td className="fw-semibold">
+                  {(details?.residential_properties?.house?.indoor_facilities
+                    ?.length > 0
+                    ? details?.residential_properties?.house?.indoor_facilities
+                    : details?.residential_properties?.apartment
+                        ?.indoor_facilities
+                  )?.map((indoor, ind, arr) => (
+                    <span key={ind}>
+                      {indoor?.facility?.name}
+                      {ind < arr.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                </td>
+              </tr>
 
-                <tr>
-                  <td>Direction</td>
-                  <td>{details?.land_properties?.direction_facing}</td>
-                </tr>
+              <tr>
+                <td>Outdoor Facilities</td>
+                <td className="fw-semibold">
+                  {(details?.residential_properties?.house?.outdoor_facilities
+                    ?.length > 0
+                    ? details?.residential_properties?.house?.outdoor_facilities
+                    : details?.residential_properties?.apartment
+                        ?.outdoor_facilities
+                  )?.map((outdoor, ind, arr) => (
+                    <span key={ind}>
+                      {outdoor?.facility?.name}
+                      {ind < arr.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                </td>
+              </tr>
+            </thead>
+          </table>
+        )}
 
-                <tr>
-                  <td>Breadth</td>
-                  <td>
-                    {details?.land_properties?.breadth}{" "}
-                    {details?.land_properties?.breadth_unit}{" "}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Road Width</td>
-                  <td>
-                    {details?.land_properties?.road_width}{" "}
-                    {details?.land_properties?.road_width_unit}{" "}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Facilities</td>
-                  <td>
-                    {details?.land_properties?.facilities.map(
-                      (indoor, ind) => (
-                        <span key={ind}>{indoor?.name} </span>
-                      )
-                    )}
-                  </td>
-                </tr>
-              </thead>
-            </table>
-          )}
-
-          {/* residential forms */}
-
-          {details.property_type == "residential" && (
-            <table className="table">
+        {/* commercial  industrial building */}
+        {
+          details.property_type === "commercial" && (
+            // details?.commercial_properties?.commercial_type === "office" || "industrialbuilding" || "factory"  && (
+            <table className="table table-borderless w-75">
               <thead>
                 {details?.you_are_here_to === "sell" && (
                   <>
                     <tr>
                       <td>Sale Price</td>
-                      <td>{details?.sale_price}</td>
+                      <td className="fw-semibold">{details?.sale_price}</td>
                     </tr>
 
                     <tr>
                       <td>Price per sqft</td>
-                      <td>{details?.sale_price_per_sqft}</td>
+                      <td className="fw-semibold">
+                        {details?.sale_price_per_sqft}
+                      </td>
                     </tr>
-
-                    {details.agent && (
-                      <tr>
-                        <td>Agent Commision</td>
-                        <td>{details?.agent_commission}</td>
-                      </tr>
-                    )}
                   </>
                 )}
 
@@ -675,91 +616,224 @@ export const Mypropertiesdetail = () => {
                   <>
                     <tr>
                       <td>Rent Price</td>
-                      <td>{details?.rent}</td>
+                      <td className="fw-semibold">{details?.rent}</td>
                     </tr>
-
-                    {details.agent && (
-                      <tr>
-                        <td>Agent Commision</td>
-                        <td>{details?.agent_commission}</td>
-                      </tr>
-                    )}
                   </>
                 )}
 
                 {details?.you_are_here_to === "lease" && (
-                  <>
-                    <tr>
-                      <td>Lease Price</td>
-                      <td>{details?.lease_amount}</td>
-                    </tr>
-
-                    {details.agent && (
-                      <tr>
-                        <td>Agent Commision</td>
-                        <td>{details?.agent_commission}</td>
-                      </tr>
-                    )}
-                  </>
+                  <tr>
+                    <td>Lease Price</td>
+                    <td className="fw-semibold">{details?.lease_amount}</td>
+                  </tr>
                 )}
+
+                <tr>
+                  <td>Advance</td>
+                  <td className="fw-semibold">{details?.advance}</td>
+                </tr>
+                <tr>
+                  <td>Property Name</td>
+                  <td className="fw-semibold">{details?.title}</td>
+                </tr>
+
+                <tr>
+                  <td>Property Type</td>
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.commercial_type}
+                  </td>
+                </tr>
+
                 <tr>
                   <td>Address</td>
-                  <td>{details?.location}</td>
+                  <td className="fw-semibold">{details?.location}</td>
+                </tr>
+
+                <tr>
+                  <td>Location</td>
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.factory?.address ||
+                      details?.commercial_properties?.industrialbuilding
+                        ?.address ||
+                      details?.commercial_properties?.showrrom?.address}
+                  </td>
                 </tr>
 
                 <tr>
                   <td>Furnishing</td>
-                  <td>
-                    {details?.residential_properties?.house?.status}
-                    {details?.residential_properties?.apartment?.status}
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.industrialbuilding?.status}
+                    {details?.commercial_properties?.showroom?.status}
+                    {details?.commercial_properties?.service_apartment?.status}
+                    {details?.commercial_properties?.factory?.status}
+                    {details?.commercial_properties?.pg_colony?.status}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Condition</td>
-                  {/* <td>
-                    {details?.residential_properties?.apartment?.condition}
-                  </td> */}
-                  <td>
-                    {details?.residential_properties?.house?.condition}
-                    {details?.residential_properties?.apartment?.condition}
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.industrialbuilding
+                      ?.condition ||
+                      details?.commercial_properties?.showroom?.condition ||
+                      details?.commercial_properties?.factory?.condition ||
+                      details?.commercial_properties?.pg_colony?.condition}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Type</td>
-                  <td>{details?.residential_properties?.residential_type}</td>
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.industrialbuilding
+                      ?.category_of_project ||
+                      details?.commercial_properties?.showroom
+                        ?.category_of_project ||
+                      details?.commercial_properties?.factory
+                        ?.category_of_project}
+                  </td>
                 </tr>
 
+                {/* service apartment */}
+                {(details?.commercial_properties?.service_apartment ||
+                  details?.commercial_properties?.showroom) && (
+                  <>
+                    <tr>
+                      <td>Floors</td>
+                      <td className="fw-semibold">
+                        {details?.commercial_properties?.service_apartment
+                          ?.available_floors ||
+                          details?.commercial_properties?.showroom
+                            ?.available_floors}{" "}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Car Parking</td>
+                      <td className="fw-semibold">
+                        {details?.commercial_properties?.service_apartment
+                          ?.no_of_car_parking ||
+                          details?.commercial_properties?.showroom
+                            ?.no_of_car_parking}{" "}
+                      </td>
+                    </tr>
+                  </>
+                )}
                 <tr>
                   <td>Built Area</td>
-                  <td>
-                    {
-                      details?.residential_properties?.apartment
-                        ?.built_up_area
-                    }
-                    {details?.residential_properties?.house?.built_up_area}{" "}
-                    {
-                      details?.residential_properties?.house
-                        ?.built_up_area_unit
-                    }
-                    {
-                      details?.residential_properties?.apartment
-                        ?.built_up_area_unit
-                    }
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.industrialbuilding
+                      ?.built_up_area ||
+                      details?.commercial_properties?.showroom?.built_up_area ||
+                      details?.commercial_properties?.factory?.built_up_area ||
+                      details?.commercial_properties?.service_apartment
+                        ?.built_up_area}{" "}
+                    Sqft
                   </td>
                 </tr>
 
                 <tr>
-                  <td>Indoor Facilities</td>
+                  <td>Plot Area</td>
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.industrialbuilding
+                      ?.plot_area ||
+                      details?.commercial_properties?.showroom?.plot_area ||
+                      details?.commercial_properties?.factory?.plot_area ||
+                      details?.commercial_properties?.plot_area
+                        ?.built_up_area}{" "}
+                    Sqft
+                  </td>
+                </tr>
 
-                  <td>
-                    {details?.residential_properties?.house?.indoor_facilities.map(
+                {/* not for service apartment and showrrom */}
+                <tr>
+                  <td>Road Width</td>
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.industrialbuilding
+                      ?.road_width ||
+                      details?.commercial_properties?.factory?.road_width}{" "}
+                    {details?.commercial_properties?.industrialbuilding
+                      ?.road_width_unit ||
+                      details?.commercial_properties?.factory?.road_width_unit}
+                  </td>
+                </tr>
+
+                {/* pg */}
+                {details?.commercial_properties?.pg_colony && (
+                  <>
+                    <tr>
+                      <td>Gender</td>
+                      <td>
+                        {details?.commercial_properties?.pg_colony?.gender}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tenanats Preffered</td>
+                      <td>
+                        {
+                          details?.commercial_properties?.pg_colony
+                            ?.tenants_preferred
+                        }
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Total Floors</td>
+                      <td>
+                        {
+                          details?.commercial_properties?.pg_colony
+                            ?.total_floors
+                        }
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Security Deposit</td>
+                      <td>
+                        {
+                          details?.commercial_properties?.pg_colony
+                            ?.security_deposit
+                        }
+                      </td>
+                    </tr>
+                  </>
+                )}
+
+                <tr>
+                  <td>Posted by</td>
+                  {details?.owner && <td className="fw-semibold">Owner</td>}
+                  {details?.agent && <td className="fw-semibold">Agent</td>}
+                  {details?.builder && <td className="fw-semibold">Builder</td>}
+                </tr>
+
+                {details?.agent && (
+                  <tr>
+                    <td>Agent Commission</td>
+                    <td className="fw-semibold">{details?.agent_commission}</td>
+                  </tr>
+                )}
+
+                <tr>
+                  <td>Indoor Facilities</td>
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.showroom?.indoor_facilities.map(
                       (indoor, ind) => (
                         <span key={ind}>{indoor.facility.name} </span>
                       )
                     )}
-                    {details?.residential_properties?.apartment?.indoor_facilities.map(
+                    {details?.commercial_properties?.industrialbuilding?.indoor_facilities.map(
+                      (indoor, ind) => (
+                        <span key={ind}>{indoor.facility.name} </span>
+                      )
+                    )}
+                    {details?.commercial_properties?.service_apartment?.indoor_facilities.map(
+                      (indoor, ind) => (
+                        <span key={ind}>{indoor.facility.name} </span>
+                      )
+                    )}
+                    {details?.commercial_properties?.factory?.indoor_facilities.map(
+                      (indoor, ind) => (
+                        <span key={ind}>{indoor.facility.name} </span>
+                      )
+                    )}
+                    {details?.commercial_properties?.pg_colony?.indoor_facilities.map(
                       (indoor, ind) => (
                         <span key={ind}>{indoor.facility.name} </span>
                       )
@@ -769,14 +843,28 @@ export const Mypropertiesdetail = () => {
 
                 <tr>
                   <td>Outdoor Facilities</td>
-
-                  <td>
-                    {details?.residential_properties?.house?.outdoor_facilities.map(
+                  <td className="fw-semibold">
+                    {details?.commercial_properties?.showroom?.outdoor_facilities.map(
                       (indoor, ind) => (
                         <span key={ind}>{indoor.facility.name} </span>
                       )
                     )}
-                    {details?.residential_properties?.apartment?.outdoor_facilities.map(
+                    {details?.commercial_properties?.industrialbuilding?.outdoor_facilities.map(
+                      (indoor, ind) => (
+                        <span key={ind}>{indoor.facility.name} </span>
+                      )
+                    )}
+                    {details?.commercial_properties?.service_apartment?.outdoor_facilities.map(
+                      (indoor, ind) => (
+                        <span key={ind}>{indoor.facility.name} </span>
+                      )
+                    )}
+                    {details?.commercial_properties?.factory?.outdoor_facilities.map(
+                      (indoor, ind) => (
+                        <span key={ind}>{indoor.facility.name} </span>
+                      )
+                    )}
+                    {details?.commercial_properties?.pg_colony?.outdoor_facilities.map(
                       (indoor, ind) => (
                         <span key={ind}>{indoor.facility.name} </span>
                       )
@@ -785,302 +873,35 @@ export const Mypropertiesdetail = () => {
                 </tr>
               </thead>
             </table>
-          )}
+          )
+          // )
+        }
 
-          {/* commercial forms */}
-          {
-            details.property_type === "commercial" && (
-              // details?.commercial_properties?.commercial_type === "office" || "industrialbuilding" || "factory"  && (
-              <table className="table">
-                <thead>
-                  {details?.you_are_here_to == "sell" && (
-                    <>
-                      <tr>
-                        <td>Sale Price</td>
-                        <td>{details?.sale_price}</td>
-                      </tr>
-                      <tr>
-                        <td>Price per sqft</td>
-                        <td>{details?.sale_price_per_sqft}</td>
-                      </tr>
-                    </>
-                  )}
-                  {details?.you_are_here_to == "rent" && (
-                    <>
-                      <tr>
-                        <td>Rent Price</td>
-                        <td>
-                          {details?.rent}
-                          {details?.advance}
-                        </td>
-                      </tr>
-                      {details?.agent_commission && (
-                        <tr>
-                          <td>Agent Commision</td>
-                          <td>{details?.agent_commission}</td>
-                        </tr>
-                      )}
-                    </>
-                  )}
-                  {details?.you_are_here_to == "lease" && (
-                    <tr>
-                      <td>Lease Price</td>
-                      <td>{details?.lease_amount}</td>
-                    </tr>
-                  )}
+        <p className="ps-2">
+          <span className="fw-semibold">Description:</span>{" "}
+          {details?.description}
+        </p>
+      </div>
 
-                  <tr>
-                    <td>Address</td>
-                    <td>{details?.location}</td>
-                  </tr>
-                  <tr>
-                    <td>Furnishing</td>
-                    <td>
-                      {
-                        details?.commercial_properties?.industrialbuilding
-                          ?.status
-                      }
-                      {details?.commercial_properties?.showroom?.status}
-                      {
-                        details?.commercial_properties?.service_apartment
-                          ?.status
-                      }
-                      {details?.commercial_properties?.factory?.status}
-                      {details?.commercial_properties?.pg_colony?.status}
-                    </td>
-                  </tr>
-                  {details?.commercial_properties?.industrialbuilding && (
-                    <>
-                      <tr>
-                        <td>Condition</td>
-                        <td>
-                          {details?.commercial_properties?.industrialbuilding
-                            ?.condition ||
-                            details?.commercial_properties?.showroom
-                              ?.condition ||
-                            details?.commercial_properties?.factory
-                              ?.condition ||
-                            details?.commercial_properties?.pg_colony
-                              ?.condition}
-                        </td>
-                      </tr>
-                    </>
-                  )}
-                  {details?.commercial_properties?.industrialbuilding && (
-                    <tr>
-                      <td>Type</td>
-                      <td>
-                        {details?.commercial_properties?.industrialbuilding
-                          ?.category_of_project ||
-                          details?.commercial_properties?.showroom
-                            ?.category_of_project}
-                      </td>
-                    </tr>
-                  )}
-                  {details?.commercial_properties?.service_apartment && (
-                    <>
-                      <tr>
-                        <td>Area</td>
-                        <td>
-                          {
-                            details?.commercial_properties?.service_apartment
-                              ?.built_up_area
-                          }{" "}
-                          Sqft
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>Floors</td>
-                        <td>
-                          {
-                            details?.commercial_properties?.service_apartment
-                              ?.available_floors
-                          }{" "}
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>Car Parking</td>
-                        <td>
-                          {
-                            details?.commercial_properties?.service_apartment
-                              ?.no_of_car_parking
-                          }{" "}
-                        </td>
-                      </tr>
-                    </>
-                  )}
-                  <tr>
-                    <td>Built Area</td>
-                    <td>
-                      {details?.commercial_properties?.industrialbuilding
-                        ?.built_up_area ||
-                        details?.commercial_properties?.showroom
-                          ?.built_up_area}{" "}
-                      {details?.commercial_properties?.industrialbuilding
-                        ?.built_up_area ||
-                        details?.commercial_properties?.factory
-                          ?.built_up_area ||
-                        details?.commercial_properties?.service_apartment
-                          ?.built_up_area}{" "}
-                      Sqft
-                    </td>
-                  </tr>
-
-                  {details?.commercial_properties?.industrialbuilding && (
-                    <tr>
-                      <td>Road Width</td>
-                      <td>
-                        {
-                          details?.commercial_properties?.industrialbuilding
-                            ?.road_width
-                        }{" "}
-                        {
-                          details?.commercial_properties?.industrialbuilding
-                            ?.road_width_unit
-                        }
-                      </td>
-                    </tr>
-                  )}
-
-                  {details?.commercial_properties?.pg_colony && (
-                    <>
-                      <tr>
-                        <td>Gender</td>
-                        <td>
-                          {details?.commercial_properties?.pg_colony?.gender}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Tenanats Preffered</td>
-                        <td>
-                          {
-                            details?.commercial_properties?.pg_colony
-                              ?.tenants_preferred
-                          }
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Total Floors</td>
-                        <td>
-                          {
-                            details?.commercial_properties?.pg_colony
-                              ?.total_floors
-                          }
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Security Deposit</td>
-                        <td>
-                          {
-                            details?.commercial_properties?.pg_colony
-                              ?.security_deposit
-                          }
-                        </td>
-                      </tr>
-                    </>
-                  )}
-
-                  <tr>
-                    <td>Indoor Facilities</td>
-                    <td>
-                      {details?.commercial_properties?.showroom?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.industrialbuilding?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.service_apartment?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.factory?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.pg_colony?.indoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Outdoor Facilities</td>
-                    <td>
-                      {details?.commercial_properties?.showroom?.outdoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.industrialbuilding?.outdoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.service_apartment?.outdoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.factory?.outdoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                      {details?.commercial_properties?.pg_colony?.outdoor_facilities.map(
-                        (indoor, ind) => (
-                          <span key={ind}>{indoor.facility.name} </span>
-                        )
-                      )}
-                    </td>
-                  </tr>
-                </thead>
-              </table>
-            )
-            // )
-          }
-
-          <div className="">
-            <span className="mx-3" style={{ fontWeight: "bold" }}>
-              Description:
-            </span>
-            <span>{details?.description}</span>
+      <div className="d-flex justify-content-end">
+        <div className="row mt-5 mx-5 px-5">
+          <div className="col-md-6">
+            <button
+              type="button"
+              className="btn btn-danger custom-btn"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
           </div>
-        </Card.Body>
-      </Card>
-
-      <Card className="container" style={{ width: "1170px", border: "none" }}>
-        <Card.Body>
-          <button
-            type="button"
-            style={{
-              color: "#FFFFFF",
-              backgroundColor: "#D7242A",
-              border: "none",
-              borderRadius: "30px",
-              width: "320px",
-              height: "60px",
-            }}
-            className="btn float-end me-4"
-            disabled={false}
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
-        </Card.Body>
-      </Card>
-    </div>
-
-    <Footer />
-  </div>
+          <div className="col-md-6">
+            <button type="button" className="btn btn-danger custom-btn1">
+              Sold Out
+            </button>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 };

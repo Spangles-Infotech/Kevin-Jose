@@ -18,6 +18,10 @@ const Builder = () => {
   const [details, setDetails] = useState({});
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     axios
       .get(`${Baseurl}properties/${id}`, UserConfig)
       .then((res) => {
@@ -665,24 +669,20 @@ const Builder = () => {
                     <tr>
                       <td>Floors</td>
                       <td className="fw-semibold">
-                        {
-                          details?.commercial_properties?.service_apartment
-                            ?.available_floors||
-                            details?.commercial_properties?.showroom
-                            ?.available_floors
-                        }{" "}
+                        {details?.commercial_properties?.service_apartment
+                          ?.available_floors ||
+                          details?.commercial_properties?.showroom
+                            ?.available_floors}{" "}
                       </td>
                     </tr>
 
                     <tr>
                       <td>Car Parking</td>
                       <td className="fw-semibold">
-                        {
-                          details?.commercial_properties?.service_apartment
-                            ?.no_of_car_parking ||
-                            details?.commercial_properties?.showroom
-                            ?.no_of_car_parking 
-                        }{" "}
+                        {details?.commercial_properties?.service_apartment
+                          ?.no_of_car_parking ||
+                          details?.commercial_properties?.showroom
+                            ?.no_of_car_parking}{" "}
                       </td>
                     </tr>
                   </>
@@ -713,7 +713,7 @@ const Builder = () => {
                   </td>
                 </tr>
 
-{/* not for service apartment and showrrom */}
+                {/* not for service apartment and showrrom */}
                 <tr>
                   <td>Road Width</td>
                   <td className="fw-semibold">

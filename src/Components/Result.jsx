@@ -217,7 +217,7 @@ const Result = () => {
                   }
                   alt="image"
                   className="rounded-4 "
-                  style={{ height: "450px", width: "95%" }}
+                  style={{ height: "400px", width: "95%" }}
                 />
               </div>
 

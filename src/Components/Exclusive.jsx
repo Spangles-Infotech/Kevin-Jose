@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowRight } from "react-icons/fa";
 
-const CustomPrevArrow = (props) => {
+export const CustomPrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -31,7 +31,7 @@ const CustomPrevArrow = (props) => {
   );
 };
 
-const CustomNextArrow = (props) => {
+export const CustomNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -136,7 +136,8 @@ const Exclusive = () => {
                     </div>
                     <div className="p-1">
                       <button
-                        className="bg-danger text-white border-0 rounded-pill py-1 text-sm"
+                        className="bg-danger text-white border-0 rounded-pill py-1 px-2  text-sm"
+                        style={{fontSize:'13px'}}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleViewDetails(property.id);

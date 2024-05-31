@@ -16,8 +16,8 @@ const Home = () => {
 
       <Navigation />
 
-      <Properties />
-      {/* <FeaturedProp/> */}
+      {/* <Properties /> */}
+      <FeaturedProp/>
 
       <Exclusive />
 

@@ -1,13 +1,4 @@
 import React, { useEffect } from "react";
-
-import { Row, Col } from "react-bootstrap";
-import m1 from "../Images/m1.png";
-import m2 from "../Images/m2.png";
-import m3 from "../Images/m3.png";
-import mp1 from "../Images/mp1.png";
-import mp2 from "../Images/mp2.png";
-import mp3 from "../Images/mp3.png";
-import mp4 from "../Images/mp4.png";
 import circle from "../Images/home.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,1174 +33,785 @@ const Myproperties = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div className="container mt-5" style={{ fontSize: "30px" }}>
-        <p
-          className="text-start"
-          style={{ fontSize: "30px", marginTop: "100px" }}
-        >
-          {" "}
-          My Properties
-        </p>
-        {/*  */}
-        {myProperty?.map((prop, indx) => (
-          <Card
-            style={{
-              width: "1170px",
-              height: "450px",
-              borderRadius: "10px",
-              border: "1px solid #D7242A",
-              cursor: "pointer",
-            }}
-            onClick={() => handleDetail(prop.id)}
-            className="mb-3"
+
+      <div className="w-100 mx-auto" style={{ marginTop: "9%" }}>
+        <div className="container py-2">
+          <h2 className="fw-medium"> My Properties</h2>
+        </div>
+
+        {myProperty.map((details, indx) => (
+          <div
+            className="container border rounded-4 border-danger mx-auto mt-3 cursor-pointer"
+            style={{ cursor: "pointer" }}
+            key={indx}
+            onClick={() => handleDetail(details.id)}
           >
-            <div
-              className="row mx-4 my-3"
-              style={{ color: "#2D2D2D", fontSize: "20px" }}
-            >
-              {/* plot */}
+            <div className="row p-3">
+              <div className="col-5  p-0 m-0 ">
+                <img
+                  src={
+                    details?.plot_properties?.plot_images[0].image ||
+                    details?.land_properties?.land_images[0].image ||
+                    details?.residential_properties?.apartment
+                      ?.apartment_images[0].image ||
+                    details?.residential_properties?.house?.house_images[0]
+                      .image ||
+                    details?.commercial_properties?.showroom?.showroom_images[0]
+                      .image ||
+                    details?.commercial_properties?.industrialbuilding
+                      ?.industrialbuilding_images[0].image ||
+                    details?.commercial_properties?.service_apartment
+                      ?.service_apartment_images[0].image ||
+                    details?.commercial_properties?.factory?.factory_images[0]
+                      .image ||
+                    details?.commercial_properties?.pg_colony
+                      ?.pgcolony_images[0].image
+                  }
+                  alt="image"
+                  className="rounded-4 h-full"
+                  style={{ height: "400px", width: "95%" }}
+                />
+              </div>
 
-              {prop?.property_type === "plot" && (
-                <div className="col ms-2">
-                  <img
-                    src={prop?.plot_properties?.plot_images[0].image}
-                    alt=""
-                    style={{
-                      height: "400px",
-                      width: "450px",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* land */}
-
-              {prop?.property_type === "land" && (
-                <div className="col ms-2">
-                  <img
-                    src={prop?.land_properties?.land_images[0].image}
-                    alt=""
-                    style={{
-                      height: "400px",
-                      width: "450px",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* residential */}
-
-              {prop?.property_type === "residential" && (
-                <div className="col ms-2">
-                  <img
-                    src={
-                      prop?.residential_properties?.apartment
-                        ?.apartment_images[0].image ||
-                      prop?.residential_properties?.house?.house_images[0].image
-                    }
-                    alt=""
-                    style={{
-                      height: "400px",
-                      width: "450px",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Commercial */}
-              {prop?.property_type === "commercial" && (
-                <div className="col ms-2">
-                  <img
-                    src={
-                      prop?.commercial_properties?.showroom?.showroom_images[0]
-                        .image ||
-                      prop?.commercial_properties?.industrialbuilding
-                        ?.industrialbuilding_images[0].image ||
-                      prop?.commercial_properties?.factory?.factory_images[0]
-                        .image ||
-                      prop?.commercial_properties?.industrialbuilding
-                        ?.industrialbuilding_images[0].image
-                    }
-                    alt=""
-                    style={{
-                      height: "400px",
-                      width: "450px",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-              )}
-
-              <div className="col ms-2">
-              {prop.approved ? (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      color: "#FFF",
-                      fontFamily: "Poppins",
-                      fontSize: "10px",
-
-                      fontWeight: "300",
-
-                      backgroundColor: "green",
-                      borderRadius: "4px",
-                      border: "none",
-                    }}
-                  >
-                   Published
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      color: "#FFF",
-                      fontFamily: "Poppins",
-                      fontSize: "10px",
-
-                      fontWeight: "300",
-
-                      backgroundColor: "#D76724",
-                      borderRadius: "4px",
-                      border: "none",
-                    }}
-                  >
-                    On Progress
-                  </button>
-                )}
-                <div className="d-flex justify-content-between align-items-center">
-                  {/* Plot */}
-                  {prop?.property_type === "plot" && (
-                    <>
-                      {prop?.you_are_here_to === "sell" && (
-                        <p className="text-left mt-3 mb-0">
-                          Plot for Sale in , {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* Plot  rent*/}
-                  {prop?.property_type === "plot" && (
-                    <>
-                      {prop?.you_are_here_to === "rent" && (
-                        <p className="text-left mt-3 mb-0">
-                          Plot for Rent in , {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* Plot  lease*/}
-                  {prop?.property_type === "plot" && (
-                    <>
-                      {prop?.you_are_here_to === "lease" && (
-                        <p className="text-left mt-3 mb-0">
-                          Plot for Lease in , {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* land */}
-
-                  {/* land */}
-                  {prop?.property_type === "land" && (
-                    <>
-                      {prop?.you_are_here_to === "sell" && (
-                        <p className="text-left mt-3 mb-0">
-                          Land for Sale in Perungudi, {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* land  rent*/}
-                  {prop?.property_type === "land" && (
-                    <>
-                      {prop?.you_are_here_to === "rent" && (
-                        <p className="text-left mt-3 mb-0">
-                          Land for Rent in , {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* land  lease*/}
-                  {prop?.property_type === "land" && (
-                    <>
-                      {prop?.you_are_here_to === "lease" && (
-                        <p className="text-left mt-3 mb-0">
-                          Land for Lease in , {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* residential */}
-
-                  {/* residential */}
-                  {prop?.property_type === "residential" && (
-                    <>
-                      {/* {prop?.residential_properties?.residential_type ===
-                        "house" && (
-                        <> */}
-                      {prop?.you_are_here_to === "sell" && (
-                        <p className="text-left mt-3 mb-0">
-                          {prop?.residential_properties?.house?.available_bhk}
-                          {
-                            prop?.residential_properties?.apartment
-                              ?.available_bhk
-                          }{" "}
-                          {prop?.residential_properties?.residential_type} {""}
-                          for Sale in {prop?.location}
-                        </p>
-                      )}
-
-                      {/* Residential Rent */}
-                      {prop?.you_are_here_to === "rent" && (
-                        <p className="text-left mt-3 mb-0">
-                          {prop?.residential_properties?.house?.available_bhk}
-                          {
-                            prop?.residential_properties?.apartment
-                              ?.available_bhk
-                          }{" "}
-                          {prop?.residential_properties?.residential_type} {""}
-                          for Rent in {prop?.location}
-                        </p>
-                      )}
-
-                      {/* Residential Lease */}
-                      {prop?.you_are_here_to === "lease" && (
-                        <p className="text-left mt-3 mb-0">
-                          {prop?.residential_properties?.house?.available_bhk}
-                          {
-                            prop?.residential_properties?.apartment
-                              ?.available_bhk
-                          }{" "}
-                          {prop?.residential_properties?.residential_type} {""}
-                          for Lease in {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  {/* commercial */}
-                  {prop?.property_type === "commercial" && (
-                    <>
-                      {prop?.you_are_here_to === "sell" && (
-                        <p className="text-left mt-3 mb-0">
-                          {prop?.commercial_properties?.showroom?.built_up_area}{" "}
-                          {
-                            prop?.commercial_properties?.industrialbuilding
-                              ?.built_up_area
-                          }{" "}
-                          {
-                            prop?.commercial_properties?.service_apartment
-                              ?.built_up_area
-                          }{" "}
-                          {prop?.commercial_properties?.factory?.built_up_area}{" "}
-                          {
-                            prop?.commercial_properties?.pg_colony
-                              ?.built_up_area
-                          }{" "}
-                          sqft {prop?.commercial_properties?.commercial_type}{" "}
-                          for Sale in {prop?.location}
-                        </p>
-                      )}
-
-                      {/* commercial Rent */}
-                      {prop?.you_are_here_to === "rent" && (
-                        <p className="text-left mt-3 mb-0">
-                          {prop?.commercial_properties?.showroom?.built_up_area}{" "}
-                          {
-                            prop?.commercial_properties?.industrialbuilding
-                              ?.built_up_area
-                          }{" "}
-                          {
-                            prop?.commercial_properties?.service_apartment
-                              ?.built_up_area
-                          }{" "}
-                          {prop?.commercial_properties?.factory?.built_up_area}{" "}
-                          {
-                            prop?.commercial_properties?.pg_colony
-                              ?.built_up_area
-                          }{" "}
-                          sqft {prop?.commercial_properties?.commercial_type}{" "}
-                          for Rent in {prop?.location}
-                        </p>
-                      )}
-                      {/* commercial Lease */}
-                      {prop?.you_are_here_to === "lease" && (
-                        <p className="text-left mt-3 mb-0">
-                          {prop?.commercial_properties?.showroom?.built_up_area}{" "}
-                          {
-                            prop?.commercial_properties?.industrialbuilding
-                              ?.built_up_area
-                          }{" "}
-                          {
-                            prop?.commercial_properties?.service_apartment
-                              ?.built_up_area
-                          }{" "}
-                          {prop?.commercial_properties?.factory?.built_up_area}{" "}
-                          {
-                            prop?.commercial_properties?.pg_colony
-                              ?.built_up_area
-                          }{" "}
-                          sqft
-                          {prop?.commercial_properties?.commercial_type} for
-                          Lease in {prop?.location}
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  <div className="d-flex flex-column">
-                    <p
-                      className="text-right mb-0"
-                      style={{
-                        width: "163px",
-                        height: "60px",
-                        fontWeight: "600",
-                        fontSize: "28px",
-                        color: "#D7242A",
-                      }}
+              <div className="col-7  p-0 m-0 mx-auto">
+                <div>
+                  {details.approved ? (
+                    <button
+                      type="button"
+                      className="border-0 p-1 px-2 rounded-1 text-white bg-success"
+                      style={{ fontSize: "12px" }}
                     >
-                      {prop?.sale_price}
-                      {prop?.rent}
-                      {prop?.lease_amount}
-                    </p>
-                    {prop.you_are_here_to === "sell" && (
-                      <p
-                        className="text-right mb-0 me-3"
-                        style={{
-                          fontSize: "14px",
-                          alignSelf: "flex-end",
-                          color: "#2D2D2D",
-                        }}
-                      >
-                        {prop?.sale_price_per_sqft} per sqft
-                      </p>
+                      Published
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="border-0 p-1 px-2 rounded-1 text-white"
+                      style={{ fontSize: "12px",backgroundColor:"rgba(215, 103, 36, 1)" }}
+                    >
+                      On Progress
+                    </button>
+                  )}
+                </div>
+                <div className="d-flex justify-content-between  ">
+                  <div>
+                    {/* plot heading */}
+                    {details?.plot_properties && (
+                      <h6 className="pt-3">
+                        {details?.plot_properties?.total_area}{" "}
+                        {details?.plot_properties?.total_area_unit}{" "}
+                        {details?.plot_properties?.plot_type} for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
                     )}
+
+                    {/* land heading*/}
+                    {details?.land_properties && (
+                      <h6 className="pt-3">
+                        {details?.land_properties?.total_area}{" "}
+                        {details?.land_properties?.total_area_unit}{" "}
+                        {details?.land_properties?.land_type} for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    {/* residential --> house heading*/}
+                    {details?.residential_properties?.house && (
+                      <h6 className="pt-3">
+                        {details?.residential_properties?.house?.available_bhk}{" "}
+                        {details?.residential_properties?.residential_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+                    {/* residential --> apartment heading*/}
+                    {details?.residential_properties?.apartment && (
+                      <h6 className="pt-3">
+                        {
+                          details?.residential_properties?.apartment
+                            ?.available_bhk
+                        }{" "}
+                        {details?.residential_properties?.residential_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    {/* commercial --> industrial heading*/}
+                    {details?.commercial_properties?.industrialbuilding && (
+                      <h6 className="pt-3">
+                        {
+                          details?.commercial_properties?.industrialbuilding
+                            ?.built_up_area
+                        }{" "}
+                        {
+                          details?.commercial_properties?.industrialbuilding
+                            ?.built_up_area_unit
+                        }{" "}
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    {/* commercial --> factory*/}
+                    {details?.commercial_properties?.factory && (
+                      <h6 className="pt-3">
+                        {details?.commercial_properties?.factory?.built_up_area}{" "}
+                        {
+                          details?.commercial_properties?.factory
+                            ?.built_up_area_unit
+                        }{" "}
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    {/* commercial --> showroom*/}
+                    {details?.commercial_properties?.showroom && (
+                      <h6 className="pt-3">
+                        {
+                          details?.commercial_properties?.showroom
+                            ?.built_up_area
+                        }{" "}
+                        {
+                          details?.commercial_properties?.showroom
+                            ?.built_up_area_unit
+                        }{" "}
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    <p className="text-secondary text-uppercase fw-medium pt-2">
+                      {details?.title}
+                    </p>
+                  </div>
+                  <div>
+                    <h1 className="fw-bold text-danger">
+                      {details?.sale_price}
+                      {details?.rent}
+                      {details?.lease_amount}
+                    </h1>
+                    <p>₹9,868 per sqft</p>
                   </div>
                 </div>
 
-                <p
-                  className="text-left"
-                  style={{ color: "#717171", fontSize: "20px" }}
-                >
-                  {prop?.title}
-                </p>
-
-                {/*plot  */}
-                {prop?.property_type === "plot" && (
-                  <div
-                    className="card"
-                    style={{ width: "640px", height: "120px" }}
-                  >
-                    <div className="row mx-2">
-                      <div className="col mt-2">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          SQUARE AREA
-                        </p>
-                        <h6>{prop?.plot_properties?.total_area} sqft.</h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Type
-                        </p>
-                        <h6>{prop?.property_type}</h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Direction
-                        </p>
-                        <h6>{prop?.plot_properties?.direction_facing}</h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Length
-                        </p>
-                        <h6>
-                          {prop?.plot_properties?.length}{" "}
-                          {prop?.plot_properties?.length_unit}
-                        </h6>
-                      </div>
+                {/* plot */}
+                {(details.property_type === "plot" ||
+                  details.property_type === "land") && (
+                  <div className="border mx-auto row p-3  rounded-4">
+                    <div className="col-3  ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Square Area
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.plot_properties?.total_area ||
+                          details?.land_properties?.total_area}{" "}
+                        sqft.
+                      </p>
                     </div>
-                    <div className="row mx-2">
-                      <div className="col mt-2">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          breadth
-                        </p>
-                        <h6>
-                          {prop?.plot_properties?.breadth}{" "}
-                          {prop?.plot_properties?.breadth_unit}
-                        </h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Category
-                        </p>
-                        <h6>{prop?.plot_properties?.plot_type}</h6>
-                      </div>
-                      <div className="col mt-2"></div>
-                      <div className="col mt-2"></div>
+                    <div className="col-3   border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Type
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.property_type}
+                      </p>
+                    </div>
+                    <div className="col-3 border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Direction
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-uppercase"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.plot_properties?.direction_facing ||
+                          details?.land_properties?.direction_facing}
+                      </p>
+                    </div>
+
+                    <div className="col-3 border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Length
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.plot_properties?.length ||
+                          details?.land_properties?.length}{" "}
+                        {details?.plot_properties?.length_unit ||
+                          details?.land_properties?.length_unit}
+                      </p>
+                    </div>
+
+                    <div className="col-3 mt-3">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        breadth
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.plot_properties?.breadth ||
+                          details?.land_properties?.breadth}{" "}
+                        {details?.plot_properties?.breadth_unit ||
+                          details?.land_properties?.breadth_unit}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {/* residential appartment & house */}
+                {details.property_type === "residential" && (
+                  <div className="border mx-auto row p-3  rounded-4">
+                    <div className="col-3  ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Square Area
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.residential_properties?.house
+                          ?.built_up_area ||
+                          details?.residential_properties?.apartment
+                            ?.built_up_area}{" "}
+                        sqft.
+                      </p>
+                    </div>
+                    <div className="col-3   border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Property Type
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.property_type}
+                      </p>
+                    </div>
+                    <div className="col-3 border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        STATUS
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.residential_properties?.house?.status ||
+                          details?.residential_properties?.apartment?.status}
+                      </p>
+                    </div>
+
+                    <div className="col-3 border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Condition
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.residential_properties?.house?.condition ||
+                          details?.residential_properties?.apartment?.condition}
+                      </p>
+                    </div>
+
+                    <div className="col-3 mt-3">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Floors
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.residential_properties?.house?.total_floors ||
+                          details?.residential_properties?.apartment
+                            ?.total_floors}
+                      </p>
+                    </div>
+
+                    <div className="col-3 mt-3 border-start">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Type
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.residential_properties?.house
+                          ?.category_of_project ||
+                          details?.residential_properties?.apartment
+                            ?.category_of_project}
+                      </p>
                     </div>
                   </div>
                 )}
 
-                {/*land  */}
-                {prop?.property_type === "land" && (
-                  <div
-                    className="card"
-                    style={{ width: "640px", height: "120px" }}
-                  >
-                    <div className="row mx-2">
-                      <div className="col mt-2">
+                {/* commercial */}
+                {details.property_type === "commercial" && (
+                  <div className="border mx-auto row p-3  rounded-4">
+                    {details?.commercial_properties?.pg_colony ? (
+                      <>
+                        <div className="col-3  ">
+                          <p
+                            className="p-0 m-0 text-secondary text-uppercase"
+                            style={{ fontSize: "12px" }}
+                          >
+                            Gender
+                          </p>
+                          <p
+                            className="pt-2 m-0 fw-medium"
+                            style={{ fontSize: "13px" }}
+                          >
+                            {details?.residential_properties?.house
+                              ?.built_up_area ||
+                              details?.residential_properties?.apartment
+                                ?.built_up_area}{" "}
+                            {details?.commercial_properties?.pg_colony?.gender}
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="col-3  ">
                         <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
                         >
-                          SQUARE AREA
+                          Square Area
                         </p>
-                        <h6>{prop?.land_properties?.total_area} sqft.</h6>
-                      </div>
-                      <div className="col mt-2 border-start">
                         <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
+                          className="pt-2 m-0 fw-medium"
+                          style={{ fontSize: "13px" }}
                         >
-                          Type
-                        </p>
-                        <h6>{prop?.property_type}</h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Direction
-                        </p>
-                        <h6>{prop?.land_properties?.direction_facing}</h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Length
-                        </p>
-                        <h6>
-                          {prop?.land_properties?.length}{" "}
-                          {prop?.land_properties?.length_unit}
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="row mx-2">
-                      <div className="col mt-2">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          breadth
-                        </p>
-                        <h6>
-                          {prop?.land_properties?.breadth}{" "}
-                          {prop?.land_properties?.breadth_unit}
-                        </h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Category
-                        </p>
-                        <h6>{prop?.land_properties?.land_type}</h6>
-                      </div>
-                      <div className="col mt-2"></div>
-                      <div className="col mt-2"></div>
-                    </div>
-                  </div>
-                )}
-
-                {/*residential  */}
-                {prop?.property_type === "residential" && (
-                  <div
-                    className="card"
-                    style={{ width: "640px", height: "120px" }}
-                  >
-                    <div className="row mx-2">
-                      <div className="col mt-2">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          SQUARE AREA
-                        </p>
-                        <h6>
-                          {prop?.residential_properties?.house?.built_up_area}
-                          {
-                            prop?.residential_properties?.apartment
-                              ?.built_up_area
-                          }{" "}
+                          {details?.commercial_properties?.showroom
+                            ?.built_up_area ||
+                            details?.commercial_properties?.industrialbuilding
+                              ?.built_up_area ||
+                            details?.commercial_properties?.service_apartment
+                              ?.built_up_area ||
+                            details?.commercial_properties?.pg_colony
+                              ?.built_up_area ||
+                            details?.commercial_properties?.factory
+                              ?.built_up_area}{" "}
                           sqft.
-                        </h6>
-                      </div>
-                      <div className="col mt-2 border-start">
-                        <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          STATUS
                         </p>
-                        <h6>
-                          {prop?.residential_properties?.house?.status}
-                          {prop?.residential_properties?.apartment?.status}
-                        </h6>
                       </div>
-                      <div className="col mt-2 border-start">
+                    )}
+
+                    <div className="col-3   border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Property Type
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.property_type}
+                      </p>
+                    </div>
+                    <div className="col-3 border-start ">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        STATUS
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.commercial_properties?.showroom?.status ||
+                          details?.commercial_properties?.industrialbuilding
+                            ?.status ||
+                          details?.commercial_properties?.service_apartment
+                            ?.status ||
+                          details?.commercial_properties?.pg_colony?.status ||
+                          details?.commercial_properties?.factory?.status}
+                      </p>
+                    </div>
+                    {/* industrial and factory */}
+                    {(details?.commercial_properties?.industrialbuilding ||
+                      details?.commercial_properties?.factory) && (
+                      <div className="col-3 border-start ">
                         <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
                         >
                           Condition
                         </p>
-                        <h6>
-                          {prop?.residential_properties?.house?.condition}
-                          {prop?.residential_properties?.apartment?.condition}
-                        </h6>
-                      </div>
-                      <div className="col mt-2 border-start">
                         <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
+                          className="pt-2 m-0 fw-medium text-capitalize"
+                          style={{ fontSize: "13px" }}
+                        >
+                          {details?.commercial_properties?.industrialbuilding
+                            ?.condition ||
+                            details?.commercial_properties?.factory?.condition}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* service appartment */}
+
+                    {(details?.commercial_properties?.service_apartment ||
+                      details?.commercial_properties?.showroom) && (
+                      <div className="col-3 border-start ">
+                        <p
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
+                        >
+                          Car Parking
+                        </p>
+                        <p
+                          className="pt-2 m-0 fw-medium text-capitalize"
+                          style={{ fontSize: "13px" }}
+                        >
+                          {details?.commercial_properties?.service_apartment
+                            ?.no_of_car_parking ||
+                            details?.commercial_properties?.showroom
+                              ?.no_of_car_parking}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* PG hostel */}
+
+                    {(details?.commercial_properties?.pg_colony ||
+                      details?.commercial_properties?.pg_hostel) && (
+                      <div className="col-3 border-start ">
+                        <p
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
+                        >
+                          Preffered
+                        </p>
+                        <p
+                          className="pt-2 m-0 fw-medium text-capitalize"
+                          style={{ fontSize: "13px" }}
+                        >
+                          {
+                            details?.commercial_properties?.pg_colony
+                              ?.tenants_preferred
+                          }
+                        </p>
+                      </div>
+                    )}
+                    {/* industry --->showroom -->pg colony */}
+                    {(details?.commercial_properties?.showroom ||
+                      details?.commercial_properties?.service_apartment ||
+                      details?.commercial_properties?.pg_colony) && (
+                      <div className="col-3 mt-3">
+                        <p
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
                         >
                           Floors
                         </p>
-                        <h6>
-                          {prop?.residential_properties?.house?.total_floors}
-                          {
-                            prop?.residential_properties?.apartment
-                              ?.total_floors
-                          }
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="row mx-2">
-                      <div className="col mt-2">
                         <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
+                          className="pt-2 m-0 fw-medium"
+                          style={{ fontSize: "13px" }}
+                        >
+                          {details?.commercial_properties?.showroom
+                            ?.total_floors ||
+                            details?.commercial_properties?.showroom
+                              ?.pg_colony ||
+                            details?.commercial_properties?.service_apartment
+                              ?.available_floors}
+                        </p>
+                      </div>
+                    )}
+
+                    {(details?.commercial_properties?.industrialbuilding ||
+                      details?.commercial_properties?.factory) && (
+                      <div className="col-3 mt-3">
+                        <p
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
+                        >
+                          Plot Area
+                        </p>
+                        <p
+                          className="pt-2 m-0 fw-medium"
+                          style={{ fontSize: "13px" }}
+                        >
+                          {details?.commercial_properties?.industrialbuilding
+                            ?.plot_area ||
+                            details?.commercial_properties?.factory
+                              ?.plot_area}{" "}
+                          Sqft
+                        </p>
+                      </div>
+                    )}
+
+                    {(details?.commercial_properties?.industrialbuilding ||
+                      details?.commercial_properties?.factory ||
+                      details?.commercial_properties?.pg_colony) && (
+                      <div className="col-3 mt-3 border-start">
+                        <p
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
                         >
                           Type
                         </p>
-                        <h6>
-                          {
-                            prop?.residential_properties?.house
-                              ?.category_of_project
-                          }
-                          {
-                            prop?.residential_properties?.apartment
-                              ?.category_of_project
-                          }
-                        </h6>
-                      </div>
-                      <div className="col mt-2 border-start">
                         <p
-                          style={{
-                            fontSize: "9px",
-                            width: "66px",
-                            height: "15px",
-                            marginBottom: "0",
-                            textTransform: "uppercase",
-                          }}
+                          className="pt-2 m-0 fw-medium text-capitalize"
+                          style={{ fontSize: "13px" }}
                         >
-                          Category
+                          {details?.commercial_properties?.industrialbuilding
+                            ?.category_of_project ||
+                            details?.commercial_properties?.factory
+                              ?.category_of_project ||
+                            details?.commercial_properties?.pg_colony
+                              ?.category_of_project}
                         </p>
-                        <h6>
-                          {prop?.residential_properties?.residential_type}
-                        </h6>
                       </div>
-                      <div className="col mt-2"></div>
-                      <div className="col mt-2"></div>
+                    )}
+
+                    {details?.commercial_properties?.service_apartment && (
+                      <div className="col-3 mt-3 border-start">
+                        <p
+                          className="p-0 m-0 text-secondary text-uppercase"
+                          style={{ fontSize: "12px" }}
+                        >
+                          Flats
+                        </p>
+                        <p
+                          className="pt-2 m-0 fw-medium text-capitalize"
+                          style={{ fontSize: "13px" }}
+                        >
+                          {
+                            details?.commercial_properties?.service_apartment
+                              ?.no_of_flats
+                          }
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="col-3 mt-3 border-start">
+                      <p
+                        className="p-0 m-0 text-secondary text-uppercase"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Category
+                      </p>
+                      <p
+                        className="pt-2 m-0 fw-medium text-capitalize"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {details?.commercial_properties?.commercial_type}
+                      </p>
                     </div>
                   </div>
                 )}
 
-                {/*commercial  */}
-                {prop?.property_type === "commercial" && (
-                  <>
-                    <div
-                      className="card"
-                      style={{ width: "640px", height: "120px" }}
-                    >
-                      <div className="row mx-2">
-                        <div className="col mt-2">
-                          {prop?.commercial_properties?.pg_colony ? (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Gender
-                              </p>
-                              <h6>
-                                {prop?.commercial_properties?.pg_colony?.gender}
-                              </h6>
-                            </>
-                          ) : (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                SQUARE AREA
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties?.showroom
-                                    ?.built_up_area
-                                }
-                                {
-                                  prop?.commercial_properties
-                                    ?.industrialbuilding?.built_up_area
-                                }{" "}
-                                {
-                                  prop?.commercial_properties?.service_apartment
-                                    ?.built_up_area
-                                }{" "}
-                                {
-                                  prop?.commercial_properties?.pg_colony
-                                    ?.built_up_area
-                                }{" "}
-                                {
-                                  prop?.commercial_properties?.factory
-                                    ?.built_up_area
-                                }{" "}
-                                sqft.
-                              </h6>
-                            </>
-                          )}
-                        </div>
-                        <div className="col mt-2 border-start">
-                          <p
-                            style={{
-                              fontSize: "9px",
-                              width: "66px",
-                              height: "15px",
-                              marginBottom: "0",
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            STATUS
-                          </p>
-                          <h6>
-                            {prop?.commercial_properties?.showroom?.status}
-                            {
-                              prop?.commercial_properties?.industrialbuilding
-                                ?.status
-                            }
-                            {
-                              prop?.commercial_properties?.service_apartment
-                                ?.status
-                            }
-                            {prop?.commercial_properties?.pg_colony?.status}
-                            {prop?.commercial_properties?.factory?.status}
-                          </h6>
-                        </div>
-                        <div className="col mt-2 border-start">
-                          {/* industrial */}
-                          {(prop?.commercial_properties?.industrialbuilding ||
-                            prop?.commercial_properties?.factory) && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Condition
-                              </p>
-                              <h6>
-                                {prop?.commercial_properties?.industrialbuilding
-                                  ?.condition ||
-                                  prop?.commercial_properties?.factory
-                                    ?.condition}
-                              </h6>
-                            </>
-                          )}
-
-                          {/* service appartment */}
-                          {prop?.commercial_properties?.service_apartment && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Car Parking
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties?.service_apartment
-                                    ?.no_of_car_parking
-                                }
-                              </h6>
-                            </>
-                          )}
-
-                          {/* pg colony */}
-                          {prop?.commercial_properties?.pg_colony && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Preffered
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties?.pg_colony
-                                    ?.tenants_preferred
-                                }
-                              </h6>
-                            </>
-                          )}
-                        </div>
-                        <div className="col mt-2 border-start">
-                          {(prop?.commercial_properties?.showroom ||
-                            prop?.commercial_properties?.service_apartment ||
-                            prop?.commercial_properties?.pg_colony) && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Floors
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties?.showroom
-                                    ?.total_floors
-                                }
-                                {
-                                  prop?.commercial_properties?.showroom
-                                    ?.pg_colony
-                                }
-                                {
-                                  prop?.commercial_properties?.service_apartment
-                                    ?.available_floors
-                                }
-                              </h6>
-                            </>
-                          )}
-                          {(prop?.commercial_properties?.industrialbuilding ||
-                            prop?.commercial_properties?.factory) && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Plot Area
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties
-                                    ?.industrialbuilding?.plot_area
-                                }
-                                {
-                                  prop?.commercial_properties?.factory
-                                    ?.plot_area
-                                }{" "}
-                                Sqft
-                              </h6>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mx-2">
-                        <div className="col mt-2">
-                          {/* industrial building */}
-                          {(prop?.commercial_properties?.industrialbuilding ||
-                            prop?.commercial_properties?.factory ||
-                            prop?.commercial_properties?.pg_colony) && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Type
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties
-                                    ?.industrialbuilding?.category_of_project
-                                }
-                                {
-                                  prop?.commercial_properties?.factory
-                                    ?.category_of_project
-                                }
-                                {
-                                  prop?.commercial_properties?.pg_colony
-                                    ?.category_of_project
-                                }
-                              </h6>
-                            </>
-                          )}
-                          {/* service appartment */}
-                          {prop?.commercial_properties?.service_apartment && (
-                            <>
-                              <p
-                                style={{
-                                  fontSize: "9px",
-                                  width: "66px",
-                                  height: "15px",
-                                  marginBottom: "0",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Flats
-                              </p>
-                              <h6>
-                                {
-                                  prop?.commercial_properties?.service_apartment
-                                    ?.no_of_flats
-                                }
-                              </h6>
-                            </>
-                          )}
-                        </div>
-                        <div className="col mt-2 border-start">
-                          <p
-                            style={{
-                              fontSize: "9px",
-                              width: "66px",
-                              height: "15px",
-                              marginBottom: "0",
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            Category
-                          </p>
-                          <h6>
-                            {prop?.commercial_properties?.commercial_type}
-                          </h6>
-                        </div>
-                        <div className="col mt-2"></div>
-                        <div className="col mt-2"></div>
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {/*  */}
-                <div class="row" style={{ color: "#717171", fontSize: "20px" }}>
-                  {/* polt */}
-                  {prop?.property_type === "plot" &&
-                    prop?.plot_properties?.facilities.map((faci, index) => (
-                      <div className="col mt-3" key={index}>
-                        <div
-                          className="card"
-                          style={{ width: "100px", height: "92px" }}
+                <div className=" mx-auto row  gap-2 p-0 m-0">
+                  {/* plot */}
+                  {details?.property_type === "plot" &&
+                    details?.plot_properties?.facilities.map((faci, index) => (
+                      <div className="col-2 border rounded-3 py-2 gap-2 d-flex flex-column justify-content-center">
+                        <img
+                          src={circle}
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                        <span
+                          style={{ fontSize: "12px" }}
+                          className="fw-medium text-capitalize"
                         >
-                          <img
-                            src={circle}
-                            className="ms-3"
-                            style={{ width: "30px", height: "32px" }}
-                            alt="Description of the image"
-                          />
-
-                          <p
-                            className="mt-3 ms-2"
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "12px",
-                              alignItems: "center",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {faci.name}
-                          </p>
-                        </div>
+                          {faci.name}
+                        </span>
                       </div>
                     ))}
 
                   {/* land */}
-
-                  {prop?.property_type === "land" &&
-                    prop?.land_properties?.facilities.map((faci, index) => (
-                      <div className="col mt-3" key={index}>
-                        <div
-                          className="card"
-                          style={{ width: "100px", height: "92px" }}
+                  {details?.property_type === "land" &&
+                    details?.land_properties?.facilities.map((faci, index) => (
+                      <div className="col-2 border rounded-3 py-2 gap-2 d-flex flex-column justify-content-center">
+                        <img
+                          src={circle}
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                        <span
+                          style={{ fontSize: "12px" }}
+                          className="fw-medium text-capitalize"
                         >
-                          <img
-                            src={circle}
-                            className="ms-3"
-                            style={{ width: "30px", height: "32px" }}
-                            alt="Description of the image"
-                          />
-
-                          <p
-                            className="mt-3 ms-2"
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "12px",
-                              alignItems: "center",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {faci.name}
-                          </p>
-                        </div>
+                          {faci.name}
+                        </span>
                       </div>
                     ))}
 
                   {/* residential */}
-                  {prop?.property_type === "residential" &&
+                  {details?.property_type === "residential" &&
                     (
-                      prop?.residential_properties?.house?.indoor_facilities ||
-                      prop?.residential_properties?.apartment?.indoor_facilities
+                      details?.residential_properties?.house
+                        ?.indoor_facilities ||
+                      details?.residential_properties?.apartment
+                        ?.indoor_facilities
                     )?.map((faci, index) => (
-                      <div className="col mt-3" key={index}>
-                        <div
-                          className="card"
-                          style={{ width: "100px", height: "92px" }}
+                      <div className="col-2 border rounded-3 py-2 gap-2 d-flex flex-column justify-content-center">
+                        <img
+                          src={circle}
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                        <span
+                          style={{ fontSize: "12px" }}
+                          className="fw-medium text-capitalize"
                         >
-                          <img
-                            src={circle}
-                            className="ms-3"
-                            style={{ width: "30px", height: "32px" }}
-                            alt="Description of the image"
-                          />
-                          <p
-                            className="mt-3 ms-2"
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "12px",
-                              alignItems: "center",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {faci.facility.name}
-                          </p>
-                        </div>
+                          {faci.facility.name}
+                        </span>
                       </div>
                     ))}
 
                   {/* commercial */}
 
-                  {prop?.property_type === "commercial" &&
+                  {details?.property_type === "commercial" &&
                     (
-                      prop?.commercial_properties?.showroom
+                      details?.commercial_properties?.showroom
                         ?.outdoor_facilities ||
-                      prop?.commercial_properties?.industrialbuilding
+                      details?.commercial_properties?.industrialbuilding
                         ?.outdoor_facilities ||
-                      prop?.commercial_properties?.service_apartment
+                      details?.commercial_properties?.service_apartment
                         ?.outdoor_facilities ||
-                      prop?.commercial_properties?.pg_colony
+                      details?.commercial_properties?.pg_colony
                         ?.outdoor_facilities ||
-                      prop?.commercial_properties?.factory?.outdoor_facilities
+                      details?.commercial_properties?.factory
+                        ?.outdoor_facilities
                     )?.map((faci, index) => (
-                      <div className="col mt-3" key={index}>
-                        <div
-                          className="card"
-                          style={{ width: "100px", height: "92px" }}
+                      <div className="col-2 border rounded-3 py-2 gap-2 d-flex flex-column justify-content-center">
+                        <img
+                          src={circle}
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                        <span
+                          style={{ fontSize: "12px" }}
+                          className="fw-medium text-capitalize"
                         >
-                          <img
-                            src={circle}
-                            className="ms-3"
-                            style={{ width: "30px", height: "32px" }}
-                            alt="Description of the image"
-                          />
-                          <p
-                            className="mt-3 ms-2"
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "12px",
-                              alignItems: "center",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {faci.facility.name}
-                          </p>
-                        </div>
+                          {faci.facility.name}
+                        </span>
                       </div>
                     ))}
                 </div>
-
-                <p
-                  className="mt-3"
-                  style={{ fontWeight: "400px", fontSize: "10px" }}
-                >
-                  {prop?.description}
-                  {/* Lorem Ipsum is simply . dummy text ever since the 1500s, when
-                  an unknown printer took a galley of type and scrambled it to
-                  make a type specimen book. Lorem Ipsum is simply dummy text of
-                  the printing...... */}
-                </p>
+                <div className="mt-3 ps-3">
+                  <p className="text-secondary fw-light" style={{ fontSize: "13px" }}>
+                    {details?.description}
+                  </p>
+                </div>
               </div>
             </div>
-
-            {/*  */}
-          </Card>
+          </div>
         ))}
-
-        {myProperty.length === 0 && (
-          <h6 className="text-center text-secondary mt-5">
-            Currently, no properties have been posted
-          </h6>
-        )}
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

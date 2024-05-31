@@ -26,7 +26,7 @@ const Navbar = () => {
   const handlepost = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/mobile");
+      navigate("/post");
     } else {
       navigate("/post");
     }
@@ -44,7 +44,7 @@ const Navbar = () => {
   };
 
   const handleNavigate = () => {
-    navigate("/mobile");
+    navigate("/post");
     setShowModal(false);
   };
   const handleNavigate1 = () => {
