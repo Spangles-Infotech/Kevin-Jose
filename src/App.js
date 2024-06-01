@@ -37,6 +37,7 @@ import AddEmployee from "./admin/Pages/AddEmployee";
 import AddEmployeUpdate from "./admin/Pages/AddEmployeUpdate";
 import Propertiessatues from "./admin/Pages/Propertiessatues";
 import Preview from "./Components/Preview";
+import FormContainer from "./Components/FormContainer";
  
 
 
@@ -54,6 +55,7 @@ function App() {
           <Route path="/otpverify" element={<Otp />} />
           <Route path="/mobile" element={<Mobilenumber />} />
           <Route path="/post" element={<Posting />} />
+          <Route path="/form" element={<FormContainer />} />
           <Route path="/result" element={<Result />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/new-path" element={<Newotp />} />

@@ -551,7 +551,7 @@ const Sellform = ({ activeButton, user, first, second, selectedPropType }) => {
           </Col>
           <Col>
             <Form.Group controlId="formGroup4">
-              <Form.Label>Breadth</Form.Label>
+              {/* <Form.Label>Breadth</Form.Label> */}
               <br />
               <div
                 className="rounded-pill"
@@ -591,7 +591,7 @@ const Sellform = ({ activeButton, user, first, second, selectedPropType }) => {
         <Row className="gx-md-5 gx-5 mt-5">
           <Col>
             <Form.Group controlId="formGroup5">
-            <Form.Label>Area</Form.Label>
+              {/* <Form.Label>Area</Form.Label> */}
 
               <div
                 className="rounded-pill"
@@ -627,7 +627,7 @@ const Sellform = ({ activeButton, user, first, second, selectedPropType }) => {
           </Col>
           <Col>
             <Form.Group controlId="formGroup6">
-            <Form.Label>Width</Form.Label>
+              {/* <Form.Label>Width</Form.Label> */}
               <div
                 className="rounded-pill"
                 style={{ position: "relative", display: "inline-block" }}
