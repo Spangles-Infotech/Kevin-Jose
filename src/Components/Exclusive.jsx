@@ -75,7 +75,7 @@ const Exclusive = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 3,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,

@@ -20,7 +20,7 @@ import { Baseurl, UserConfig } from "../request";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Plots() {
+export default function Plots({ user, options }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [selectedFacility, setSelectedFacility] = useState([]);
@@ -57,62 +57,33 @@ export default function Plots() {
   const [fmbImages, setFmbImages] = useState([]);
   const [locationImages, setLocationImages] = useState([]);
 
-  // const handleImageUpload = (event) => {
-  //   if (imageCat === "siteview") {
-  //     const files = Array.from(event.target.files);
-  //     const imagesToAdd = files.slice(0, 6 - siteImages.length);
-  //     const newImages = imagesToAdd.map((file) => ({
-  //       file,
-  //       id: Math.random().toString(36).substr(2, 9),
-  //     }));
-  //     setSiteImages([...siteImages, ...newImages]);
-  //   } else if (imageCat === "fmb") {
-  //     const files = Array.from(event.target.files);
-  //     const imagesToAdd = files.slice(0, 1 - fmbImages.length);
-  //     const newImages = imagesToAdd.map((file) => ({
-  //       file,
-  //       id: Math.random().toString(36).substr(2, 9),
-  //     }));
-  //     setFmbImages([...fmbImages, ...newImages]);
-  //   } else if (imageCat === "location") {
-  //     const files = Array.from(event.target.files);
-  //     const imagesToAdd = files.slice(0, 1 - locationImages.length);
-  //     const newImages = imagesToAdd.map((file) => ({
-  //       file,
-  //       id: Math.random().toString(36).substr(2, 9),
-  //     }));
-  //     setLocationImages([...locationImages, ...newImages]);
-  //   }
-  // };
-
   const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    let imagesToAdd;
-    switch (imageCat) {
-      case "siteview":
-        imagesToAdd = files.slice(0, 6 - siteImages.length);
-        setSiteImages([
-          ...siteImages,
-          ...imagesToAdd.map((file) => ({ file })),
-        ]);
-        break;
-      case "fmb":
-        imagesToAdd = files.slice(0, 1 - fmbImages.length);
-        setFmbImages([...fmbImages, ...imagesToAdd.map((file) => ({ file }))]);
-        break;
-      case "location":
-        imagesToAdd = files.slice(0, 1 - locationImages.length);
-        setLocationImages([
-          ...locationImages,
-          ...imagesToAdd.map((file) => ({ file })),
-        ]);
-        break;
-      default:
-        break;
+    if (imageCat === "siteview") {
+      const files = Array.from(event.target.files);
+      const imagesToAdd = files.slice(0, 6 - siteImages.length);
+      const newImages = imagesToAdd.map((file) => ({
+        file,
+        id: Math.random().toString(36).substr(2, 9),
+      }));
+      setSiteImages([...siteImages, ...newImages]);
+    } else if (imageCat === "fmb") {
+      const files = Array.from(event.target.files);
+      const imagesToAdd = files.slice(0, 1 - fmbImages.length);
+      const newImages = imagesToAdd.map((file) => ({
+        file,
+        id: Math.random().toString(36).substr(2, 9),
+      }));
+      setFmbImages([...fmbImages, ...newImages]);
+    } else if (imageCat === "location") {
+      const files = Array.from(event.target.files);
+      const imagesToAdd = files.slice(0, 1 - locationImages.length);
+      const newImages = imagesToAdd.map((file) => ({
+        file,
+        id: Math.random().toString(36).substr(2, 9),
+      }));
+      setLocationImages([...locationImages, ...newImages]);
     }
   };
-
-  console.log(locationImages);
 
   const handleRemoveImage = (id) => {
     if (imageCat === "siteview") {
@@ -126,58 +97,123 @@ export default function Plots() {
       setLocationImages(filteredImages);
     }
   };
-  console.log(siteImages);
+
+  console.log(user.phone);
+
   const onSubmit = async (formValue) => {
     console.log(formValue);
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("name", "ARjun");
-    formData.append("phone", `+918220526561`);
-    formData.append("email", "arjunnks123@gmail.com");
-    formData.append("property_type", "plot");
-    formData.append("plot.plot_type", "industrial_plot");
-    formData.append("plot.length", parseInt(formValue?.plotLength?.value));
-    formData.append("plot.breadth", parseInt(formValue?.plotBreadth?.value));
-    formData.append("plot.road_width", parseInt(formValue?.roadWidth?.value));
-    formData.append("plot.total_area", formValue?.totalArea?.value);
-    formData.append("plot.direction_facing", formValue?.direction);
-    formData.append("plot.approval", formValue?.category);
-    formData.append("plot.breadth_unit", formValue?.plotBreadth?.unit);
-    formData.append("plot.length_unit", formValue?.plotLength?.unit);
-    formData.append("plot.road_width_unit", formValue?.roadWidth?.unit);
-    formData.append("plot.total_area_unit", formValue?.totalArea?.unit);
-    selectedFacility.forEach((element, index) => {
-      formData.append(`plot.facilities[${index}]name`, element);
-    });
-    if (siteImages) {
-      siteImages.forEach((image, index) => {
-        formData.append(`plot_images[${index}]section`, "siteview");
-        formData.append(`plot_images[${index}]image`, image.file);
-      });
-    }
-    if (fmbImages) {
-      formData.append(`plot_images[${7}]section`, "FMB");
-      formData.append(`plot_images[${7}]image`, fmbImages);
-    }
-    if (locationImages) {
-      formData.append(`plot_images[${7}]section`, "location_map");
-      formData.append(`plot_images[${7}]image`, formData);
-    }
+      formData.append("name", user?.name);
+      formData.append("phone", user?.phone);
+      formData.append("email", user?.email);
+      formData.append("property_type", options?.selectedType);
+      formData.append("you_are_here_to", options?.selectedActivity);
+      formData.append("owner", options?.selectedActivity === "sell");
+      formData.append("agent", options?.selectedActivity === "agent");
+      formData.append("builder", options?.selectedActivity === "builder");
+      formData.append("title", formValue?.propertyName);
+      formData.append("description", formValue?.description);
+      formData.append("location", formValue?.propertyLocation);
+      formData.append("sale_price", formValue?.salePrice);
+      formData.append("advance", parseInt(formValue?.AdvanceAmount));
 
-    formData.append("you_are_here_to", "sell");
-    formData.append("owner", true);
-    formData.append("title", formValue?.propertyName);
-    formData.append("description", formValue?.description);
-    formData.append("location", formValue?.propertyLocation);
-    formData.append("sale_price", formValue?.salePrice);
-    formData.append("advance", parseInt(formValue?.AdvanceAmount));
-    console.log(formData);
-    const response = await axios.post(
-      `${Baseurl}createproperty/`,
-      formData,
-      UserConfig
-    );
-    navigate("/check", { state: response.data });
+      // plot ----------->
+
+      if (options?.selectedType === "plot") {
+        formData.append("plot.plot_type", options?.selectedSubType);
+        formData.append("plot.length", parseInt(formValue?.plotLength?.value));
+        formData.append(
+          "plot.breadth",
+          parseInt(formValue?.ploatBreadth?.value)
+        );
+        formData.append(
+          "plot.road_width",
+          parseInt(formValue?.roadWidth?.value)
+        );
+        formData.append("plot.total_area", formValue?.totalArea?.value);
+        formData.append("plot.direction_facing", formValue?.direction);
+        formData.append("plot.approval", formValue?.category);
+        formData.append("plot.breadth_unit", formValue?.ploatBreadth?.unit);
+        formData.append("plot.length_unit", formValue?.plotLength?.unit);
+        formData.append("plot.road_width_unit", formValue?.roadWidth?.unit);
+        formData.append("plot.total_area_unit", formValue?.totalArea?.unit);
+        selectedFacility.forEach((element, index) => {
+          formData.append(`plot.facilities[${index}]name`, element);
+        });
+        if (siteImages) {
+          siteImages.forEach((image, index) => {
+            formData.append(`plot_images[${index}]section`, "siteview");
+            formData.append(`plot_images[${index}]image`, image.file);
+          });
+        }
+        if (fmbImages) {
+          fmbImages.forEach((image) => {
+            formData.append(`plot_images[${7}]section`, "FMB");
+            formData.append(`plot_images[${7}]image`, image.file);
+          });
+        }
+        if (locationImages) {
+          locationImages.forEach((image) => {
+            formData.append(`plot_images[${8}]section`, "location_map");
+            formData.append(`plot_images[${8}]image`, image.file);
+          });
+        }
+      }
+
+      // land--------------->
+
+      if (options?.selectedType === "land") {
+        formData.append("land.land_type", options?.selectedSubType);
+        formData.append("land.length", parseInt(formValue?.plotLength?.value));
+        formData.append(
+          "land.breadth",
+          parseInt(formValue?.ploatBreadth?.value)
+        );
+        formData.append(
+          "land.road_width",
+          parseInt(formValue?.roadWidth?.value)
+        );
+        formData.append("land.total_area", formValue?.totalArea?.value);
+        formData.append("land.direction_facing", formValue?.direction);
+        formData.append("land.approval", formValue?.category);
+        formData.append("land.breadth_unit", formValue?.ploatBreadth?.unit);
+        formData.append("land.length_unit", formValue?.plotLength?.unit);
+        formData.append("land.road_width_unit", formValue?.roadWidth?.unit);
+        formData.append("land.total_area_unit", formValue?.totalArea?.unit);
+        selectedFacility.forEach((element, index) => {
+          formData.append(`land.facilities[${index}]name`, element);
+        });
+        if (siteImages) {
+          siteImages.forEach((image, index) => {
+            formData.append(`land_images[${index}]section`, "siteview");
+            formData.append(`land_images[${index}]image`, image.file);
+          });
+        }
+        if (fmbImages) {
+          fmbImages.forEach((image) => {
+            formData.append(`plot_images[${7}]section`, "FMB");
+            formData.append(`plot_images[${7}]image`, image.file);
+          });
+        }
+        if (locationImages) {
+          locationImages.forEach((image) => {
+            formData.append(`land_images[${8}]section`, "location_map");
+            formData.append(`land_images[${8}]image`, image.file);
+          });
+        }
+      }
+
+      const response = await axios.post(
+        `${Baseurl}createproperty/`,
+        formData,
+        UserConfig
+      );
+      navigate("/check", { state: response.data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -219,7 +255,7 @@ export default function Plots() {
         </Col>
       </Row>
 
-      <Row>
+      {/* <Row>
         <Col md={6}>
           <Controller
             name="plotLength"
@@ -228,6 +264,7 @@ export default function Plots() {
             rules={{ required: "Plot Length is required" }}
             render={({ field }) => (
               <SelectField
+                type={"number"}
                 placeholder="Length"
                 unit={[
                   { be: "ft", fe: "ft" },
@@ -248,6 +285,7 @@ export default function Plots() {
             rules={{ required: "Plot Breadth is required" }}
             render={({ field }) => (
               <SelectField
+                type={"number"}
                 placeholder="Breadth"
                 unit={[
                   { be: "ft", fe: "ft" },
@@ -260,8 +298,46 @@ export default function Plots() {
             )}
           />
         </Col>
-      </Row>
+      </Row> */}
 
+      <Row>
+        <Controller
+          name="plotLength"
+          control={control}
+          rules={{ required: "Total Length required" }}
+          render={({ field }) => (
+            <SelectField
+              type={"number"}
+              placeholder="Length"
+              unit={[
+                { be: "m", fe: "mt" },
+                { be: "ft", fe: "ft" },
+              ]}
+              field={field}
+              isInvalid={!!errors.plotLength}
+              errorMessage={errors.plotLength?.message}
+            />
+          )}
+        />
+        <Controller
+          name="ploatBreadth"
+          control={control}
+          rules={{ required: "Ploat Breadth is required" }}
+          render={({ field }) => (
+            <SelectField
+              type={"number"}
+              placeholder="Breadth"
+              unit={[
+                { be: "m", fe: "mt" },
+                { be: "ft", fe: "ft" },
+              ]}
+              field={field}
+              isInvalid={!!errors.ploatBreadth}
+              errorMessage={errors.ploatBreadth?.message}
+            />
+          )}
+        />
+      </Row>
       <Row>
         <Controller
           name="totalArea"
@@ -269,6 +345,7 @@ export default function Plots() {
           rules={{ required: "Total area is required" }}
           render={({ field }) => (
             <SelectField
+              type={"number"}
               placeholder="Total Area"
               unit={[{ be: "sqft", fe: "Sqft" }]}
               field={field}
@@ -283,6 +360,7 @@ export default function Plots() {
           rules={{ required: "Road width is required" }}
           render={({ field }) => (
             <SelectField
+              type={"number"}
               placeholder="Road width"
               unit={[
                 { be: "ft", fe: "ft" },
@@ -401,6 +479,7 @@ export default function Plots() {
             rules={{ required: "Sale Price is required" }}
             render={({ field }) => (
               <Field
+                type={"number"}
                 label="Sale Price"
                 placeholder="Rs"
                 isInvalid={!!errors.salePrice}
@@ -419,6 +498,7 @@ export default function Plots() {
             render={({ field }) => (
               <Field
                 label="Advance Amount"
+                type={"number"}
                 placeholder="Rs"
                 isInvalid={!!errors.propertyLocation}
                 errorMessage={errors.propertyLocation?.message}
@@ -545,7 +625,7 @@ export default function Plots() {
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
               {fmbImages.map((image) => (
-                <div key={image.id} className="m-2 position-relative">
+                <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
                     alt={`Uploaded ${imageCat} image`}

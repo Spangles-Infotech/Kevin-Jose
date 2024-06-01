@@ -70,8 +70,9 @@ export const SelectField = ({
   field,
   isInvalid,
   errorMessage,
+  type,
 }) => {
-  const { value = { value: "", unit: unit[0]?.be }, onChange } = field;
+  const { value = { value: "", unit: unit[0].be }, onChange } = field;
 
   return (
     <Col className="my-3">
@@ -83,6 +84,7 @@ export const SelectField = ({
           }`}
           placeholder={placeholder}
           value={value.value}
+          type={type}
           onChange={(e) => onChange({ ...value, value: e.target.value })}
         />
         <Form.Select
@@ -145,10 +147,12 @@ export const DescriptionBox = ({ field, error }) => (
   <Col>
     <h5 className="mb-3 fw-medium fs-5">Description</h5>
     <textarea
-      className={`form-control mb-4  border-danger ${error ? "is-invalid" : ""}`}
+      className={`form-control mb-4  border-danger ${
+        error ? "is-invalid" : ""
+      }`}
       {...field}
       placeholder="Type something...."
-      id="description" 
+      id="description"
       rows="5"
       style={{ height: "200px" }}
     ></textarea>

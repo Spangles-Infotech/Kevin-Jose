@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { activity, propType, role, subType, subTypeTwo } from "./Data";
 import PhoneInput from "react-phone-input-2";
-import Plots from "./forms/Plots";
- 
+
+// Lazy loading of form components
+const Plots = React.lazy(() => import("./forms/Plots"));
 
 export const InputField = ({
   label,
   type = "text",
   className,
   placeholder,
+  value,
   ...props
 }) => (
   <div className="col-12 col-md-6 mb-4">
     <label className="form-label fw-medium pb-3">{label}</label>
     <input
+      value={value}
       type={type}
       placeholder={placeholder}
       className={`form-control border-danger ${className}`}
@@ -24,10 +27,11 @@ export const InputField = ({
   </div>
 );
 
-const PhoneField = ({ label, ...props }) => (
+const PhoneField = ({ label, value, ...props }) => (
   <div className="col-12 col-md-6 mb-3">
     <label className="form-label pb-3 fw-medium">{label}</label>
     <PhoneInput
+      value={`${value}`}
       className="w-100"
       inputStyle={{
         borderColor: "#D7242A",
@@ -39,10 +43,36 @@ const PhoneField = ({ label, ...props }) => (
 );
 
 export default function FormContainer() {
-  const [selectedRole, SetSelectedRole] = useState("owner");
-  const [selectedActivity, SetSelectedActivity] = useState("sell");
-  const [selectedType, SetSelectedType] = useState("plot");
-  const [selectedSubType, SetSelectedSubType] = useState("");
+  const [options, setOptions] = useState({
+    selectedRole: "owner",
+    selectedActivity: "sell",
+    selectedType: "plot",
+    selectedSubType: "",
+  });
+
+  const user = {
+    name: "Arjun",
+    email: "arjunnks123@gmail.com",
+    phone: "+918220526561",
+  };
+  
+
+  const handleRoleSelect = (role) => {
+    setOptions({ ...options, selectedRole: role });
+  };
+
+  const handleActivitySelect = (activity) => {
+    setOptions({ ...options, selectedActivity: activity });
+  };
+
+  const handleTypeSelect = (type) => {
+    setOptions({ ...options, selectedType: type, selectedSubType: "" });
+  };
+
+  const handleSubTypeSelect = (subType) => {
+    setOptions({ ...options, selectedSubType: subType });
+  };
+
   return (
     <>
       <Navbar />
@@ -54,16 +84,16 @@ export default function FormContainer() {
 
         <div className="pt-5">
           <p className="fw-medium fs-4">You Are</p>
-          <div className="d-flex flex-wrap gap-3 pt-3  ">
+          <div className="d-flex flex-wrap gap-3 pt-3">
             {role.map((itm, indx) => (
               <div
                 key={indx}
                 className={`rounded-pill px-5 py-3 text-capitalize ${
-                  selectedRole === itm
+                  options.selectedRole === itm
                     ? "active-button-form"
                     : "inactive-button-form"
                 }`}
-                onClick={() => SetSelectedRole(itm)}
+                onClick={() => handleRoleSelect(itm)}
               >
                 {itm}
               </div>
@@ -77,29 +107,34 @@ export default function FormContainer() {
               <InputField
                 label="First Name"
                 placeholder="Enter your first name"
+                value={user.name}
               />
               <InputField
                 label="Last Name"
                 placeholder="Enter your last name"
               />
-              <PhoneField label="Phone" country="in" />
-              <InputField label="Email" placeholder="Enter your Email" />
+              <PhoneField label="Phone" country="in" value={user.phone} />
+              <InputField
+                label="Email"
+                placeholder="Enter your Email"
+                value={user.email}
+              />
             </div>
           </form>
         </div>
 
         <div className="pt-3">
           <p className="fw-medium fs-4">You are here to</p>
-          <div className="d-flex flex-wrap gap-3 pt-3  ">
+          <div className="d-flex flex-wrap gap-3 pt-3">
             {activity.map((itm, indx) => (
               <div
                 key={indx}
                 className={`rounded-pill px-5 py-3 text-capitalize ${
-                  selectedActivity === itm
+                  options.selectedActivity === itm
                     ? "active-button-form"
                     : "inactive-button-form"
                 }`}
-                onClick={() => SetSelectedActivity(itm)}
+                onClick={() => handleActivitySelect(itm)}
               >
                 {itm}
               </div>
@@ -115,10 +150,10 @@ export default function FormContainer() {
               {propType.map((itm, indx) => (
                 <div
                   key={indx}
-                  onClick={() => SetSelectedType(itm.be)}
-                  className={`text-capitalize  cursor-point  text-secondary border-3 fw-medium py-3 ${
-                    selectedType === itm.be
-                      ? "border-bottom border-danger text-danger "
+                  onClick={() => handleTypeSelect(itm.be)}
+                  className={`text-capitalize cursor-point text-secondary border-3 fw-medium py-3 ${
+                    options.selectedType === itm.be
+                      ? "border-bottom border-danger text-danger"
                       : "border-bottom"
                   }`}
                   style={{ fontSize: "20px", width: "20%" }}
@@ -128,60 +163,63 @@ export default function FormContainer() {
               ))}
             </div>
             <div className="p-3 py-5">
-              {subType[selectedType]?.map((itm, indx) => (
+              {subType[options.selectedType]?.map((itm, indx) => (
                 <span
                   className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
-                    selectedSubType === itm.be && "border-danger text-danger"
+                    options.selectedSubType === itm.be &&
+                    "border-danger text-danger"
                   }`}
                   style={{ fontSize: "16px", textTransform: "capitalize" }}
                   key={indx}
-                  onClick={() => SetSelectedSubType(itm.be)}
+                  onClick={() => handleSubTypeSelect(itm.be)}
                 >
                   {itm.fe}
                 </span>
               ))}
             </div>
 
-            {subTypeTwo[selectedType] && (
+            {subTypeTwo[options.selectedType] && (
               <div className="p-3 border-top border-2 py-5">
-                {subTypeTwo[selectedType]?.map((itm, indx) => (
+                {subTypeTwo[options.selectedType]?.map((itm, indx) => (
                   <span
                     className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
-                      selectedSubType === itm.be && "border-danger text-danger"
+                      options.selectedSubType === itm.be &&
+                      "border-danger text-danger"
                     }`}
                     style={{ fontSize: "16px", textTransform: "capitalize" }}
                     key={indx}
-                    onClick={() => SetSelectedSubType(itm.be)}
+                    onClick={() => handleSubTypeSelect(itm.be)}
                   >
                     {itm.fe}
                   </span>
                 ))}
-                {(selectedActivity === "rent" || "lease") &&
-                  selectedType === "commercial_property" && (
+                {(options.selectedActivity === "rent" ||
+                  options.selectedActivity === "lease") &&
+                  options.selectedType === "commercial_property" && (
                     <>
                       <span
                         className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
-                          selectedSubType === "pg_home" &&
+                          options.selectedSubType === "pg_home" &&
                           "border-danger text-danger"
                         }`}
                         style={{
                           fontSize: "16px",
                           textTransform: "capitalize",
                         }}
-                        onClick={() => SetSelectedSubType("pg_home")}
+                        onClick={() => handleSubTypeSelect("pg_home")}
                       >
                         PG Home
                       </span>
                       <span
                         className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
-                          selectedSubType === "pg_hostel" &&
+                          options.selectedSubType === "pg_hostel" &&
                           "border-danger text-danger"
                         }`}
                         style={{
                           fontSize: "16px",
                           textTransform: "capitalize",
                         }}
-                        onClick={() => SetSelectedSubType("pg_hostel")}
+                        onClick={() => handleSubTypeSelect("pg_hostel")}
                       >
                         PG Hostel
                       </span>
@@ -195,9 +233,13 @@ export default function FormContainer() {
         {/* forms rendering */}
 
         <div className="mt-4 pt-3">
-          <Plots />
-     
-     
+          <Suspense fallback={<div>Loading...</div>}>
+            {(options.selectedType === "plot" ||
+              options.selectedType === "land") &&
+              options.selectedSubType !== "" && (
+                <Plots options={options} user={user} />
+              )}
+          </Suspense>
         </div>
       </div>
       <Footer />
