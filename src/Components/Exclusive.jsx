@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Value } from "./Value"; // Assuming Value is imported correctly
+import { Value } from "./Value";  
 import {
   IoIosArrowDropleftCircle,
   IoIosArrowDroprightCircle,
@@ -44,7 +44,7 @@ export const CustomNextArrow = (props) => {
       }}
       onClick={onClick}
     >
-      <IoIosArrowDroprightCircle size={25}  />
+      <IoIosArrowDroprightCircle size={25} />
     </div>
   );
 };
@@ -71,11 +71,12 @@ const Exclusive = () => {
   }, []);
 
   const settings = {
+    
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,
   };
@@ -98,17 +99,16 @@ const Exclusive = () => {
           </p>
         </div>
       </div>
-      <div className="slider-container">
-        <Slider {...settings}>
+      {/* <div className=" "> */}
+        <Slider {...settings}  >
           {prop
             .filter((item) => item.property_type === "land")
-            .map((property, index) => (
-              <div className=" py-3 m-0" key={index}>
+            .map((property) => (
+              <div className="py-3 m-0" key={property.id}>
                 <div
                   onClick={() => handleViewDetails(property.id)}
                   className="card border-0 hover-box"
                   style={{ width: "100%", cursor: "pointer" }}
-                  key={property.id}
                 >
                   <img
                     src={property.land_properties?.land_images[0]?.image}
@@ -117,7 +117,7 @@ const Exclusive = () => {
                     alt={property.title}
                   />
                   <div className="p-2 pt-3 d-flex flex-column gap-2 justify-content-center m-0 border rounded-bottom-5">
-                    <h6 className="card-head poppins-thin">
+                    <h6 className="card-head">
                       {property?.land_properties?.land_type}
                     </h6>
                     <div className="p-0 m-0 d-flex w-100 fs-6 fw-medium">
@@ -136,12 +136,9 @@ const Exclusive = () => {
                     </div>
                     <div className="p-1">
                       <button
-                        className="bg-danger text-white border-0 rounded-pill py-1 px-2  text-sm"
-                        style={{fontSize:'13px'}}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleViewDetails(property.id);
-                        }}
+                        className="bg-danger text-white border-0 rounded-pill py-1 px-2 text-sm"
+                        style={{ fontSize: "13px" }}
+                        onClick={() => handleViewDetails(property.id)}
                       >
                         View details
                       </button>
@@ -150,8 +147,9 @@ const Exclusive = () => {
                 </div>
               </div>
             ))}
+         
         </Slider>
-      </div>
+      {/* </div> */}
     </div>
   );
 };
