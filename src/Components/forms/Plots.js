@@ -16,8 +16,12 @@ import {
   RadioField,
   SelectField,
 } from "./FormComponent";
+import { Baseurl, UserConfig } from "../request";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Plots() {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [selectedFacility, setSelectedFacility] = useState([]);
 
@@ -53,33 +57,61 @@ export default function Plots() {
   const [fmbImages, setFmbImages] = useState([]);
   const [locationImages, setLocationImages] = useState([]);
 
+  // const handleImageUpload = (event) => {
+  //   if (imageCat === "siteview") {
+  //     const files = Array.from(event.target.files);
+  //     const imagesToAdd = files.slice(0, 6 - siteImages.length);
+  //     const newImages = imagesToAdd.map((file) => ({
+  //       file,
+  //       id: Math.random().toString(36).substr(2, 9),
+  //     }));
+  //     setSiteImages([...siteImages, ...newImages]);
+  //   } else if (imageCat === "fmb") {
+  //     const files = Array.from(event.target.files);
+  //     const imagesToAdd = files.slice(0, 1 - fmbImages.length);
+  //     const newImages = imagesToAdd.map((file) => ({
+  //       file,
+  //       id: Math.random().toString(36).substr(2, 9),
+  //     }));
+  //     setFmbImages([...fmbImages, ...newImages]);
+  //   } else if (imageCat === "location") {
+  //     const files = Array.from(event.target.files);
+  //     const imagesToAdd = files.slice(0, 1 - locationImages.length);
+  //     const newImages = imagesToAdd.map((file) => ({
+  //       file,
+  //       id: Math.random().toString(36).substr(2, 9),
+  //     }));
+  //     setLocationImages([...locationImages, ...newImages]);
+  //   }
+  // };
+
   const handleImageUpload = (event) => {
-    if (imageCat === "siteview") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 6 - siteImages.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setSiteImages([...siteImages, ...newImages]);
-    } else if (imageCat === "fmb") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - fmbImages.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setFmbImages([...fmbImages, ...newImages]);
-    } else if (imageCat === "location") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - locationImages.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setLocationImages([...locationImages, ...newImages]);
+    const files = Array.from(event.target.files);
+    let imagesToAdd;
+    switch (imageCat) {
+      case "siteview":
+        imagesToAdd = files.slice(0, 6 - siteImages.length);
+        setSiteImages([
+          ...siteImages,
+          ...imagesToAdd.map((file) => ({ file })),
+        ]);
+        break;
+      case "fmb":
+        imagesToAdd = files.slice(0, 1 - fmbImages.length);
+        setFmbImages([...fmbImages, ...imagesToAdd.map((file) => ({ file }))]);
+        break;
+      case "location":
+        imagesToAdd = files.slice(0, 1 - locationImages.length);
+        setLocationImages([
+          ...locationImages,
+          ...imagesToAdd.map((file) => ({ file })),
+        ]);
+        break;
+      default:
+        break;
     }
   };
+
   console.log(locationImages);
 
   const handleRemoveImage = (id) => {
@@ -94,12 +126,13 @@ export default function Plots() {
       setLocationImages(filteredImages);
     }
   };
-  const onSubmit = (formValue) => {
+  console.log(siteImages);
+  const onSubmit = async (formValue) => {
     console.log(formValue);
     const formData = new FormData();
-   
+
     formData.append("name", "ARjun");
-    formData.append("phone", `+8220526561`);
+    formData.append("phone", `+918220526561`);
     formData.append("email", "arjunnks123@gmail.com");
     formData.append("property_type", "plot");
     formData.append("plot.plot_type", "industrial_plot");
@@ -119,7 +152,7 @@ export default function Plots() {
     if (siteImages) {
       siteImages.forEach((image, index) => {
         formData.append(`plot_images[${index}]section`, "siteview");
-        formData.append(`plot_images[${index}]image`, image);
+        formData.append(`plot_images[${index}]image`, image.file);
       });
     }
     if (fmbImages) {
@@ -127,14 +160,25 @@ export default function Plots() {
       formData.append(`plot_images[${7}]image`, fmbImages);
     }
     if (locationImages) {
-      formData.append(`plot_images[${7}]section`, "FMB");
+      formData.append(`plot_images[${7}]section`, "location_map");
       formData.append(`plot_images[${7}]image`, formData);
     }
 
+    formData.append("you_are_here_to", "sell");
+    formData.append("owner", true);
+    formData.append("title", formValue?.propertyName);
+    formData.append("description", formValue?.description);
+    formData.append("location", formValue?.propertyLocation);
+    formData.append("sale_price", formValue?.salePrice);
+    formData.append("advance", parseInt(formValue?.AdvanceAmount));
     console.log(formData);
+    const response = await axios.post(
+      `${Baseurl}createproperty/`,
+      formData,
+      UserConfig
+    );
+    navigate("/check", { state: response.data });
   };
-
-
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
