@@ -19,6 +19,7 @@ import {
 import { Baseurl, UserConfig } from "../request";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Plots({ user, options }) {
   const navigate = useNavigate();
@@ -103,21 +104,41 @@ export default function Plots({ user, options }) {
   const onSubmit = async (formValue) => {
     console.log(formValue);
     try {
+      if (selectedFacility.length === 0) {
+        toast.warn("Add atleast one facility", {
+          hideProgressBar: true,
+        });
+      }
       const formData = new FormData();
-
       formData.append("name", user?.name);
       formData.append("phone", user?.phone);
       formData.append("email", user?.email);
       formData.append("property_type", options?.selectedType);
       formData.append("you_are_here_to", options?.selectedActivity);
       formData.append("owner", options?.selectedActivity === "sell");
-      formData.append("agent", options?.selectedActivity === "agent");
-      formData.append("builder", options?.selectedActivity === "builder");
+      formData.append("agent", options?.selectedActivity === "rent");
+      formData.append("builder", options?.selectedActivity === "lease");
       formData.append("title", formValue?.propertyName);
       formData.append("description", formValue?.description);
       formData.append("location", formValue?.propertyLocation);
-      formData.append("sale_price", formValue?.salePrice);
       formData.append("advance", parseInt(formValue?.AdvanceAmount));
+
+      // activity  conditions -------->
+      if (options?.selectedActivity === "sell") {
+        formData.append("sale_price", formValue?.salePrice);
+      } else if (options?.selectedActivity === "rent") {
+        formData.append("rent", formValue?.rentPrice);
+      } else if (options?.selectedActivity === "lease") {
+        formData.append("lease_amount", formValue?.leasePrice);
+        formData.append("lease_period", formValue?.leasePeriod);
+        formData.append("lease_period_unit", formValue?.leasePeriod?.unit);
+      }
+
+      // Role condition ------>
+
+      if (options?.selectedRole === "agent") {
+        formData.append("agent_commission", formValue?.AgentCommision);
+      }
 
       // plot ----------->
 
@@ -213,6 +234,9 @@ export default function Plots({ user, options }) {
       navigate("/check", { state: response.data });
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong", {
+        hideProgressBar: true,
+      });
     }
   };
 
@@ -300,6 +324,7 @@ export default function Plots({ user, options }) {
         </Col>
       </Row> */}
 
+      <h5>Plot Size</h5>
       <Row>
         <Controller
           name="plotLength"
@@ -308,6 +333,7 @@ export default function Plots({ user, options }) {
           render={({ field }) => (
             <SelectField
               type={"number"}
+              width={"75%"}
               placeholder="Length"
               unit={[
                 { be: "m", fe: "mt" },
@@ -327,6 +353,7 @@ export default function Plots({ user, options }) {
             <SelectField
               type={"number"}
               placeholder="Breadth"
+              width={"75%"}
               unit={[
                 { be: "m", fe: "mt" },
                 { be: "ft", fe: "ft" },
@@ -346,6 +373,7 @@ export default function Plots({ user, options }) {
           render={({ field }) => (
             <SelectField
               type={"number"}
+              width={"75%"}
               placeholder="Total Area"
               unit={[{ be: "sqft", fe: "Sqft" }]}
               field={field}
@@ -361,6 +389,7 @@ export default function Plots({ user, options }) {
           render={({ field }) => (
             <SelectField
               type={"number"}
+              width={"75%"}
               placeholder="Road width"
               unit={[
                 { be: "ft", fe: "ft" },
@@ -375,6 +404,29 @@ export default function Plots({ user, options }) {
       </Row>
 
       <Row>
+        {/* <Controller
+          name="direction"
+          control={control}
+          rules={{ required: "Direction is required" }}
+          render={({ field }) => (
+            <RadioField
+              label="Direction Facing"
+              options={[
+                { value: "east", label: "East" },
+                { value: "west", label: "West" },
+                { value: "north", label: "North" },
+                { value: "south", label: "South" },
+                { value: "north_east", label: "North-east" },
+                { value: "north_west", label: "North-west" },
+                { value: "south_east", label: "South-east" },
+                { value: "south_west", label: "South-west" },
+              ]}
+              field={field}
+              isInvalid={!!errors.direction}
+              errorMessage={errors.direction?.message}
+            />
+          )}
+        /> */}
         <Controller
           name="direction"
           control={control}
@@ -471,24 +523,67 @@ export default function Plots({ user, options }) {
       </Row>
 
       <Row>
-        <Col md={6}>
-          <Controller
-            name="salePrice"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Sale Price is required" }}
-            render={({ field }) => (
-              <Field
-                type={"number"}
-                label="Sale Price"
-                placeholder="Rs"
-                isInvalid={!!errors.salePrice}
-                errorMessage={errors.salePrice?.message}
-                {...field}
-              />
-            )}
-          />
-        </Col>
+        {options?.selectedActivity === "sell" && (
+          <Col md={6}>
+            <Controller
+              name="salePrice"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Sale Price is required" }}
+              render={({ field }) => (
+                <Field
+                  type={"number"}
+                  label="Sale Price"
+                  placeholder="Rs"
+                  isInvalid={!!errors.salePrice}
+                  errorMessage={errors.salePrice?.message}
+                  {...field}
+                />
+              )}
+            />
+          </Col>
+        )}
+        {options?.selectedActivity === "rent" && (
+          <Col md={6}>
+            <Controller
+              name="rentPrice"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Rent Price is required" }}
+              render={({ field }) => (
+                <Field
+                  type={"number"}
+                  label="Rent Amount"
+                  placeholder="Rs"
+                  isInvalid={!!errors.rentPrice}
+                  errorMessage={errors.rentPrice?.message}
+                  {...field}
+                />
+              )}
+            />
+          </Col>
+        )}
+
+        {options?.selectedActivity === "lease" && (
+          <Col md={6}>
+            <Controller
+              name="leasePrice"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Lease amount is required" }}
+              render={({ field }) => (
+                <Field
+                  type={"number"}
+                  label="Lease Amount"
+                  placeholder="Rs"
+                  isInvalid={!!errors.leasePrice}
+                  errorMessage={errors.leasePrice?.message}
+                  {...field}
+                />
+              )}
+            />
+          </Col>
+        )}
         <Col md={6}>
           <Controller
             name="AdvanceAmount"
@@ -507,6 +602,54 @@ export default function Plots({ user, options }) {
             )}
           />
         </Col>
+
+        {options?.selectedRole === "agent" && (
+          <Col md={6}>
+            <Controller
+              name="AgentCommision"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Agent commision amount is required" }}
+              render={({ field }) => (
+                <Field
+                  label="Agent Commision"
+                  type={"number"}
+                  placeholder="Rs"
+                  isInvalid={!!errors.AgentCommision}
+                  errorMessage={errors.AgentCommision?.message}
+                  {...field}
+                />
+              )}
+            />
+          </Col>
+        )}
+
+        {options?.selectedActivity === "lease" && (
+          <Col md={6}>
+            <Form.Label className="mb-3 fw-medium fs-5">
+              Lease Period
+            </Form.Label>
+            <Controller
+              name="leasePeriod"
+              control={control}
+              rules={{ required: "Lease period is required" }}
+              render={({ field }) => (
+                <SelectField
+                  type={"number"}
+                  placeholder="Month/Year"
+                  width={"50%"}
+                  unit={[
+                    { be: "m", fe: "Per Month" },
+                    { be: "ft", fe: "Per Year" },
+                  ]}
+                  field={field}
+                  isInvalid={!!errors.leasePeriod}
+                  errorMessage={errors.leasePeriod?.message}
+                />
+              )}
+            />
+          </Col>
+        )}
       </Row>
 
       <Row>
@@ -560,6 +703,26 @@ export default function Plots({ user, options }) {
 
         {imageCat === "siteview" && (
           <>
+            {/* Render uploaded images */}
+            <div className="d-flex flex-wrap justify-content-start">
+              {siteImages.map((image) => (
+                <div key={image.id} className="m-2 position-relative">
+                  <img
+                    src={URL.createObjectURL(image.file)}
+                    alt={`Uploaded ${imageCat} image`}
+                    className="rounded-3"
+                    style={{ maxWidth: "300px", height: "200px" }}
+                  />
+                  <button
+                    className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
+                    onClick={() => handleRemoveImage(image.id)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+
             <div
               className="d-flex justify-content-center align-items-center p-0 m-0"
               style={{ height: "250px" }}
@@ -578,50 +741,12 @@ export default function Plots({ user, options }) {
                 multiple
               />
             </div>
-
-            {/* Render uploaded images */}
-            <div className="d-flex flex-wrap justify-content-center">
-              {siteImages.map((image) => (
-                <div key={image.id} className="m-2 position-relative">
-                  <img
-                    src={URL.createObjectURL(image.file)}
-                    alt={`Uploaded ${imageCat} image`}
-                    className="rounded-3"
-                    style={{ maxWidth: "100px", height: "100px" }}
-                  />
-                  <button
-                    className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
-                    onClick={() => handleRemoveImage(image.id)}
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-            </div>
           </>
         )}
 
         {/* fmb */}
         {imageCat === "fmb" && (
           <>
-            <div
-              className="d-flex justify-content-center align-items-center p-0 m-0"
-              style={{ height: "250px" }}
-            >
-              <label
-                htmlFor="uploadInput"
-                className="text-danger btn border border-danger py-3 px-5 rounded-5"
-              >
-                Upload Photos
-              </label>
-              <input
-                id="uploadInput"
-                type="file"
-                style={{ display: "none" }}
-                onChange={handleImageUpload}
-              />
-            </div>
-
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
               {fmbImages.map((image) => (
@@ -630,7 +755,7 @@ export default function Plots({ user, options }) {
                     src={URL.createObjectURL(image.file)}
                     alt={`Uploaded ${imageCat} image`}
                     className="rounded-3"
-                    style={{ maxWidth: "100px", height: "100px" }}
+                    style={{ maxWidth: "300px", height: "200px" }}
                   />
                   <button
                     className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
@@ -641,12 +766,7 @@ export default function Plots({ user, options }) {
                 </div>
               ))}
             </div>
-          </>
-        )}
 
-        {/* location map */}
-        {imageCat === "location" && (
-          <>
             <div
               className="d-flex justify-content-center align-items-center p-0 m-0"
               style={{ height: "250px" }}
@@ -664,16 +784,21 @@ export default function Plots({ user, options }) {
                 onChange={handleImageUpload}
               />
             </div>
+          </>
+        )}
 
+        {/* location map */}
+        {imageCat === "location" && (
+          <>
             {/* Render uploaded images */}
-            <div className="d-flex flex-wrap justify-content-center">
+            <div className="d-flex flex-wrap justify-content-end">
               {locationImages.map((image) => (
                 <div key={image.id} className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
                     alt={`Uploaded ${imageCat} image`}
                     className="rounded-3"
-                    style={{ maxWidth: "100px", height: "100px" }}
+                    style={{ maxWidth: "300px", height: "200px" }}
                   />
                   <button
                     className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
@@ -683,6 +808,24 @@ export default function Plots({ user, options }) {
                   </button>
                 </div>
               ))}
+            </div>
+
+            <div
+              className="d-flex justify-content-center align-items-center p-0 m-0"
+              style={{ height: "250px" }}
+            >
+              <label
+                htmlFor="uploadInput"
+                className="text-danger btn border border-danger py-3 px-5 rounded-5"
+              >
+                Upload Photos
+              </label>
+              <input
+                id="uploadInput"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleImageUpload}
+              />
             </div>
           </>
         )}

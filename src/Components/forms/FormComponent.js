@@ -24,12 +24,16 @@ export const Field = ({
     <Form.Group controlId={props.name}>
       <Form.Label className="mb-3 fw-medium fs-5">{label}</Form.Label>
       <Form.Control
-        className={`  border-danger form-control-lg ${className}`}
+        className={`  border-danger form-control-lg  ${
+          errorMessage ? "is-invalid" : ""
+        }`}
         type={type}
         isInvalid={isInvalid}
         placeholder={placeholder}
         {...props}
+        required
       />
+
       {isInvalid && (
         <Form.Control.Feedback type="invalid" className="d-block">
           {errorMessage}
@@ -71,6 +75,7 @@ export const SelectField = ({
   isInvalid,
   errorMessage,
   type,
+  width,
 }) => {
   const { value = { value: "", unit: unit[0].be }, onChange } = field;
 
@@ -79,9 +84,10 @@ export const SelectField = ({
       <InputGroup className="mb-3">
         <Form.Control
           aria-label="Text input with dropdown button"
-          className={`border-danger w-75 border-end-0 form-control-lg ${
+          className={`border-danger  border-end-0 form-control-lg ${
             isInvalid ? "is-invalid" : ""
           }`}
+          style={{ width: width }}
           placeholder={placeholder}
           value={value.value}
           type={type}
@@ -89,7 +95,7 @@ export const SelectField = ({
         />
         <Form.Select
           aria-label="Default select example"
-          className={`border-danger border-start-0 `}
+          className={`border-danger border-start-0  `}
           value={value.unit}
           onChange={(e) => onChange({ ...value, unit: e.target.value })}
         >
@@ -108,6 +114,40 @@ export const SelectField = ({
     </Col>
   );
 };
+
+// export const RadioField = ({
+//   label,
+//   options,
+//   className,
+//   name,
+//   field,
+//   isInvalid,
+//   errorMessage,
+// }) => (
+//   <Col className={`my-4 ${className}`}>
+//     <Form.Label className="mb-4 fw-medium fs-5">{label}</Form.Label>
+//     <div className="d-flex align-items-center custom-radio">
+//       {options.map((option) => (
+//         <Form.Check
+//           key={option.value}
+//           type="radio"
+//           id={option.value}
+//           label={option.label}
+//           className={`me-3 ${isInvalid ? "is-invalid" : ""}`}
+//           name={name}
+//           value={option.value}
+//           checked={field.value === option.value}
+//           onChange={(e) => field.onChange(e.target.value)}
+//         />
+//       ))}
+//     </div>
+//     {isInvalid && (
+//       <Form.Control.Feedback type="invalid">
+//         {errorMessage}
+//       </Form.Control.Feedback>
+//     )}
+//   </Col>
+// );
 
 export const RadioField = ({
   label,
@@ -136,7 +176,7 @@ export const RadioField = ({
       ))}
     </div>
     {isInvalid && (
-      <Form.Control.Feedback type="invalid">
+      <Form.Control.Feedback type="invalid" className="d-block">
         {errorMessage}
       </Form.Control.Feedback>
     )}
