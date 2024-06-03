@@ -49,7 +49,7 @@ const FeaturedProp = () => {
           </h3>
         </div>
 
-        <div>
+        <div className="pe-3">
           <p
             className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}

@@ -103,18 +103,22 @@ export const propType = [
   {
     fe: "plot",
     be: "plot",
+    name: "plot",
   },
   {
     fe: "land",
     be: "land",
+    name: "land",
   },
   {
     fe: "Residential Property",
     be: "residential_property",
+    name: "residential",
   },
   {
-    fe: "commercial roperty",
+    fe: "commercial prooperty",
     be: "commercial_property",
+    name: "commercial",
   },
 ];
 
@@ -266,7 +270,6 @@ export const subTypeTwo = {
     {
       fe: "Service Apartment",
       be: "service_apartment",
-       
     },
   ],
 };
@@ -282,4 +285,82 @@ export const Facilities = [
   "Bore well",
   "Corner Plot",
   " water",
+];
+
+export const plotFilter = ["Facing", "Posted By", "Area"];
+export const residentialFilter = [
+  "Bedroom",
+  "Furnishing",
+  "Condition",
+  "Posted By",
+];
+export const commercialFilter = ["Category", "Furnishing", "Condition"];
+
+export const directions = [
+  { value: "east", label: "East" },
+  { value: "west", label: "West" },
+  { value: "north", label: "North" },
+  { value: "south", label: "South" },
+  { value: "north_east", label: "North-east" },
+  { value: "north_west", label: "North-west" },
+  { value: "south_east", label: "South-east" },
+  { value: "south_west", label: "South-west" },
+];
+
+export const people = ["owner", "agent", "builder"];
+
+export const bedroom = [
+  {
+    fe: "1 BHK",
+    be: "1BHK",
+  },
+  {
+    fe: "2 BHK",
+    be: "2BHK",
+  },
+  {
+    fe: "3 BHK",
+    be: "3BHK",
+  },
+  {
+    fe: "4 BHK",
+    be: "4BHK",
+  },
+];
+
+export const furnishing = [
+  {
+    fe: "Fully Furnished",
+    be: "fully_furnished",
+  },
+  {
+    fe: "Semi Furnished",
+    be: "semi_furnished",
+  },
+  {
+    fe: "Un Furnished",
+    be: "unfurnished",
+  },
+];
+
+export const condition = [
+  {
+    fe: " Ready to Move ",
+    be: "ready_to_move",
+  },
+  {
+    fe: " Under Construction ",
+    be: "under_construction",
+  },
+];
+
+export const category = [
+  {
+    fe: "New",
+    be: "new",
+  },
+  {
+    fe: " Resale ",
+    be: "resale",
+  },
 ];

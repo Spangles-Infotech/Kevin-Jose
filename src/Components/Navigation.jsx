@@ -73,12 +73,12 @@ const Navigation = () => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
   const [color, setcolor] = useState("");
   const [activeDropdown, setActiveDropdown] = useState("plot");
   const [propertyType, setPropertyType] = useState(false);

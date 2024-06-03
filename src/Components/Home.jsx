@@ -7,6 +7,7 @@ import Real from "./Real";
 import Enquiry from "./Enquiry";
 import Footer from "./Footer";
 import FeaturedProp from "./FeaturedProp";
+import Hero from "./home/hero";
 
 
 const Home = () => {
@@ -14,7 +15,9 @@ const Home = () => {
     <>
       <Navbar />
 
-      <Navigation />
+      <Hero/>
+
+      {/* <Navigation /> */}
 
       {/* <Properties /> */}
       <FeaturedProp/>

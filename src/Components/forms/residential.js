@@ -377,3 +377,274 @@
 //     </>
 //   );
 // }
+
+
+
+////
+
+
+
+
+
+
+// two
+
+import React, { useState } from "react";
+import { plotFilter, propType, subType, subTypeTwo } from "../Data";
+import image1 from "../../Images/image1.png";
+import image2 from "../../Images/f1.png";
+import image3 from "../../Images/f2.png";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
+import { IoSearchOutline } from "react-icons/io5";
+
+export default function Hero() {
+  const hereFor = [
+    {
+      fe: "Buy",
+      be: "sell",
+    },
+    {
+      fe: "Rent",
+      be: "rent",
+    },
+    {
+      fe: "Lease",
+      be: "lease",
+    },
+  ];
+
+  const [selectedOptions, setSelectedOptions] = useState({
+    purpose: "sell",
+    selectedProp: "plot",
+  });
+
+  const [purpose, setPurpose] = useState("sell");
+  const [selectedProp, setSelectedProp] = useState("plot");
+
+  //   click events
+  const [propertyClick, setPropertyClick] = useState(false);
+
+  return (
+    <div
+      className="container-fluild bg-image"
+      style={{ marginTop: "5.7%", height: "80vh" }}
+    >
+      <div
+        style={{
+          backgroundImage: "url('assets/Group 2449.png')",
+          backgroundSize: "cover",
+          height: "370px",
+        }}
+      >
+        <h6
+          className="text-white text-center   fs-1 fw-semibold"
+          style={{ paddingTop: "6%" }}
+        >
+          Welcome back, Let’s continue Your Search{" "}
+        </h6>
+
+        {/* bar starting */}
+
+        <div
+          className="container   mx-auto "
+          style={{ marginTop: "7%", position: "relative", zIndex: "10" }}
+        >
+          <div
+            className="bg-white  mx-auto d-flex justify-content-evenly align-items-center p-3 fw-medium rounded-3"
+            style={{
+              width: "60%",
+              fontSize: "20px",
+              boxShadow: "inset 0 -2px 3px rgba(255, 0, 0, 0.2)",
+            }}
+          >
+            {hereFor?.map((itm) => (
+              <div
+                key={itm.fe}
+                className={`cursor-point ${
+                  purpose === itm.be ? "text-danger" : ""
+                }`}
+                onClick={() => setPurpose(itm.be)}
+              >
+                {itm.fe}
+              </div>
+            ))}
+          </div>
+
+          {/* seach */}
+          <div
+            className="mx-auto bg-white  rounded-3  "
+            style={{ fontSize: "18px", width: "78%" }}
+          >
+            <div
+              className="d-flex mx-auto   align-items-center border-bottom border-2 fw-medium"
+              style={{ justifyContent: "space-around", fontSize: "18px" }}
+            >
+              {propType?.map((type, ind) => (
+                <div
+                  key={ind}
+                  onClick={() => setSelectedProp(type.be)}
+                  className={`text-capitalize px-2 py-3 cursor-point ${
+                    selectedProp === type.be
+                      ? "text-danger border-bottom border-danger border-3"
+                      : ""
+                  }`}
+                >
+                  {type.name}
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="border-bottom border-end border-start rounded-bottom-3"
+              style={{ boxShadow: "0 2px 3px rgba(255, 0, 0, 0.2)" }}
+            >
+              <div
+                className="d-flex  justify-content-around   rounded-bottom-3 py-3 "
+                style={{ boxShadow: "0 2px 3px rgba(255, 0, 0, 0.2)" }}
+              >
+                <div className="d-flex align-items-center justify-content-center p-2 gap-3  border-end ">
+                  <span>
+                    <img
+                      src={image1}
+                      style={{ height: "30px", width: "30px" }}
+                    />
+                  </span>
+                  <input
+                    type="text"
+                    className="border-0 outline-none"
+                    placeholder="Enter location"
+                    style={{ outline: "none" }}
+                  />
+                </div>
+
+                <div className="d-flex align-items-center  justify-content-center p-2 gap-3   ">
+                  <span>
+                    <img
+                      src={image2}
+                      style={{ height: "30px", width: "30px" }}
+                    />
+                  </span>
+                  <span>Property Type</span>
+                  <span onClick={() => setPropertyClick(!propertyClick)}>
+                    {propertyClick ? (
+                      <IoIosArrowUp className="cursor-point" />
+                    ) : (
+                      <IoIosArrowDown className="cursor-point" />
+                    )}
+                  </span>
+                </div>
+
+                <div className="d-flex align-items-center justify-content-center p-2 gap-3 ps-4  border-start">
+                  <span>
+                    <img
+                      src={image3}
+                      style={{ height: "30px", width: "30px" }}
+                    />
+                  </span>
+                  <span>Budget</span>
+                  <IoIosArrowDown />
+
+                  <button
+                    className="bg-danger text-white border-0 rounded-pill px-4 py-1 fw-medium d-flex align-items-center justify-content-center gap-3"
+                    style={{ fontSize: "18px" }}
+                  >
+                    <IoSearchOutline />
+                    Search
+                  </button>
+                </div>
+              </div>
+
+              {/* sub options */}
+
+              {selectedProp === "plot" && (
+                <div
+                  className={`bg-white mt-3 d-flex justify-content-evenly align-items-center py-4  rounded-bottom-3 ${
+                    propertyClick ? "d-block" : "d-none"
+                  }`}
+                >
+                  {subType.plot.map((type, ind) => (
+                    <div className="border rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1">
+                      {type.fe}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {selectedProp === "land" && (
+                <div
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4  rounded-bottom-3 ${
+                    propertyClick ? "d-block" : "d-none"
+                  }`}
+                >
+                  {subType.land.map((type, ind) => (
+                    <div className="border mb-3 rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1">
+                      {type.fe}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {selectedProp === "residential_property" && (
+                <div
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4  rounded-bottom-3 ${
+                    propertyClick ? "d-block" : "d-none"
+                  }`}
+                >
+                  {subType.residential_property.map((type, ind) => (
+                    <div className="border mb-3 rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1">
+                      {type.fe}
+                    </div>
+                  ))}
+                  {subTypeTwo.residential_property.map((type, ind) => (
+                    <div className="border mb-3 rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1">
+                      {type.fe}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {selectedProp === "commercial_property" && (
+                <div
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4  rounded-bottom-3 px-3 ${
+                    propertyClick ? "d-block" : "d-none"
+                  }`}
+                >
+                  {subType.commercial_property.map((type, ind) => (
+                    <div className="border mb-3 rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1">
+                      {type.fe}
+                    </div>
+                  ))}
+                  {subTypeTwo.commercial_property.map((type, ind) => (
+                    <div className="border mb-3 rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1">
+                      {type.fe}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* filter options */}
+              <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-start border-2 d-none">
+                {plotFilter.map((type, ind) => (
+                  <div className="border rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1 d-flex align-items-center justify-content-center gap-3">
+                    {type} <IoIosArrowDown />
+                  </div>
+                ))}
+              </div>
+
+              {/* filter options */}
+              <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 pb-4  border-start border-2 rounded-bottom-3 d-none">
+                {plotFilter.map((type, ind) => (
+                  <div className="border rounded-pill p-2 m-0 px-5 text-secondary fw-medium border-1 d-flex align-items-center justify-content-center gap-3">
+                    {type} <IoIosArrowDown />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
