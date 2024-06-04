@@ -3,7 +3,7 @@ import { Form, InputGroup } from "react-bootstrap";
 
 export default function AreaRange({lowArea,highArea}) {
   const [minArea, setMinArea] = useState("0");
-  const [maxArea, setMaxArea] = useState("1000");
+  const [maxArea, setMaxArea] = useState("8000");
 
   const handleMinAreaChange = (e) => {
     const value = e.target.value;

@@ -199,3 +199,20 @@ export const DescriptionBox = ({ field, error }) => (
     {error && <div className="invalid-feedback">{error.message}</div>}
   </Col>
 );
+
+export const BedroomSelect = ({ label, bedroom }) => (
+  <>
+    <Form.Label className="mb-3 fw-medium fs-5">{label}</Form.Label>
+    <Form.Select
+      size="lg"
+      aria-label="Default select example"
+      className="border-danger"
+    >
+      {bedroom?.map((room, ind) => (
+        <option key={ind} value={room.be}>
+          {room.fe}
+        </option>
+      ))}
+    </Form.Select>
+  </>
+);

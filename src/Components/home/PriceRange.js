@@ -12,8 +12,8 @@ const getUnit = (value) => {
 };
 
 export default function PriceRange({setMaxAmount,setMinAmount}) {
-  const [minPrice, setMinPrice] = useState("100000");
-  const [maxPrice, setMaxPrice] = useState("4000000")
+  const [minPrice, setMinPrice] = useState("0");
+  const [maxPrice, setMaxPrice] = useState("6000000")
 
   const handleMinPriceChange = (e) => {
     const value = e.target.value;

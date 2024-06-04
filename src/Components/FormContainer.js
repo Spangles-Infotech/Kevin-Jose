@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { activity, propType, role, subType, subTypeTwo } from "./Data";
 import PhoneInput from "react-phone-input-2";
+import Apartment from "./forms/Apartment";
 
 // Lazy loading of form components
 const Plots = React.lazy(() => import("./forms/Plots"));
@@ -55,7 +56,6 @@ export default function FormContainer() {
     email: "arjunnks123@gmail.com",
     phone: "+918220526561",
   };
-  
 
   const handleRoleSelect = (role) => {
     setOptions({ ...options, selectedRole: role });
@@ -238,6 +238,10 @@ export default function FormContainer() {
               options.selectedType === "land") &&
               options.selectedSubType !== "" && (
                 <Plots options={options} user={user} />
+              )}
+            {options.selectedType === "residential_property" &&
+              options.selectedSubType !== "" && (
+                <Apartment options={options} user={user} />
               )}
           </Suspense>
         </div>

@@ -54,10 +54,10 @@ export default function Hero() {
     location: "",
   });
 
-  const [minAmount, setMinAmount] = useState(100000);
-  const [maxAmount, setMaxAmount] = useState(4000000);
+  const [minAmount, setMinAmount] = useState(0);
+  const [maxAmount, setMaxAmount] = useState(6000000);
   const [minArea, setMinArea] = useState(0);
-  const [maxArea, setMaxArea] = useState(1000);
+  const [maxArea, setMaxArea] = useState(8000);
 
   console.log(selectedOptions);
 
@@ -90,11 +90,11 @@ export default function Hero() {
       );
     } else if (selectedOptions.selectedProp === "residential_property") {
       navigate(
-        `/result?property_type=${selectedOptions.selectedProp}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&bhk=${selectedOptions.bedroom}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&postedby=${selectedOptions.role}&min_price=${minAmount}&max_price=${maxAmount}`
+        `/result?property_type=${"residential"}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&bhk=${selectedOptions.bedroom}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&postedby=${selectedOptions.role}&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else if (selectedOptions.selectedProp === "commercial_property") {
       navigate(
-        `/result?property_type=${selectedOptions.selectedProp}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&category=${selectedOptions.category}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&min_price=${minAmount}&max_price=${maxAmount}`
+        `/result?property_type=${"commercial"}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&category=${selectedOptions.category}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else {
       navigate(
@@ -663,7 +663,12 @@ export default function Hero() {
 
           <div className="d-flex align-items-center justify-content-center gap-3 my-4">
             <span className=" fw-medium">Recent Searches :</span>
-            <span className="border rounded-pill p-0 m-0  px-4 py-2 text-secondary" style={{fontSize:"14px"}}>Residential Plot, Chennai</span>
+            <span
+              className="border rounded-pill p-0 m-0  px-4 py-2 text-secondary"
+              style={{ fontSize: "14px" }}
+            >
+              Residential Plot, Chennai
+            </span>
           </div>
         </div>
       </div>
