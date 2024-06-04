@@ -18,16 +18,13 @@ import image2 from "../../Images/f1.png";
 import image3 from "../../Images/f2.png";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-import RangeExample from "./AreaRange";
-import AreaRangeExample from "./AreaRange";
-import PriceRangeSlider from "./AreaRange";
 import AreaRange from "./AreaRange";
 import PriceRange from "./PriceRange";
 import { set } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const hereFor = [
     {
       fe: "Buy",
@@ -54,8 +51,13 @@ export default function Hero() {
     furnishing: "",
     condition: "",
     category: "",
-    location:"",
+    location: "",
   });
+
+  const [minAmount, setMinAmount] = useState(100000);
+  const [maxAmount, setMaxAmount] = useState(4000000);
+  const [minArea, setMinArea] = useState(0);
+  const [maxArea, setMaxArea] = useState(1000);
 
   console.log(selectedOptions);
 
@@ -84,37 +86,15 @@ export default function Hero() {
       selectedOptions.selectedProp === "land"
     ) {
       navigate(
-        `/result?property_type=${selectedOptions.selectedProp}&subtype=${
-          selectedOptions.subType
-        }&location=${selectedOptions.location}&you_are_here_to=${
-          selectedOptions.purpose
-        }&direction_facing=${selectedOptions.direction}&postedby=${
-          selectedOptions.role
-        }&min_area=${"0"}&max_area=${"100000"}&min_price=${"0"}&max_price=${"10000000000"}`
+        `/result?property_type=${selectedOptions.selectedProp}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&direction_facing=${selectedOptions.direction}&postedby=${selectedOptions.role}&min_area=${minArea}&max_area=${maxArea}&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else if (selectedOptions.selectedProp === "residential_property") {
       navigate(
-        `/result?property_type=${selectedOptions.selectedProp}&subtype=${
-          selectedOptions.subType
-        }&location=${selectedOptions.location}&you_are_here_to=${
-          selectedOptions.purpose
-        }&bhk=${selectedOptions.bedroom}&status=${
-          selectedOptions.furnishing
-        }&condition=${
-          selectedOptions.condition
-        }&postedby=${selectedOptions.role}&min_price=${""}&max_price=${""}`
+        `/result?property_type=${selectedOptions.selectedProp}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&bhk=${selectedOptions.bedroom}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&postedby=${selectedOptions.role}&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else if (selectedOptions.selectedProp === "commercial_property") {
       navigate(
-        `/result?property_type=${selectedOptions.selectedProp}&subtype=${
-          selectedOptions.subType
-        }&location=${selectedOptions.location}&you_are_here_to=${
-          selectedOptions.purpose
-        }&category=${selectedOptions.category}&status=${
-          selectedOptions.furnishing
-        }&condition=${
-          selectedOptions.condition
-        }&min_price=${""}&max_price=${""}`
+        `/result?property_type=${selectedOptions.selectedProp}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&category=${selectedOptions.category}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else {
       navigate(
@@ -172,7 +152,7 @@ export default function Hero() {
 
           {/* search */}
           <div
-            className="mx-auto bg-white rounded-3"
+            className="mx-auto bg-white rounded-5"
             style={{ fontSize: "18px", width: "78%" }}
           >
             <div
@@ -195,11 +175,11 @@ export default function Hero() {
             </div>
 
             <div
-              className="border-bottom border-end border-start rounded-bottom-3"
+              className="border-bottom border-end border-start rounded-bottom-5"
               style={{ boxShadow: "0 2px 3px rgba(255, 0, 0, 0.2)" }}
             >
               <div
-                className="d-flex justify-content-around rounded-bottom-3 py-3"
+                className="d-flex justify-content-around rounded-bottom-5 py-3"
                 style={{ boxShadow: "0 2px 3px rgba(255, 0, 0, 0.2)" }}
               >
                 <div className="d-flex align-items-center justify-content-center p-2 gap-3 border-end">
@@ -214,7 +194,12 @@ export default function Hero() {
                     className="border-0 outline-none"
                     placeholder="Enter location"
                     style={{ outline: "none" }}
-                    onChange={(e)=>setSelectedOptions({...selectedOptions,location:e.target.value})}
+                    onChange={(e) =>
+                      setSelectedOptions({
+                        ...selectedOptions,
+                        location: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -268,7 +253,8 @@ export default function Hero() {
 
                   <button
                     className="bg-danger text-white border-0 rounded-pill px-4 py-1 fw-medium d-flex align-items-center justify-content-center gap-3"
-                    style={{ fontSize: "18px" }} onClick={()=>handleSearch()}
+                    style={{ fontSize: "18px" }}
+                    onClick={() => handleSearch()}
                   >
                     <IoSearchOutline />
                     Search
@@ -280,7 +266,7 @@ export default function Hero() {
 
               {selectedOptions.selectedProp === "plot" && (
                 <div
-                  className={`bg-white mt-3 d-flex justify-content-evenly align-items-center py-4 rounded-bottom-3 ${
+                  className={`bg-white mt-3 d-flex justify-content-evenly align-items-center py-4 rounded-bottom-5 ${
                     propertyClick ? "d-block" : "d-none"
                   }`}
                 >
@@ -307,7 +293,7 @@ export default function Hero() {
 
               {selectedOptions.selectedProp === "land" && (
                 <div
-                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4 rounded-bottom-3 ${
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly px-1 gap-2 align-items-center py-4 rounded-bottom-5 ${
                     propertyClick ? "d-block" : "d-none"
                   }`}
                 >
@@ -334,7 +320,7 @@ export default function Hero() {
 
               {selectedOptions.selectedProp === "residential_property" && (
                 <div
-                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4 rounded-bottom-3 ${
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4 rounded-bottom-5 ${
                     propertyClick ? "d-block" : "d-none"
                   }`}
                 >
@@ -379,7 +365,7 @@ export default function Hero() {
 
               {selectedOptions.selectedProp === "commercial_property" && (
                 <div
-                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4 rounded-bottom-3 px-3 ${
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-around gap-2 align-items-center py-4 rounded-bottom-5 px-3 ${
                     propertyClick ? "d-block" : "d-none"
                   }`}
                 >
@@ -428,7 +414,7 @@ export default function Hero() {
                 selectedOptions.selectedProp === "land") &&
                 selectedOptions.subType !== "" &&
                 propertyClick && (
-                  <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-top rounded-bottom-3 border-2">
+                  <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-top rounded-bottom-5 border-2">
                     {plotFilter.map((type, ind) => (
                       <div
                         key={ind}
@@ -459,7 +445,7 @@ export default function Hero() {
               {selectedOptions.selectedProp === "residential_property" &&
                 selectedOptions.subType !== "" &&
                 propertyClick && (
-                  <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-top rounded-bottom-3 border-2">
+                  <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-top rounded-bottom-5 border-2">
                     {residentialFilter.map((type, ind) => (
                       <div
                         key={ind}
@@ -490,7 +476,7 @@ export default function Hero() {
               {selectedOptions.selectedProp === "commercial_property" &&
                 selectedOptions.subType !== "" &&
                 propertyClick && (
-                  <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-top rounded-bottom-3 border-2">
+                  <div className="bg-white mt-3 d-flex justify-content-evenly gap-5 align-items-center py-4 border-top rounded-bottom-5 border-2">
                     {commercialFilter.map((type, ind) => (
                       <div
                         key={ind}
@@ -521,7 +507,7 @@ export default function Hero() {
               {/* direction */}
 
               {selectedOptions.filter === "Facing" && propertyClick && (
-                <div className="bg-white mt-3 d-flex flex-wrap justify-content-between px-3 gap-5 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-3">
+                <div className="bg-white mt-3 d-flex flex-wrap justify-content-center px-3 gap-5 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-5">
                   {directions.map((type, ind) => (
                     <div
                       key={ind}
@@ -545,7 +531,7 @@ export default function Hero() {
 
               {/* posted by */}
               {selectedOptions.filter === "Posted By" && propertyClick && (
-                <div className="bg-white mt-3 d-flex  flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-3">
+                <div className="bg-white mt-3 d-flex  flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-5">
                   {people.map((type, ind) => (
                     <div
                       key={ind}
@@ -568,7 +554,7 @@ export default function Hero() {
 
               {/* Bedroom */}
               {selectedOptions.filter === "Bedroom" && propertyClick && (
-                <div className="bg-white mt-3 d-flex flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-3">
+                <div className="bg-white mt-3 d-flex flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-5">
                   {bedroom.map((type, ind) => (
                     <div
                       key={ind}
@@ -591,7 +577,7 @@ export default function Hero() {
 
               {/* furnishing */}
               {selectedOptions.filter === "Furnishing" && propertyClick && (
-                <div className="bg-white mt-3 d-flex flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-3">
+                <div className="bg-white mt-3 d-flex flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-5">
                   {furnishing.map((type, ind) => (
                     <div
                       key={ind}
@@ -614,7 +600,7 @@ export default function Hero() {
 
               {/* condition */}
               {selectedOptions.filter === "Condition" && propertyClick && (
-                <div className="bg-white mt-3 d-flex flex-wrap justify-content-center px- gap-4 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-3">
+                <div className="bg-white mt-3 d-flex flex-wrap justify-content-center px- gap-4 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-5">
                   {condition.map((type, ind) => (
                     <div
                       key={ind}
@@ -637,7 +623,7 @@ export default function Hero() {
 
               {/* category */}
               {selectedOptions.filter === "Category" && propertyClick && (
-                <div className="bg-white mt-3 d-flex flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-3">
+                <div className="bg-white mt-3 d-flex flex-wrap justify-content-around px- gap-3 align-items-center py-4 pb-4 border-top border-2 rounded-bottom-5">
                   {category.map((type, ind) => (
                     <div
                       key={ind}
@@ -661,13 +647,23 @@ export default function Hero() {
               {/* area */}
 
               {propertyClick && selectedOptions.filter === "Area" && (
-                <AreaRange />
+                <AreaRange lowArea={setMinArea} highArea={setMaxArea} />
               )}
 
               {/* area */}
 
-              {budgetClick && <PriceRange />}
+              {budgetClick && (
+                <PriceRange
+                  setMaxAmount={setMaxAmount}
+                  setMinAmount={setMinAmount}
+                />
+              )}
             </div>
+          </div>
+
+          <div className="d-flex align-items-center justify-content-center gap-3 my-4">
+            <span className=" fw-medium">Recent Searches :</span>
+            <span className="border rounded-pill p-0 m-0  px-4 py-2 text-secondary" style={{fontSize:"14px"}}>Residential Plot, Chennai</span>
           </div>
         </div>
       </div>

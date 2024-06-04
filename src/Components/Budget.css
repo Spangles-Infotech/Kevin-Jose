@@ -6,7 +6,8 @@
 }
 .wrapper {
   padding: 3%;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 2px 3px rgba(255, 0, 0, 0.2);
 }
 header h2 {
   font-size: 24px;
