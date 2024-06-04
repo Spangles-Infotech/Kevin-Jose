@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { activity, propType, role, subType, subTypeTwo } from "./Data";
 import PhoneInput from "react-phone-input-2";
 import Apartment from "./forms/Apartment";
+import Residential from "./forms/residential";
 
 // Lazy loading of form components
 const Plots = React.lazy(() => import("./forms/Plots"));
@@ -49,6 +50,7 @@ export default function FormContainer() {
     selectedActivity: "sell",
     selectedType: "plot",
     selectedSubType: "",
+    subTypeCat: "",
   });
 
   const user = {
@@ -69,9 +71,19 @@ export default function FormContainer() {
     setOptions({ ...options, selectedType: type, selectedSubType: "" });
   };
 
-  const handleSubTypeSelect = (subType) => {
-    setOptions({ ...options, selectedSubType: subType });
+  const handleSubTypeSelect = (subType, two) => {
+    if (two) {
+      setOptions({
+        ...options,
+        selectedSubType: subType,
+        subTypeCat: "optionTwo",
+      });
+    } else {
+      setOptions({ ...options, selectedSubType: subType,subTypeCat:"" });
+    }
   };
+
+  console.log(options);
 
   return (
     <>
@@ -188,7 +200,7 @@ export default function FormContainer() {
                     }`}
                     style={{ fontSize: "16px", textTransform: "capitalize" }}
                     key={indx}
-                    onClick={() => handleSubTypeSelect(itm.be)}
+                    onClick={() => handleSubTypeSelect(itm.be, "two")}
                   >
                     {itm.fe}
                   </span>

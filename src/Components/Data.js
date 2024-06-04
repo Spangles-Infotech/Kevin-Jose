@@ -116,7 +116,7 @@ export const propType = [
     name: "residential",
   },
   {
-    fe: "commercial prooperty",
+    fe: "commercial property",
     be: "commercial_property",
     name: "commercial",
   },
@@ -363,4 +363,38 @@ export const category = [
     fe: " Resale ",
     be: "resale",
   },
+];
+
+export const indoorFacilities = [
+  "Balcony",
+  "Lobby",
+  "Corridor",
+  "ModularKitchen",
+  "AirConditioning",
+  "PowerBackup",
+  "WIFI",
+  "Lift",
+];
+
+export const outdoorFacilities = [
+  "Car Parking",
+  "Security",
+  "Avenue Trees",
+  "Parks",
+  "Stores",
+  "Club House",
+  " Community Hall",
+  "Saloon",
+  "Pool",
+  "CCTV",
+];
+
+export const residentialImagesCat = [
+  "Exterior View",
+  "Living Room",
+  "Bedrooms",
+  "Bathrooms",
+  "Kitchen",
+  "Building Plan",
+  "Location Map",
 ];

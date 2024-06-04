@@ -324,7 +324,7 @@ export default function Plots({ user, options }) {
         </Col>
       </Row> */}
 
-      <h5>Plot Size</h5>
+      <h5 className="mt-3 fw-semibold">Plot Size</h5>
       <Row>
         <Controller
           name="plotLength"

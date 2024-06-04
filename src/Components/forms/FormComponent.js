@@ -20,7 +20,7 @@ export const Field = ({
   errorMessage,
   ...props
 }) => (
-  <Col className="my-5 ">
+  <Col className="my-3">
     <Form.Group controlId={props.name}>
       <Form.Label className="mb-3 fw-medium fs-5">{label}</Form.Label>
       <Form.Control
@@ -76,11 +76,13 @@ export const SelectField = ({
   errorMessage,
   type,
   width,
+  label,
 }) => {
   const { value = { value: "", unit: unit[0].be }, onChange } = field;
 
   return (
-    <Col className="my-3">
+    <Col className=" ">
+      <Form.Label className="my-3 fw-medium fs-5">{label}</Form.Label>
       <InputGroup className="mb-3">
         <Form.Control
           aria-label="Text input with dropdown button"
@@ -115,40 +117,6 @@ export const SelectField = ({
   );
 };
 
-// export const RadioField = ({
-//   label,
-//   options,
-//   className,
-//   name,
-//   field,
-//   isInvalid,
-//   errorMessage,
-// }) => (
-//   <Col className={`my-4 ${className}`}>
-//     <Form.Label className="mb-4 fw-medium fs-5">{label}</Form.Label>
-//     <div className="d-flex align-items-center custom-radio">
-//       {options.map((option) => (
-//         <Form.Check
-//           key={option.value}
-//           type="radio"
-//           id={option.value}
-//           label={option.label}
-//           className={`me-3 ${isInvalid ? "is-invalid" : ""}`}
-//           name={name}
-//           value={option.value}
-//           checked={field.value === option.value}
-//           onChange={(e) => field.onChange(e.target.value)}
-//         />
-//       ))}
-//     </div>
-//     {isInvalid && (
-//       <Form.Control.Feedback type="invalid">
-//         {errorMessage}
-//       </Form.Control.Feedback>
-//     )}
-//   </Col>
-// );
-
 export const RadioField = ({
   label,
   options,
@@ -160,7 +128,7 @@ export const RadioField = ({
 }) => (
   <Col className={`my-4 ${className}`}>
     <Form.Label className="mb-4 fw-medium fs-5">{label}</Form.Label>
-    <div className="d-flex align-items-center custom-radio">
+    <div className="d-flex align-items-center gap-5 custom-radio">
       {options.map((option) => (
         <Form.Check
           key={option.value}
@@ -200,19 +168,37 @@ export const DescriptionBox = ({ field, error }) => (
   </Col>
 );
 
-export const BedroomSelect = ({ label, bedroom }) => (
+ 
+
+export const BedroomSelect = ({
+  label,
+  bedroom,
+  isInvalid,
+  errorMessage,
+  ...field
+}) => (
   <>
-    <Form.Label className="mb-3 fw-medium fs-5">{label}</Form.Label>
+    <Form.Label className="my-3 fw-medium fs-5">{label}</Form.Label>
     <Form.Select
       size="lg"
       aria-label="Default select example"
-      className="border-danger"
+      className={`border-danger ${isInvalid ? "is-invalid" : ""}`}
+      defaultValue={bedroom && bedroom.length > 0 ? bedroom[0].be : ""}
+      {...field}
     >
+      <option>Select Number of bedroom</option>
       {bedroom?.map((room, ind) => (
         <option key={ind} value={room.be}>
           {room.fe}
         </option>
       ))}
     </Form.Select>
+    {isInvalid && (
+      <Form.Control.Feedback type="invalid">
+        {errorMessage}
+      </Form.Control.Feedback>
+    )}
   </>
 );
+
+export default BedroomSelect;
