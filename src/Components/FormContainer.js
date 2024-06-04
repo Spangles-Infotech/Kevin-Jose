@@ -3,11 +3,11 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { activity, propType, role, subType, subTypeTwo } from "./Data";
 import PhoneInput from "react-phone-input-2";
-import Apartment from "./forms/Apartment";
-import Residential from "./forms/residential";
 
 // Lazy loading of form components
 const Plots = React.lazy(() => import("./forms/Plots"));
+const Apartment = React.lazy(() => import("./forms/Apartment"));
+const CommercialCommon = React.lazy(() => import("./forms/commercial/common"));
 
 export const InputField = ({
   label,
@@ -79,7 +79,7 @@ export default function FormContainer() {
         subTypeCat: "optionTwo",
       });
     } else {
-      setOptions({ ...options, selectedSubType: subType,subTypeCat:"" });
+      setOptions({ ...options, selectedSubType: subType, subTypeCat: "" });
     }
   };
 
@@ -254,6 +254,10 @@ export default function FormContainer() {
             {options.selectedType === "residential_property" &&
               options.selectedSubType !== "" && (
                 <Apartment options={options} user={user} />
+              )}
+            {(options.selectedType === "commercial_property" && options?.subTypeCat === "") &&
+              options.selectedSubType !== "" && (
+                <CommercialCommon options={options} user={user} />
               )}
           </Suspense>
         </div>

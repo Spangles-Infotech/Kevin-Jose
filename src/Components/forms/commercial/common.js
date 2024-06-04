@@ -7,19 +7,20 @@ import {
   Field,
   RadioField,
   SelectField,
-} from "./FormComponent";
+} from "../FormComponent";
+import { FaTimes } from "react-icons/fa";
 import {
-  bedroom,
+  CommercialImagesCat,
   indoorFacilities,
   outdoorFacilities,
-  residentialImagesCat,
-} from "../Data";
-import { FaTimes } from "react-icons/fa";
-import { Baseurl, UserConfig } from "../request";
-import axios from "axios";
+} from "../../Data";
+
+import { Baseurl, UserConfig } from "../../request";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-export default function Apartment({ options, user }) {
+import axios from "axios";
+
+export default function CommercialCommon({ options, user }) {
   const {
     control,
     handleSubmit,
@@ -27,6 +28,7 @@ export default function Apartment({ options, user }) {
     setFocus,
   } = useForm();
   const navigate = useNavigate();
+  // indoor
   const [inputValue, setInputValue] = useState("");
   const [selectedFacility, setSelectedFacility] = useState([]);
   const toggleFacility = (facility) => {
@@ -78,14 +80,10 @@ export default function Apartment({ options, user }) {
 
   const [imageCat, setImageCat] = useState("Exterior View");
 
-  
-
   const [exterior, setExterior] = useState([]);
-  const [living, setLiving] = useState([]);
-  const [bedrooms, setBedrooms] = useState([]);
-  const [bathrooms, setBathrooms] = useState([]);
-  const [Kitchen, setKitchen] = useState([]);
-  const [building, setBuilding] = useState([]);
+  const [interior, setInterior] = useState([]);
+  const [washroom, setWashroom] = useState([]);
+  const [floorPlan, setFloorPlan] = useState([]);
   const [location, setLocation] = useState([]);
   const [logo, setLogo] = useState([]);
 
@@ -98,46 +96,30 @@ export default function Apartment({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setExterior([...exterior, ...newImages]);
-    } else if (imageCat === "Living Room") {
+    } else if (imageCat === "Interior") {
       const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - living.length);
+      const imagesToAdd = files.slice(0, 1 - interior.length);
       const newImages = imagesToAdd.map((file) => ({
         file,
         id: Math.random().toString(36).substr(2, 9),
       }));
-      setLiving([...living, ...newImages]);
-    } else if (imageCat === "Bedrooms") {
+      setInterior([...interior, ...newImages]);
+    } else if (imageCat === "Washroom") {
       const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - bedrooms.length);
+      const imagesToAdd = files.slice(0, 1 - washroom.length);
       const newImages = imagesToAdd.map((file) => ({
         file,
         id: Math.random().toString(36).substr(2, 9),
       }));
-      setBedrooms([...bedrooms, ...newImages]);
-    } else if (imageCat === "Bathrooms") {
+      setWashroom([...washroom, ...newImages]);
+    } else if (imageCat === "Floor Plan") {
       const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - bathrooms.length);
+      const imagesToAdd = files.slice(0, 1 - floorPlan.length);
       const newImages = imagesToAdd.map((file) => ({
         file,
         id: Math.random().toString(36).substr(2, 9),
       }));
-      setBathrooms([...bathrooms, ...newImages]);
-    } else if (imageCat === "Kitchen") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - Kitchen.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setKitchen([...Kitchen, ...newImages]);
-    } else if (imageCat === "Building Plan") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - building.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setBuilding([...building, ...newImages]);
+      setFloorPlan([...floorPlan, ...newImages]);
     } else if (imageCat === "Location Map") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - location.length);
@@ -161,21 +143,15 @@ export default function Apartment({ options, user }) {
     if (imageCat === "Exterior View") {
       const filteredImages = exterior.filter((image) => image.id !== id);
       setExterior(filteredImages);
-    } else if (imageCat === "Living Room") {
-      const filteredImages = living.filter((image) => image.id !== id);
-      setLiving(filteredImages);
-    } else if (imageCat === "Bedrooms") {
-      const filteredImages = bedrooms.filter((image) => image.id !== id);
-      setBedrooms(filteredImages);
-    } else if (imageCat === "Bathrooms") {
-      const filteredImages = bathrooms.filter((image) => image.id !== id);
-      setBathrooms(filteredImages);
-    } else if (imageCat === "Kitchen") {
-      const filteredImages = Kitchen.filter((image) => image.id !== id);
-      setKitchen(filteredImages);
-    } else if (imageCat === "Building Plan") {
-      const filteredImages = building.filter((image) => image.id !== id);
-      setBuilding(filteredImages);
+    } else if (imageCat === "Interior") {
+      const filteredImages = interior.filter((image) => image.id !== id);
+      setInterior(filteredImages);
+    } else if (imageCat === "Washroom") {
+      const filteredImages = washroom.filter((image) => image.id !== id);
+      setWashroom(filteredImages);
+    } else if (imageCat === "Floor Plan") {
+      const filteredImages = floorPlan.filter((image) => image.id !== id);
+      setFloorPlan(filteredImages);
     } else if (imageCat === "Location Map") {
       const filteredImages = location.filter((image) => image.id !== id);
       setLocation(filteredImages);
@@ -191,7 +167,7 @@ export default function Apartment({ options, user }) {
     formData.append("name", user?.name);
     formData.append("phone", user?.phone);
     formData.append("email", user?.email);
-    formData.append("property_type", "residential");
+    formData.append("property_type", "commercial");
     formData.append("you_are_here_to", options?.selectedActivity);
     formData.append("owner", options?.selectedActivity === "sell");
     formData.append("agent", options?.selectedActivity === "rent");
@@ -200,7 +176,7 @@ export default function Apartment({ options, user }) {
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);
     formData.append("advance", parseInt(formValue?.AdvanceAmount));
-    formData.append("residential.residential_type", options?.selectedSubType);
+    formData.append("commercial.commercial_type", options?.selectedSubType);
     // activity  conditions -------->
     if (options?.selectedActivity === "sell") {
       formData.append("sale_price", formValue?.salePrice);
@@ -216,150 +192,71 @@ export default function Apartment({ options, user }) {
     if (options?.selectedRole === "agent") {
       formData.append("agent_commission", formValue?.AgentCommision);
     }
-    // house and appartment
-    if (options.subTypeCat === "optionTwo") {
-      formData.append("apartment.available_bhk", formValue?.bedroom);
+
+    // other commercial
+    formData.append(
+      "showroom.built_up_area",
+      parseInt(formValue?.totalArea?.value)
+    );
+    formData.append("showroom.built_up_area_unit", formValue?.totalArea?.unit);
+    // formData.append("showroom.unit", "sqft");
+    formData.append(
+      "showroom.available_floors",
+      parseInt(formValue?.availableFloors)
+    );
+    formData.append("showroom.total_floors", formValue?.totalFloor);
+    formData.append("showroom.category_of_project", formValue?.category);
+    formData.append(
+      "showroom.no_of_two_wheeler_parking",
+      formValue?.twoWheeler
+    );
+    formData.append("showroom.no_of_car_parking", formValue?.carParking);
+    formData.append("showroom.condition", formValue?.condition);
+    formData.append("showroom.status", formValue?.status);
+    formData.append("showroom.floor_number", formValue?.floorNumber);
+    selectedFacility.forEach((element, index) => {
       formData.append(
-        "apartment.built_up_area",
-        parseInt(formValue?.totalArea.value)
+        `showroom.indoor_facilities[${index}]facility.name`,
+        element
       );
+    });
+    outSelectedFacility.forEach((element, index) => {
       formData.append(
-        "apartment.built_up_area_unit",
-        formValue?.totalArea.unit
+        `showroom.outdoor_facilities[${index}]facility.name`,
+        element
       );
-      formData.append(
-        "apartment.plot_area",
-        parseInt(parseInt(formValue?.plotArea.value))
-      );
-      formData.append("apartment.plot_area_unit", formValue?.plotArea.unit);
-      formData.append("apartment.total_floors", parseInt(formValue.totalFloor));
-
-      formData.append("apartment.category_of_project", formValue?.category);
-      formData.append("apartment.condition", formValue?.condition);
-      formData.append("apartment.status", formValue?.status);
-      formData.append(
-        "apartment.floor_number",
-        parseInt(formValue?.floorNumber)
-      );
-      selectedFacility.forEach((element, index) => {
-        formData.append(
-          `apartment.indoor_facilities[${index}]facility.name`,
-          element
-        );
-      });
-      outSelectedFacility.forEach((element, index) => {
-        formData.append(
-          `apartment.outdoor_facilities[${index}]facility.name`,
-          element
-        );
-      });
-      exterior?.forEach((image) => {
-        formData.append(`apartment_images[${0}]section`, "exterior_view");
-        formData.append(`apartment_images[${0}]image`, image.file);
-      });
-
-      living?.forEach((image) => {
-        formData.append(`apartment_images[${1}]section`, "livingroom");
-        formData.append(`apartment_images[${1}]image`, image.file);
-      });
-      bedrooms?.forEach((image) => {
-        formData.append(`apartment_images[${2}]section`, "bedrooms");
-        formData.append(`apartment_images[${2}]image`, image.file);
-      });
-      bathrooms?.forEach((image) => {
-        formData.append(`apartment_images[${3}]section`, "bathrooms");
-        formData.append(`apartment_images[${3}]image`, image.file);
-      });
-      Kitchen?.forEach((image) => {
-        formData.append(`apartment_images[${4}]section`, "kitchen");
-        formData.append(`apartment_images[${4}]image`, image.file);
-      });
-
-      building?.forEach((image) => {
-        formData.append(`apartment_images[${5}]section`, "building_plan");
-        formData.append(`apartment_images[${5}]image`, image.file);
-      });
-      location?.forEach((image) => {
-        formData.append(`apartment_images[${6}]section`, "location_map");
-        formData.append(`apartment_images[${6}]image`, image.file);
-      });
-      logo?.forEach((image) => {
-        formData.append(`apartment_images[${6}]section`, "logo");
-        formData.append(`apartment_images[${6}]image`, image.file);
-      });
-    } else {
-     
-      formData.append("house.available_bhk", formValue?.bedroom);
-      formData.append(
-        "house.built_up_area",
-        parseInt(formValue?.totalArea?.value)
-      );
-      formData.append("house.built_up_area_unit", formValue?.totalArea?.unit);
-      formData.append(
-        "house.no_of_units_in_project",
-        parseInt(formValue?.noUnit)
-      );
-      formData.append("house.total_floors", formValue?.totalFloor);
-      formData.append("house.category_of_project", formValue?.category);
-
-      formData.append("house.condition", formValue?.condition);
-      formData.append("house.status", formValue?.status);
-
-      selectedFacility.forEach((element, index) => {
-        formData.append(
-          `house.indoor_facilities[${index}]facility.name`,
-          element
-        );
-      });
-      outSelectedFacility.forEach((element, index) => {
-        formData.append(
-          `house.outdoor_facilities[${index}]facility.name`,
-          element
-        );
-      });
-
-      exterior?.forEach((image) => {
-        formData.append(`house_images[${0}]section`, "exterior_view");
-        formData.append(`house_images[${0}]image`, image.file);
-      });
-
-      living?.forEach((image) => {
-        formData.append(`house_images[${1}]section`, "livingroom");
-        formData.append(`house_images[${1}]image`, image.file);
-      });
-      bedrooms?.forEach((image) => {
-        formData.append(`house_images[${2}]section`, "bedrooms");
-        formData.append(`house_images[${2}]image`, image.file);
-      });
-      bathrooms?.forEach((image) => {
-        formData.append(`house_images[${3}]section`, "bathrooms");
-        formData.append(`house_images[${3}]image`, image.file);
-      });
-      Kitchen?.forEach((image) => {
-        formData.append(`house_images[${4}]section`, "kitchen");
-        formData.append(`house_images[${4}]image`, image.file);
-      });
-
-      building?.forEach((image) => {
-        formData.append(`house_images[${5}]section`, "building_plan");
-        formData.append(`house_images[${5}]image`, image.file);
-      });
-      location?.forEach((image) => {
-        formData.append(`house_images[${6}]section`, "location_map");
-        formData.append(`house_images[${6}]image`, image.file);
-      });
-      logo?.forEach((image) => {
-        formData.append(`house_images[${6}]section`, "logo");
-        formData.append(`house_images[${6}]image`, image.file);
-      });
-    }
-
+    });
+    exterior?.forEach((image) => {
+      formData.append(`showroom_images[${0}]section`, "exterior_view");
+      formData.append(`showroom_images[${0}]image`, image.file);
+    });
+    interior?.forEach((image) => {
+      formData.append(`showroom_images[${0}]section`, "interior");
+      formData.append(`showroom_images[${0}]image`, image.file);
+    });
+    washroom?.forEach((image) => {
+      formData.append(`showroom_images[${0}]section`, "washroom");
+      formData.append(`showroom_images[${0}]image`, image.file);
+    });
+    floorPlan?.forEach((image) => {
+      formData.append(`showroom_images[${0}]section`, "floor_plan");
+      formData.append(`showroom_images[${0}]image`, image.file);
+    });
+    location?.forEach((image) => {
+      formData.append(`showroom_images[${0}]section`, "location_map");
+      formData.append(`showroom_images[${0}]image`, image.file);
+    });
+    logo?.forEach((image) => {
+      formData.append(`showroom_images[${0}]section`, "logo");
+      formData.append(`showroom_images[${0}]image`, image.file);
+    });
     try {
       const response = await axios.post(
         ` ${Baseurl}createproperty/`,
         formData,
         UserConfig
       );
+      console.log(response);
       navigate("/check", { state: response.data });
     } catch (error) {
       console.error("Server error", error);
@@ -373,7 +270,7 @@ export default function Apartment({ options, user }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
-        <Col md={6}>
+        <Col>
           <Controller
             name="propertyName"
             control={control}
@@ -390,6 +287,9 @@ export default function Apartment({ options, user }) {
             )}
           />
         </Col>
+      </Row>
+
+      <Row>
         <Col md={6}>
           <Controller
             name="propertyLocation"
@@ -407,45 +307,24 @@ export default function Apartment({ options, user }) {
             )}
           />
         </Col>
-      </Row>
-      <Row>
-        {options?.subTypeCat === "optionTwo" && (
-          <Col md={6}>
-            <Controller
-              name="city"
-              control={control}
-              defaultValue=""
-              rules={{ required: "City is required" }}
-              render={({ field }) => (
-                <Field
-                  label="City"
-                  placeholder="Enter City"
-                  isInvalid={!!errors.city}
-                  errorMessage={errors.city?.message}
-                  {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
-
         <Col md={6}>
           <Controller
-            name="bedroom"
+            name="city"
             control={control}
             defaultValue=""
-            rules={{ required: "Number of bedroom is required" }}
+            rules={{ required: "City is required" }}
             render={({ field }) => (
-              <BedroomSelect
-                label={"Available BHK"}
-                bedroom={bedroom}
-                isInvalid={!!errors.bedroom}
-                errorMessage={errors.bedroom?.message}
+              <Field
+                label="City"
+                placeholder="Enter City"
+                isInvalid={!!errors.city}
+                errorMessage={errors.city?.message}
                 {...field}
               />
             )}
           />
         </Col>
+
         <Col md={6}>
           <Controller
             name="totalArea"
@@ -465,49 +344,42 @@ export default function Apartment({ options, user }) {
             )}
           />
         </Col>
+        <Col md={6}>
+          <Controller
+            name="availableFloors"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Available floors required" }}
+            render={({ field }) => (
+              <Field
+                label="Availabe Floors"
+                placeholder="Availabe Floors"
+                isInvalid={!!errors.availableFloors}
+                errorMessage={errors.availableFloors?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
 
-        {options?.subTypeCat === "optionTwo" && (
-          <Col md={6}>
-            <Controller
-              name="plotArea"
-              control={control}
-              rules={{ required: "Plot area is required" }}
-              render={({ field }) => (
-                <SelectField
-                  label={"Plot Area"}
-                  type={"number"}
-                  width={"75%"}
-                  placeholder="Plot Area"
-                  unit={[{ be: "sqft", fe: "Sqft" }]}
-                  field={field}
-                  isInvalid={!!errors.plotArea}
-                  errorMessage={errors.plotArea?.message}
-                />
-              )}
-            />
-          </Col>
-        )}
-      </Row>
-      <Row>
-        {options?.subTypeCat === "" && (
-          <Col md={6}>
-            <Controller
-              name="noUnit"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Number of units required" }}
-              render={({ field }) => (
-                <Field
-                  label="Number of Units in the Project"
-                  placeholder="Number of Units in the Project"
-                  isInvalid={!!errors.noUnit}
-                  errorMessage={errors.noUnit?.message}
-                  {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
+        <Col md={6}>
+          <Controller
+            name="floorNumber"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Floor Number is required" }}
+            render={({ field }) => (
+              <Field
+                label="Floor Number"
+                placeholder="Floor Number"
+                isInvalid={!!errors.floorNumber}
+                errorMessage={errors.floorNumber?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+
         <Col md={6}>
           <Controller
             name="totalFloor"
@@ -525,26 +397,43 @@ export default function Apartment({ options, user }) {
             )}
           />
         </Col>
-        {options?.subTypeCat === "optionTwo" && (
-          <Col md={6}>
-            <Controller
-              name="floorNumber"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Floor Number is required" }}
-              render={({ field }) => (
-                <Field
-                  label="Floor Number"
-                  placeholder="Floor Number"
-                  isInvalid={!!errors.floorNumber}
-                  errorMessage={errors.floorNumber?.message}
-                  {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
+
+        <Col md={6}>
+          <Controller
+            name="twoWheeler"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Number of two wheeler parking is required" }}
+            render={({ field }) => (
+              <Field
+                label={"Number of Two Wheeler Parking"}
+                placeholder="Two Wheeler"
+                isInvalid={!!errors.twoWheeler}
+                errorMessage={errors.twoWheeler?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={6}>
+          <Controller
+            name="carParking"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Number of  car parking is required" }}
+            render={({ field }) => (
+              <Field
+                label={"Number of Car Parking"}
+                placeholder=" Car Parking"
+                isInvalid={!!errors.carParking}
+                errorMessage={errors.carParking?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
       </Row>
+
       <Row>
         <Controller
           name="category"
@@ -594,6 +483,7 @@ export default function Apartment({ options, user }) {
           )}
         />
       </Row>
+
       <Row>
         <Controller
           name="status"
@@ -618,6 +508,7 @@ export default function Apartment({ options, user }) {
           )}
         />
       </Row>
+
       <Controller
         name="condition"
         control={control}
@@ -656,7 +547,7 @@ export default function Apartment({ options, user }) {
         )}
       />
 
-      <h5>Indoor Facilities</h5>
+      <h5 className="py-3">Indoor Facilities</h5>
       <div className="form-shadow px-2 rounded-4 my-4 ">
         <div className="d-flex align-items-center border-bottom py-2">
           <div
@@ -707,7 +598,7 @@ export default function Apartment({ options, user }) {
         </div>
       </div>
 
-      <h5>Outdoor Facilities</h5>
+      <h5 className="py-3">Outdoor Facilities</h5>
       <div className="form-shadow px-2 rounded-4 my-4 ">
         <div className="d-flex align-items-center border-bottom py-2">
           <div
@@ -862,9 +753,6 @@ export default function Apartment({ options, user }) {
 
         {options?.selectedActivity === "lease" && (
           <Col md={6}>
-            <Form.Label className="mb-3 fw-medium fs-5">
-              Lease Period
-            </Form.Label>
             <Controller
               name="leasePeriod"
               control={control}
@@ -874,6 +762,7 @@ export default function Apartment({ options, user }) {
                   type={"number"}
                   placeholder="Month/Year"
                   width={"50%"}
+                  label={"Lease Period"}
                   unit={[
                     { be: "m", fe: "Per Month" },
                     { be: "ft", fe: "Per Year" },
@@ -904,7 +793,7 @@ export default function Apartment({ options, user }) {
 
       <div className="px-2 rounded-4 mt-4 border border-danger w-100 mx-auto">
         <div className="d-flex justify-content-evenly text-center gap-1 align-items-center border-bottom">
-          {residentialImagesCat.map((imgType) => (
+          {CommercialImagesCat.map((imgType) => (
             <div
               className={`text-capitalize  cursor-point  text-secondary border-3 fw-medium py-3 ${
                 imageCat === imgType &&
@@ -974,11 +863,11 @@ export default function Apartment({ options, user }) {
         )}
 
         {/* fmb */}
-        {imageCat === "Living Room" && (
+        {imageCat === "Interior" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
-              {living.map((image) => (
+              {interior.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
@@ -1016,11 +905,11 @@ export default function Apartment({ options, user }) {
           </>
         )}
 
-        {imageCat === "Bedrooms" && (
+        {imageCat === "Washroom" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
-              {bedrooms.map((image) => (
+              {washroom.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
@@ -1058,95 +947,11 @@ export default function Apartment({ options, user }) {
           </>
         )}
 
-        {imageCat === "Bathrooms" && (
+        {imageCat === "Floor Plan" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
-              {bathrooms.map((image) => (
-                <div className="m-2 position-relative">
-                  <img
-                    src={URL.createObjectURL(image.file)}
-                    alt={`Uploaded ${imageCat} image`}
-                    className="rounded-3"
-                    style={{ maxWidth: "300px", height: "200px" }}
-                  />
-                  <button
-                    className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
-                    onClick={() => handleRemoveImage(image.id)}
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <div
-              className="d-flex justify-content-center align-items-center p-0 m-0"
-              style={{ height: "250px" }}
-            >
-              <label
-                htmlFor="uploadInput"
-                className="text-danger btn border border-danger py-3 px-5 rounded-5"
-              >
-                Upload Photos
-              </label>
-              <input
-                id="uploadInput"
-                type="file"
-                style={{ display: "none" }}
-                onChange={handleImageUpload}
-              />
-            </div>
-          </>
-        )}
-
-        {imageCat === "Kitchen" && (
-          <>
-            {/* Render uploaded images */}
-            <div className="d-flex flex-wrap justify-content-center">
-              {Kitchen.map((image) => (
-                <div className="m-2 position-relative">
-                  <img
-                    src={URL.createObjectURL(image.file)}
-                    alt={`Uploaded ${imageCat} image`}
-                    className="rounded-3"
-                    style={{ maxWidth: "300px", height: "200px" }}
-                  />
-                  <button
-                    className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
-                    onClick={() => handleRemoveImage(image.id)}
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <div
-              className="d-flex justify-content-center align-items-center p-0 m-0"
-              style={{ height: "250px" }}
-            >
-              <label
-                htmlFor="uploadInput"
-                className="text-danger btn border border-danger py-3 px-5 rounded-5"
-              >
-                Upload Photos
-              </label>
-              <input
-                id="uploadInput"
-                type="file"
-                style={{ display: "none" }}
-                onChange={handleImageUpload}
-              />
-            </div>
-          </>
-        )}
-
-        {imageCat === "Building Plan" && (
-          <>
-            {/* Render uploaded images */}
-            <div className="d-flex flex-wrap justify-content-center">
-              {building.map((image) => (
+              {floorPlan.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
@@ -1270,7 +1075,6 @@ export default function Apartment({ options, user }) {
           </>
         )}
       </div>
-
       <div className="mt-5 d-grid col-4 mx-auto">
         <button type="submit" className="btn btn-danger rounded-pill py-3">
           Post Property

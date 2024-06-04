@@ -81,9 +81,9 @@ export const SelectField = ({
   const { value = { value: "", unit: unit[0].be }, onChange } = field;
 
   return (
-    <Col className=" ">
-      <Form.Label className="my-3 fw-medium fs-5">{label}</Form.Label>
-      <InputGroup className="mb-3">
+    <Col className="my-3">
+      <Form.Label className=" mb-3 fw-medium fs-5">{label}</Form.Label>
+      <InputGroup className="">
         <Form.Control
           aria-label="Text input with dropdown button"
           className={`border-danger  border-end-0 form-control-lg ${

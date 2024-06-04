@@ -398,3 +398,11 @@ export const residentialImagesCat = [
   "Building Plan",
   "Location Map",
 ];
+
+export const CommercialImagesCat = [
+  "Exterior View",
+  "Interior",
+  "Washroom",
+  "Floor Plan",
+  "Location Map",
+];
