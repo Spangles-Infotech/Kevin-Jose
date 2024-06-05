@@ -130,7 +130,7 @@ export default function Plots({ user, options }) {
         formData.append("rent", formValue?.rentPrice);
       } else if (options?.selectedActivity === "lease") {
         formData.append("lease_amount", formValue?.leasePrice);
-        formData.append("lease_period", formValue?.leasePeriod);
+        formData.append("lease_period", formValue?.leasePeriod?.value);
         formData.append("lease_period_unit", formValue?.leasePeriod?.unit);
       }
 
@@ -639,8 +639,8 @@ export default function Plots({ user, options }) {
                   placeholder="Month/Year"
                   width={"50%"}
                   unit={[
-                    { be: "m", fe: "Per Month" },
-                    { be: "ft", fe: "Per Year" },
+                    { be: "month", fe: "Per Month" },
+                    { be: "year", fe: "Per Year" },
                   ]}
                   field={field}
                   isInvalid={!!errors.leasePeriod}

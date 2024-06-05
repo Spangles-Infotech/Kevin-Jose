@@ -8,6 +8,8 @@ import PhoneInput from "react-phone-input-2";
 const Plots = React.lazy(() => import("./forms/Plots"));
 const Apartment = React.lazy(() => import("./forms/Apartment"));
 const CommercialCommon = React.lazy(() => import("./forms/commercial/common"));
+const Industrial = React.lazy(() => import("./forms/commercial/Industrial"));
+const PgHostel = React.lazy(() => import("./forms/commercial/PgHostel"));
 
 export const InputField = ({
   label,
@@ -79,7 +81,11 @@ export default function FormContainer() {
         subTypeCat: "optionTwo",
       });
     } else {
-      setOptions({ ...options, selectedSubType: subType, subTypeCat: "" });
+      setOptions({
+        ...options,
+        selectedSubType: subType,
+        subTypeCat: "optionOne",
+      });
     }
   };
 
@@ -211,27 +217,45 @@ export default function FormContainer() {
                     <>
                       <span
                         className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
-                          options.selectedSubType === "pg_home" &&
+                          options.selectedSubType === "service_apartment" &&
                           "border-danger text-danger"
                         }`}
                         style={{
                           fontSize: "16px",
                           textTransform: "capitalize",
                         }}
-                        onClick={() => handleSubTypeSelect("pg_home")}
+                        onClick={() => handleSubTypeSelect("service_apartment")}
+                      >
+                        Service Apartment
+                      </span>
+                    </>
+                  )}
+                {options.selectedActivity === "rent" &&
+                  options.selectedType === "commercial_property" && (
+                    <>
+                      <span
+                        className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
+                          options.selectedSubType === "PG_home" &&
+                          "border-danger text-danger"
+                        }`}
+                        style={{
+                          fontSize: "16px",
+                          textTransform: "capitalize",
+                        }}
+                        onClick={() => handleSubTypeSelect("PG_home")}
                       >
                         PG Home
                       </span>
                       <span
                         className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-point ${
-                          options.selectedSubType === "pg_hostel" &&
+                          options.selectedSubType === "PG_hostel" &&
                           "border-danger text-danger"
                         }`}
                         style={{
                           fontSize: "16px",
                           textTransform: "capitalize",
                         }}
-                        onClick={() => handleSubTypeSelect("pg_hostel")}
+                        onClick={() => handleSubTypeSelect("PG_hostel")}
                       >
                         PG Hostel
                       </span>
@@ -255,10 +279,30 @@ export default function FormContainer() {
               options.selectedSubType !== "" && (
                 <Apartment options={options} user={user} />
               )}
-            {(options.selectedType === "commercial_property" && options?.subTypeCat === "") &&
-              options.selectedSubType !== "" && (
+            {options.selectedType === "commercial_property" &&
+              options?.subTypeCat === "optionOne" &&
+              options.selectedSubType !== "" &&
+              options.selectedSubType !== "service_apartment" &&
+              options.selectedSubType !== "PG_home" &&
+              options.selectedSubType !== "PG_hostel" && (
                 <CommercialCommon options={options} user={user} />
               )}
+            {options.selectedType === "commercial_property" &&
+              options?.subTypeCat === "optionTwo" &&
+              (options.selectedSubType === "factory" ||
+                options.selectedSubType === "industrialbuilding" ||
+                options.selectedSubType === "industrial_shed") && (
+                <Industrial options={options} user={user} />
+              )}
+
+            {options.selectedSubType === "service_apartment" && (
+              <Industrial options={options} user={user} />
+            )}
+
+            {(options.selectedSubType === "PG_home" ||
+              options.selectedSubType === "PG_hostel") && (
+              <PgHostel options={options} user={user} />
+            )}
           </Suspense>
         </div>
       </div>

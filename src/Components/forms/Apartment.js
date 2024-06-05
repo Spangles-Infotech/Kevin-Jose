@@ -78,8 +78,6 @@ export default function Apartment({ options, user }) {
 
   const [imageCat, setImageCat] = useState("Exterior View");
 
-  
-
   const [exterior, setExterior] = useState([]);
   const [living, setLiving] = useState([]);
   const [bedrooms, setBedrooms] = useState([]);
@@ -218,6 +216,7 @@ export default function Apartment({ options, user }) {
     }
     // house and appartment
     if (options.subTypeCat === "optionTwo") {
+      formData.append("city", formValue?.city);
       formData.append("apartment.available_bhk", formValue?.bedroom);
       formData.append(
         "apartment.built_up_area",
@@ -288,7 +287,6 @@ export default function Apartment({ options, user }) {
         formData.append(`apartment_images[${6}]image`, image.file);
       });
     } else {
-     
       formData.append("house.available_bhk", formValue?.bedroom);
       formData.append(
         "house.built_up_area",
@@ -438,6 +436,7 @@ export default function Apartment({ options, user }) {
             render={({ field }) => (
               <BedroomSelect
                 label={"Available BHK"}
+                placeholder={"Select available BHK"}
                 bedroom={bedroom}
                 isInvalid={!!errors.bedroom}
                 errorMessage={errors.bedroom?.message}
@@ -549,48 +548,22 @@ export default function Apartment({ options, user }) {
         <Controller
           name="category"
           control={control}
-          rules={{ required: "category is required" }}
+          rules={{ required: "Category is required" }}
           render={({ field }) => (
-            <Col className={`my-4 ${errors.category ? "is-invalid" : ""}`}>
-              <Form.Label className="mb-4 fw-medium fs-5">Category</Form.Label>
-              <div className="d-flex align-items-center gap-5 custom-radio">
-                <Form.Check
-                  type="radio"
-                  label="New"
-                  value="new"
-                  checked={field.value === "new"}
-                  onChange={(e) => field.onChange(e.target.value)}
+            <>
+              <Col>
+                <RadioField
+                  label="Category"
+                  options={[
+                    { value: "new", label: "New" },
+                    { value: "resale", label: "Resale" },
+                  ]}
+                  field={field}
                   isInvalid={!!errors.category}
+                  errorMessage={errors.category?.message}
                 />
-                <Form.Check
-                  type="radio"
-                  label="Resale"
-                  value="resale"
-                  checked={field.value === "resale"}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  isInvalid={!!errors.category}
-                />
-                <Form.Control
-                  type="text"
-                  className="w-25 border-0 border-bottom rounded-0 border-danger"
-                  placeholder="Type others"
-                  value={
-                    field.value !== "new" &&
-                    field.value !== "resale" &&
-                    field.value !== "Others"
-                      ? field.value
-                      : ""
-                  }
-                  onChange={(e) => field.onChange(e.target.value)}
-                  isInvalid={!!errors.category}
-                />
-              </div>
-              {errors.category && (
-                <Form.Control.Feedback type="invalid" className="d-block">
-                  {errors.category.message}
-                </Form.Control.Feedback>
-              )}
-            </Col>
+              </Col>
+            </>
           )}
         />
       </Row>
@@ -618,41 +591,28 @@ export default function Apartment({ options, user }) {
           )}
         />
       </Row>
+    
+
       <Controller
         name="condition"
         control={control}
         rules={{ required: "Condition is required" }}
         render={({ field }) => (
-          <Col className={`my-4 ${errors.condition ? "is-invalid" : ""}`}>
-            <Form.Label className="mb-4 fw-medium fs-5">Condition</Form.Label>
-            <div className="d-flex align-items-center gap-5 custom-radio">
-              <Form.Check
-                type="radio"
-                label="Ready to move"
-                value="ready_to_move"
-                checked={field.value === "ready_to_move"}
-                onChange={(e) => field.onChange(e.target.value)}
+          <>
+            <Col>
+              <RadioField
+                label="Condition"
+                options={[
+                  { value: "ready_to_move", label: "Ready to move" },
+                  { value: "under_construction", label: "Under Construction" },
+               
+                ]}
+                field={field}
                 isInvalid={!!errors.condition}
+                errorMessage={errors.condition?.message}
               />
-              <Form.Control
-                type="text"
-                className="w-25 border-0 border-bottom rounded-0 border-danger"
-                placeholder="Type others"
-                value={
-                  field.value !== "ready_to_move" && field.value !== "Others"
-                    ? field.value
-                    : ""
-                }
-                onChange={(e) => field.onChange(e.target.value)}
-                isInvalid={!!errors.condition}
-              />
-            </div>
-            {errors.condition && (
-              <Form.Control.Feedback type="invalid" className="d-block">
-                {errors.condition.message}
-              </Form.Control.Feedback>
-            )}
-          </Col>
+            </Col>
+          </>
         )}
       />
 

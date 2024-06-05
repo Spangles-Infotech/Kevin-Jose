@@ -631,10 +631,7 @@ const FactorySell = ({ activeButton,
     );
     console.log(response);
     navigate("/check",{state : response.data})
-    // toast.success("Submitted", {
-    //   hideProgressBar: true,
-    //   position: "top-center",
-    // });
+ 
   } catch (error) {
     console.error("Server error", error);
     toast.error("something went wrong", {

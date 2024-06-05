@@ -43,31 +43,7 @@ export const Field = ({
   </Col>
 );
 
-//   select box included
-
-// export const SelectField = ({ placeholder, unit, field, isInvalid, errorMessage }) => (
-//   <Col className="my-3">
-//     <InputGroup className="mb-3">
-//       <Form.Control
-//         aria-label="Text input with dropdown button"
-//         className={`border-danger w-75 border-end-0 form-control-lg ${isInvalid ? 'is-invalid' : ''}`}
-//         placeholder={placeholder}
-//         {...field}
-//       />
-//       <Form.Select
-//         aria-label="Default select example"
-//         className={`border-danger border-start-0 ${isInvalid ? 'is-invalid' : ''}`}
-//         {...field}
-//       >
-//         {unit?.map((unit, index) => (
-//           <option key={index} value={unit.be}>{unit.fe}</option>
-//         ))}
-//       </Form.Select>
-//       {isInvalid && <Form.Control.Feedback type="invalid">{errorMessage}</Form.Control.Feedback>}
-//     </InputGroup>
-//   </Col>
-// );
-
+ 
 export const SelectField = ({
   placeholder,
   unit,
@@ -151,9 +127,9 @@ export const RadioField = ({
   </Col>
 );
 
-export const DescriptionBox = ({ field, error }) => (
+export const DescriptionBox = ({ field, error,label}) => (
   <Col>
-    <h5 className="mb-3 fw-medium fs-5">Description</h5>
+    <h5 className="my-3 fw-medium fs-5">{label}</h5>
     <textarea
       className={`form-control mb-4  border-danger ${
         error ? "is-invalid" : ""
@@ -175,6 +151,7 @@ export const BedroomSelect = ({
   bedroom,
   isInvalid,
   errorMessage,
+  placeholder,
   ...field
 }) => (
   <>
@@ -186,7 +163,7 @@ export const BedroomSelect = ({
       defaultValue={bedroom && bedroom.length > 0 ? bedroom[0].be : ""}
       {...field}
     >
-      <option>Select Number of bedroom</option>
+      <option>{placeholder}</option>
       {bedroom?.map((room, ind) => (
         <option key={ind} value={room.be}>
           {room.fe}

@@ -11,8 +11,12 @@ import {
 import { FaTimes } from "react-icons/fa";
 import {
   CommercialImagesCat,
+  foodType,
   indoorFacilities,
+  occupancy,
   outdoorFacilities,
+  pgImgCat,
+  rentPeriod,
 } from "../../Data";
 
 import { Baseurl, UserConfig } from "../../request";
@@ -20,7 +24,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function CommercialCommon({ options, user }) {
+export default function PgHostel({ options, user }) {
   const {
     control,
     handleSubmit,
@@ -78,12 +82,64 @@ export default function CommercialCommon({ options, user }) {
     }
   };
 
+  //    land
+  const [landinputValue, setLandinputValue] = useState("");
+  const [selectedLandFacility, setSelectedLandFacility] = useState([]);
+
+  const toggleLandFacility = (facility) => {
+    if (selectedLandFacility.includes(facility)) {
+      setSelectedLandFacility(
+        selectedLandFacility.filter((item) => item !== facility)
+      );
+    } else {
+      setSelectedLandFacility([...selectedLandFacility, facility]);
+    }
+  };
+  const handleInputChangeLand = (e) => {
+    setLandinputValue(e.target.value);
+  };
+
+  const handleInputAddLand = () => {
+    if (
+      landinputValue.trim() !== "" &&
+      !selectedLandFacility.includes(landinputValue.trim())
+    ) {
+      setSelectedLandFacility([...selectedLandFacility, landinputValue.trim()]);
+      setLandinputValue("");
+    }
+  };
+
+  const [foodinputValue, setFoodinputValue] = useState("");
+  const [selectedFood, setSelectedFood] = useState([]);
+
+  const toggleFood = (facility) => {
+    if (selectedFood.includes(facility)) {
+      setSelectedFood(selectedFood.filter((item) => item !== facility));
+    } else {
+      setSelectedFood([...selectedFood, facility]);
+    }
+  };
+  const handleInputChangeFood = (e) => {
+    setFoodinputValue(e.target.value);
+  };
+
+  const handleInputAddFood = () => {
+    if (
+      foodinputValue.trim() !== "" &&
+      !selectedFood.includes(foodinputValue.trim())
+    ) {
+      setSelectedFood([...selectedFood, foodinputValue.trim()]);
+      setFoodinputValue("");
+    }
+  };
+
   const [imageCat, setImageCat] = useState("Exterior View");
 
   const [exterior, setExterior] = useState([]);
-  const [interior, setInterior] = useState([]);
-  const [washroom, setWashroom] = useState([]);
-  const [floorPlan, setFloorPlan] = useState([]);
+  const [living, setLiving] = useState([]);
+  const [single, setSingle] = useState([]);
+  const [double, setDouble] = useState([]);
+  const [triple, setTriple] = useState([]);
   const [location, setLocation] = useState([]);
   const [logo, setLogo] = useState([]);
 
@@ -96,30 +152,38 @@ export default function CommercialCommon({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setExterior([...exterior, ...newImages]);
-    } else if (imageCat === "Interior") {
+    } else if (imageCat === "Living Room") {
       const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - interior.length);
+      const imagesToAdd = files.slice(0, 1 - living.length);
       const newImages = imagesToAdd.map((file) => ({
         file,
         id: Math.random().toString(36).substr(2, 9),
       }));
-      setInterior([...interior, ...newImages]);
-    } else if (imageCat === "Washroom") {
+      setLiving([...living, ...newImages]);
+    } else if (imageCat === "Single Sharing") {
       const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - washroom.length);
+      const imagesToAdd = files.slice(0, 1 - single.length);
       const newImages = imagesToAdd.map((file) => ({
         file,
         id: Math.random().toString(36).substr(2, 9),
       }));
-      setWashroom([...washroom, ...newImages]);
-    } else if (imageCat === "Floor Plan") {
+      setSingle([...single, ...newImages]);
+    } else if (imageCat === "Double Sharing") {
       const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - floorPlan.length);
+      const imagesToAdd = files.slice(0, 1 - double.length);
       const newImages = imagesToAdd.map((file) => ({
         file,
         id: Math.random().toString(36).substr(2, 9),
       }));
-      setFloorPlan([...floorPlan, ...newImages]);
+      setDouble([...double, ...newImages]);
+    } else if (imageCat === "Triple Sharing") {
+      const files = Array.from(event.target.files);
+      const imagesToAdd = files.slice(0, 1 - triple.length);
+      const newImages = imagesToAdd.map((file) => ({
+        file,
+        id: Math.random().toString(36).substr(2, 9),
+      }));
+      setTriple([...triple, ...newImages]);
     } else if (imageCat === "Location Map") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - location.length);
@@ -143,15 +207,18 @@ export default function CommercialCommon({ options, user }) {
     if (imageCat === "Exterior View") {
       const filteredImages = exterior.filter((image) => image.id !== id);
       setExterior(filteredImages);
-    } else if (imageCat === "Interior") {
-      const filteredImages = interior.filter((image) => image.id !== id);
-      setInterior(filteredImages);
-    } else if (imageCat === "Washroom") {
-      const filteredImages = washroom.filter((image) => image.id !== id);
-      setWashroom(filteredImages);
-    } else if (imageCat === "Floor Plan") {
-      const filteredImages = floorPlan.filter((image) => image.id !== id);
-      setFloorPlan(filteredImages);
+    } else if (imageCat === "Living Room") {
+      const filteredImages = living.filter((image) => image.id !== id);
+      setLiving(filteredImages);
+    } else if (imageCat === "Single Sharing") {
+      const filteredImages = single.filter((image) => image.id !== id);
+      setSingle(filteredImages);
+    } else if (imageCat === "Double Sharing") {
+      const filteredImages = double.filter((image) => image.id !== id);
+      setDouble(filteredImages);
+    } else if (imageCat === "Triple Sharing") {
+      const filteredImages = triple.filter((image) => image.id !== id);
+      setTriple(filteredImages);
     } else if (imageCat === "Location Map") {
       const filteredImages = location.filter((image) => image.id !== id);
       setLocation(filteredImages);
@@ -168,6 +235,7 @@ export default function CommercialCommon({ options, user }) {
     formData.append("phone", user?.phone);
     formData.append("email", user?.email);
     formData.append("property_type", "commercial");
+    formData.append("commercial.commercial_type", options?.selectedSubType);
     formData.append("you_are_here_to", options?.selectedActivity);
     formData.append("owner", options?.selectedActivity === "sell");
     formData.append("agent", options?.selectedActivity === "rent");
@@ -175,81 +243,105 @@ export default function CommercialCommon({ options, user }) {
     formData.append("title", formValue?.propertyName);
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);
-    formData.append("advance", parseInt(formValue?.AdvanceAmount));
-    formData.append("commercial.commercial_type", options?.selectedSubType);
     formData.append("city", formValue?.city);
-    // activity  conditions -------->
-    if (options?.selectedActivity === "sell") {
-      formData.append("sale_price", formValue?.salePrice);
-    } else if (options?.selectedActivity === "rent") {
-      formData.append("rent", formValue?.rentPrice);
-    } else if (options?.selectedActivity === "lease") {
-      formData.append("lease_amount", formValue?.leasePrice);
-      formData.append("lease_period", formValue?.leasePeriod);
-      formData.append("lease_period_unit", formValue?.leasePeriod?.unit);
-    }
-
+    // formData.append("rent", formValue?.rentPrice);
     // Role condition ------>
     if (options?.selectedRole === "agent") {
       formData.append("agent_commission", formValue?.AgentCommision);
     }
+    // pg
+    formData.append("pgcolony.no_of_rooms", parseInt(formValue?.numberOfRoom));
+    formData.append("pgcolony.address", formValue?.address);
+ 
+    formData.append("pgcolony.total_floors", parseInt(formValue?.TotalFloor));
+    formData.append("pgcolony.category_of_project", formValue?.category);
+    formData.append("pgcolony.gender", formValue?.gender);
+    formData.append("pgcolony.tenants_preferred", formValue?.tenantsPreferred);
+    formData.append("pgcolony.status", formValue?.status);
+    
+    formData.append("pgcolony.room_types", formValue?.roomType);
 
-    // other commercial
+    formData.append("pgcolony.single_room_price_for_ac", formValue?.singleAcRs);
     formData.append(
-      "showroom.built_up_area",
-      parseInt(formValue?.totalArea?.value)
+      "pgcolony.single_room_price_for_nonac",
+      formValue?.singleNonAcRs
     );
-    formData.append("showroom.built_up_area_unit", formValue?.totalArea?.unit);
-    // formData.append("showroom.unit", "sqft");
     formData.append(
-      "showroom.available_floors",
-      parseInt(formValue?.availableFloors)
+      "pgcolony.single_room_price_per_month",
+      formValue?.singleRoomPeriod
     );
-    formData.append("showroom.total_floors", formValue?.totalFloor);
-    formData.append("showroom.category_of_project", formValue?.category);
+    formData.append("pgcolony.double_room_price_for_ac", formValue?.doubleAcRs);
     formData.append(
-      "showroom.no_of_two_wheeler_parking",
-      formValue?.twoWheeler
+      "pgcolony.double_room_price_for_nonac",
+      formValue?.doubleNonAcRs
     );
-    formData.append("showroom.no_of_car_parking", formValue?.carParking);
-    formData.append("showroom.condition", formValue?.condition);
-    formData.append("showroom.status", formValue?.status);
-    formData.append("showroom.floor_number", formValue?.floorNumber);
-    selectedFacility.forEach((element, index) => {
-      formData.append(
-        `showroom.indoor_facilities[${index}]facility.name`,
-        element
-      );
+    formData.append(
+      "pgcolony.double_room_price_per_month",
+      formValue?.doubleRoomPeriod
+    );
+    formData.append(
+      "pgcolony.triple_room_price_for_ac",
+      formValue?.trippleAcRs
+    );
+    formData.append(
+      "pgcolony.triple_room_price_for_nonac",
+      parseInt(formValue?.trippleNonAcRs)
+    );
+    formData.append(
+      "pgcolony.triple_room_price_per_month",
+      formValue?.trippleRoomPeriod
+    );
+    formData.append(
+      "pgcolony.security_deposit",
+      parseInt(formValue?.securityDeposite)
+    );
+
+    selectedLandFacility.forEach((element, index) => {
+      formData.append(`pgcolony.occupancy[${index}]name`, element);
     });
     outSelectedFacility.forEach((element, index) => {
       formData.append(
-        `showroom.outdoor_facilities[${index}]facility.name`,
+        `pgcolony.outdoor_facilities[${index}]facility.name`,
         element
       );
     });
+    selectedFacility.forEach((element, index) => {
+      formData.append(
+        `pgcolony.indoor_facilities[${index}]facility.name`,
+        element
+      );
+    });
+    selectedFood.forEach((element, index) => {
+      formData.append(`pgcolony.food_type[${index}]name`, element);
+    });
+
     exterior?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "exterior_view");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`pgcolony_images[${1}]section`, "exterior_view");
+      formData.append(`pgcolony_images[${1}]image`, image.file);
     });
-    interior?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "interior");
-      formData.append(`showroom_images[${0}]image`, image.file);
+    living?.forEach((image) => {
+      formData.append(`pgcolony_images[${2}]section`, "interior");
+      formData.append(`pgcolony_images[${2}]image`, image.file);
     });
-    washroom?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "washroom");
-      formData.append(`showroom_images[${0}]image`, image.file);
+    single?.forEach((image) => {
+      formData.append(`pgcolony_images[${3}]section`, "washroom");
+      formData.append(`pgcolony_images[${3}]image`, image.file);
     });
-    floorPlan?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "floor_plan");
-      formData.append(`showroom_images[${0}]image`, image.file);
+    double?.forEach((image) => {
+      formData.append(`pgcolony_images[${4}]section`, "floor_plan");
+      formData.append(`pgcolony_images[${4}]image`, image.file);
+    });
+    triple?.forEach((image) => {
+      formData.append(`pgcolony_images[${4}]section`, "floor_plan");
+      formData.append(`pgcolony_images[${4}]image`, image.file);
     });
     location?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "location_map");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`pgcolony_images[${5}]section`, "location_map");
+      formData.append(`pgcolony_images[${5}]image`, image.file);
     });
     logo?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "logo");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`pgcolony_images[${6}]section`, "logo");
+      formData.append(`pgcolony_images[${6}]image`, image.file);
     });
     try {
       const response = await axios.post(
@@ -259,6 +351,10 @@ export default function CommercialCommon({ options, user }) {
       );
       console.log(response);
       navigate("/check", { state: response.data });
+      // toast.success("Submitted", {
+      //   hideProgressBar: true,
+      //   position: "top-center",
+      // });
     } catch (error) {
       console.error("Server error", error);
       toast.error("something went wrong", {
@@ -267,7 +363,6 @@ export default function CommercialCommon({ options, user }) {
       });
     }
   };
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
@@ -288,9 +383,6 @@ export default function CommercialCommon({ options, user }) {
             )}
           />
         </Col>
-      </Row>
-
-      <Row>
         <Col md={6}>
           <Controller
             name="propertyLocation"
@@ -303,6 +395,23 @@ export default function CommercialCommon({ options, user }) {
                 placeholder="Enter Location"
                 isInvalid={!!errors.propertyLocation}
                 errorMessage={errors.propertyLocation?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={6}>
+          <Controller
+            name="numberOfRoom"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Number of room is required" }}
+            render={({ field }) => (
+              <Field
+                label="Number of Rooms"
+                placeholder="Number"
+                isInvalid={!!errors.numberOfRoom}
+                errorMessage={errors.numberOfRoom?.message}
                 {...field}
               />
             )}
@@ -328,115 +437,40 @@ export default function CommercialCommon({ options, user }) {
 
         <Col md={6}>
           <Controller
-            name="totalArea"
-            control={control}
-            rules={{ required: "Total area is required" }}
-            render={({ field }) => (
-              <SelectField
-                label={"Built Up Area"}
-                type={"number"}
-                width={"75%"}
-                placeholder="Total Area"
-                unit={[{ be: "sqft", fe: "Sqft" }]}
-                field={field}
-                isInvalid={!!errors.totalArea}
-                errorMessage={errors.totalArea?.message}
-              />
-            )}
-          />
-        </Col>
-        <Col md={6}>
-          <Controller
-            name="availableFloors"
+            name="TotalFloor"
             control={control}
             defaultValue=""
-            rules={{ required: "Available floors required" }}
+            rules={{ required: "Total floor is required" }}
             render={({ field }) => (
               <Field
-                label="Availabe Floors"
-                placeholder="Availabe Floors"
-                isInvalid={!!errors.availableFloors}
-                errorMessage={errors.availableFloors?.message}
-                {...field}
-              />
-            )}
-          />
-        </Col>
-
-        <Col md={6}>
-          <Controller
-            name="floorNumber"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Floor Number is required" }}
-            render={({ field }) => (
-              <Field
-                label="Floor Number"
-                placeholder="Floor Number"
-                isInvalid={!!errors.floorNumber}
-                errorMessage={errors.floorNumber?.message}
-                {...field}
-              />
-            )}
-          />
-        </Col>
-
-        <Col md={6}>
-          <Controller
-            name="totalFloor"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Total Floor is required" }}
-            render={({ field }) => (
-              <Field
-                label={"Total Floors"}
+                label="Total Floor"
                 placeholder="Floor"
-                isInvalid={!!errors.totalFloor}
-                errorMessage={errors.totalFloor?.message}
-                {...field}
-              />
-            )}
-          />
-        </Col>
-
-        <Col md={6}>
-          <Controller
-            name="twoWheeler"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Number of two wheeler parking is required" }}
-            render={({ field }) => (
-              <Field
-                label={"Number of Two Wheeler Parking"}
-                placeholder="Two Wheeler"
-                isInvalid={!!errors.twoWheeler}
-                errorMessage={errors.twoWheeler?.message}
-                {...field}
-              />
-            )}
-          />
-        </Col>
-        <Col md={6}>
-          <Controller
-            name="carParking"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Number of  car parking is required" }}
-            render={({ field }) => (
-              <Field
-                label={"Number of Car Parking"}
-                placeholder=" Car Parking"
-                isInvalid={!!errors.carParking}
-                errorMessage={errors.carParking?.message}
+                isInvalid={!!errors.TotalFloor}
+                errorMessage={errors.TotalFloor?.message}
                 {...field}
               />
             )}
           />
         </Col>
       </Row>
-
       <Row>
         <Controller
+          name="address"
+          control={control}
+          defaultValue=""
+          rules={{ required: "Enter full address" }}
+          render={({ field }) => (
+            <DescriptionBox
+              field={field}
+              error={errors.description}
+              label={"Address"}
+            />
+          )}
+        />
+      </Row>
+
+      <Row>
+      <Controller
           name="category"
           control={control}
           rules={{ required: "Category is required" }}
@@ -483,29 +517,180 @@ export default function CommercialCommon({ options, user }) {
           )}
         />
       </Row>
- 
-      <Controller
-        name="condition"
-        control={control}
-        rules={{ required: "Condition is required" }}
-        render={({ field }) => (
-          <>
-            <Col>
-              <RadioField
-                label="Condition"
-                options={[
-                  { value: "ready_to_move", label: "Ready to move" },
-                  { value: "under_construction", label: "Under Construction" },
-               
-                ]}
-                field={field}
-                isInvalid={!!errors.condition}
-                errorMessage={errors.condition?.message}
-              />
-            </Col>
-          </>
-        )}
-      />
+
+      <Row>
+        <Controller
+          name="gender"
+          control={control}
+          rules={{ required: "Gender is required" }}
+          render={({ field }) => (
+            <>
+              <Col>
+                <RadioField
+                  label="Gender"
+                  options={[
+                    { value: "boys", label: "Boys" },
+                    { value: "girls", label: "Girls" },
+                    { value: "both", label: "Both" },
+                  ]}
+                  field={field}
+                  isInvalid={!!errors.gender}
+                  errorMessage={errors.gender?.message}
+                />
+              </Col>
+            </>
+          )}
+        />
+      </Row>
+
+      <Row>
+        <Controller
+          name="tenantsPreferred"
+          control={control}
+          rules={{ required: "Tenants prefferred is required" }}
+          render={({ field }) => (
+            <>
+              <Col>
+                <RadioField
+                  label="Tenants Preferred"
+                  options={[
+                    { value: "students", label: "Students" },
+                    { value: "proffessionals", label: "Professionals" },
+                    { value: "both", label: "Both" },
+                  ]}
+                  field={field}
+                  isInvalid={!!errors.tenantsPreferred}
+                  errorMessage={errors.tenantsPreferred?.message}
+                />
+              </Col>
+            </>
+          )}
+        />
+      </Row>
+      <Row>
+        <Controller
+          name="roomType"
+          control={control}
+          rules={{ required: "Room type is required" }}
+          render={({ field }) => (
+            <>
+              <Col>
+                <RadioField
+                  label="Rooms Types"
+                  options={[
+                    { value: "A/C_rooms", label: "A/C rooms" },
+                    { value: "Non_A/C_rooms", label: "Non A/C rooms" },
+                    { value: "A/C_&_Non_A/C_rooms", label: "A/C & non A/C rooms" },
+                  ]}
+                  field={field}
+                  isInvalid={!!errors.roomType}
+                  errorMessage={errors.roomType?.message}
+                />
+              </Col>
+            </>
+          )}
+        />
+      </Row>
+
+      <h5 className="py-3">Occupancy </h5>
+      <div className="form-shadow px-2 rounded-4 my-4 ">
+        <div className="d-flex align-items-center border-bottom py-2">
+          <div
+            className="d-flex align-items-center flex-wrap"
+            style={{ width: "90%" }}
+          >
+            {selectedLandFacility.map((facility, index) => (
+              <span
+                key={index}
+                className="rounded-pill border p-2 px-3 cursor-pointer mb-2 me-2 d-flex align-items-center text-danger fw-medium gap-3"
+                style={{ fontSize: "13px", textTransform: "capitalize" }}
+                onClick={() => toggleLandFacility(facility)}
+              >
+                {facility} <FaTimes color="red" />
+              </span>
+            ))}
+            <input
+              type="text"
+              className="form-control border-0 ms-2"
+              placeholder="Add facilities..."
+              style={{ outline: "none", flex: 1 }}
+              value={landinputValue}
+              onChange={handleInputChangeLand}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleInputAddLand();
+                }
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="pb-3 d-flex flex-wrap">
+          {occupancy.map((facility, index) => (
+            <span
+              key={index}
+              className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-pointer me-2 mb-2 ${
+                selectedLandFacility.includes(facility)
+                  ? "bg-danger text-white"
+                  : ""
+              }`}
+              style={{ fontSize: "16px", textTransform: "capitalize" }}
+              onClick={() => toggleLandFacility(facility)}
+            >
+              {facility}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <h5 className="py-3">Food Type </h5>
+      <div className="form-shadow px-2 rounded-4 my-4 ">
+        <div className="d-flex align-items-center border-bottom py-2">
+          <div
+            className="d-flex align-items-center flex-wrap"
+            style={{ width: "90%" }}
+          >
+            {selectedFood.map((facility, index) => (
+              <span
+                key={index}
+                className="rounded-pill border p-2 px-3 cursor-pointer mb-2 me-2 d-flex align-items-center text-danger fw-medium gap-3"
+                style={{ fontSize: "13px", textTransform: "capitalize" }}
+                onClick={() => toggleFood(facility)}
+              >
+                {facility} <FaTimes color="red" />
+              </span>
+            ))}
+            <input
+              type="text"
+              className="form-control border-0 ms-2"
+              placeholder="Add facilities..."
+              style={{ outline: "none", flex: 1 }}
+              value={foodinputValue}
+              onChange={handleInputChangeFood}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleInputAddFood();
+                }
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="pb-3 d-flex flex-wrap">
+          {foodType.map((facility, index) => (
+            <span
+              key={index}
+              className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-pointer me-2 mb-2 ${
+                selectedFood.includes(facility) ? "bg-danger text-white" : ""
+              }`}
+              style={{ fontSize: "16px", textTransform: "capitalize" }}
+              onClick={() => toggleFood(facility)}
+            >
+              {facility}
+            </span>
+          ))}
+        </div>
+      </div>
 
       <h5 className="py-3">Indoor Facilities</h5>
       <div className="form-shadow px-2 rounded-4 my-4 ">
@@ -609,81 +794,179 @@ export default function CommercialCommon({ options, user }) {
         </div>
       </div>
 
+      <h5 className="py-3">Rent</h5>
+      <Form.Label className=" fw-medium fs-5">Single Room Price</Form.Label>
       <Row>
-        {options?.selectedActivity === "sell" && (
-          <Col md={6}>
-            <Controller
-              name="salePrice"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Sale Price is required" }}
-              render={({ field }) => (
-                <Field
-                  type={"number"}
-                  label="Sale Price"
-                  placeholder="Rs"
-                  isInvalid={!!errors.salePrice}
-                  errorMessage={errors.salePrice?.message}
-                  {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
-        {options?.selectedActivity === "rent" && (
-          <Col md={6}>
-            <Controller
-              name="rentPrice"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Rent Price is required" }}
-              render={({ field }) => (
-                <Field
-                  type={"number"}
-                  label="Rent Amount"
-                  placeholder="Rs"
-                  isInvalid={!!errors.rentPrice}
-                  errorMessage={errors.rentPrice?.message}
-                  {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
-
-        {options?.selectedActivity === "lease" && (
-          <Col md={6}>
-            <Controller
-              name="leasePrice"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Lease amount is required" }}
-              render={({ field }) => (
-                <Field
-                  type={"number"}
-                  label="Lease Amount"
-                  placeholder="Rs"
-                  isInvalid={!!errors.leasePrice}
-                  errorMessage={errors.leasePrice?.message}
-                  {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
-        <Col md={6}>
+        <Col md={4}>
           <Controller
-            name="AdvanceAmount"
+            name="singleAcRs"
             control={control}
             defaultValue=""
-            rules={{ required: "Advance amount is required" }}
+            rules={{ required: "Price is required" }}
             render={({ field }) => (
               <Field
-                label="Advance Amount"
-                type={"number"}
-                placeholder="Rs"
-                isInvalid={!!errors.propertyLocation}
-                errorMessage={errors.propertyLocation?.message}
+                placeholder="for A/C Room"
+                isInvalid={!!errors.singleAcRs}
+                errorMessage={errors.singleAcRs?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={4}>
+          <Controller
+            name="singleNonAcRs"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Price is required" }}
+            render={({ field }) => (
+              <Field
+                placeholder="for Non A/C Room"
+                isInvalid={!!errors.singleNonAcRs}
+                errorMessage={errors.singleNonAcRs?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={4}>
+          <Controller
+            name="singleRoomPeriod"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Rent Period is required" }}
+            render={({ field }) => (
+              <BedroomSelect
+                placeholder={"Select Rent Period"}
+                bedroom={rentPeriod}
+                isInvalid={!!errors.singleRoomPeriod}
+                errorMessage={errors.singleRoomPeriod?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+      </Row>
+      <Form.Label className=" fw-medium fs-5 mt-3">
+        Double Sharing Room Price
+      </Form.Label>
+      <Row>
+        <Col md={4}>
+          <Controller
+            name="doubleAcRs"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Price is required" }}
+            render={({ field }) => (
+              <Field
+                placeholder="for A/C Room"
+                isInvalid={!!errors.doubleAcRs}
+                errorMessage={errors.doubleAcRs?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={4}>
+          <Controller
+            name="doubleNonAcRs"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Price is required" }}
+            render={({ field }) => (
+              <Field
+                placeholder="for Non A/C Room"
+                isInvalid={!!errors.doubleNonAcRs}
+                errorMessage={errors.doubleNonAcRs?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={4}>
+          <Controller
+            name="doubleRoomPeriod"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Rent Period is required" }}
+            render={({ field }) => (
+              <BedroomSelect
+                placeholder={"Select Rent Period"}
+                bedroom={rentPeriod}
+                isInvalid={!!errors.doubleRoomPeriod}
+                errorMessage={errors.doubleRoomPeriod?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+      </Row>
+
+      <Form.Label className=" fw-medium fs-5 mt-3">
+        Triple Sharing Room Price
+      </Form.Label>
+      <Row>
+        <Col md={4}>
+          <Controller
+            name="trippleAcRs"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Price is required" }}
+            render={({ field }) => (
+              <Field
+                placeholder="for A/C Room"
+                isInvalid={!!errors.trippleAcRs}
+                errorMessage={errors.trippleAcRs?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={4}>
+          <Controller
+            name="trippleNonAcRs"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Price is required" }}
+            render={({ field }) => (
+              <Field
+                placeholder="for Non A/C Room"
+                isInvalid={!!errors.trippleNonAcRs}
+                errorMessage={errors.trippleNonAcRs?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={4}>
+          <Controller
+            name="trippleRoomPeriod"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Rent Period is required" }}
+            render={({ field }) => (
+              <BedroomSelect
+                placeholder={"Select Rent Period"}
+                bedroom={rentPeriod}
+                isInvalid={!!errors.trippleRoomPeriod}
+                errorMessage={errors.trippleRoomPeriod?.message}
+                {...field}
+              />
+            )}
+          />
+        </Col>
+        <Col md={6}>
+          <Controller
+            name="securityDeposite"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Security deposite is required" }}
+            render={({ field }) => (
+              <Field
+                label="Security Deposite"
+                placeholder="Parking"
+                isInvalid={!!errors.securityDeposite}
+                errorMessage={errors.securityDeposite?.message}
                 {...field}
               />
             )}
@@ -696,40 +979,14 @@ export default function CommercialCommon({ options, user }) {
               name="AgentCommision"
               control={control}
               defaultValue=""
-              rules={{ required: "Agent commision amount is required" }}
+              rules={{ required: "Price is required" }}
               render={({ field }) => (
                 <Field
                   label="Agent Commision"
-                  type={"number"}
                   placeholder="Rs"
                   isInvalid={!!errors.AgentCommision}
                   errorMessage={errors.AgentCommision?.message}
                   {...field}
-                />
-              )}
-            />
-          </Col>
-        )}
-
-        {options?.selectedActivity === "lease" && (
-          <Col md={6}>
-            <Controller
-              name="leasePeriod"
-              control={control}
-              rules={{ required: "Lease period is required" }}
-              render={({ field }) => (
-                <SelectField
-                  type={"number"}
-                  placeholder="Month/Year"
-                  width={"50%"}
-                  label={"Lease Period"}
-                  unit={[
-                    { be: "m", fe: "Per Month" },
-                    { be: "ft", fe: "Per Year" },
-                  ]}
-                  field={field}
-                  isInvalid={!!errors.leasePeriod}
-                  errorMessage={errors.leasePeriod?.message}
                 />
               )}
             />
@@ -757,7 +1014,7 @@ export default function CommercialCommon({ options, user }) {
 
       <div className="px-2 rounded-4 mt-4 border border-danger w-100 mx-auto">
         <div className="d-flex justify-content-evenly text-center gap-1 align-items-center border-bottom">
-          {CommercialImagesCat.map((imgType) => (
+          {pgImgCat.map((imgType) => (
             <div
               className={`text-capitalize  cursor-point  text-secondary border-3 fw-medium py-3 ${
                 imageCat === imgType &&
@@ -827,11 +1084,11 @@ export default function CommercialCommon({ options, user }) {
         )}
 
         {/* fmb */}
-        {imageCat === "Interior" && (
+        {imageCat === "Living Room" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
-              {interior.map((image) => (
+              {living.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
@@ -869,11 +1126,11 @@ export default function CommercialCommon({ options, user }) {
           </>
         )}
 
-        {imageCat === "Washroom" && (
+        {imageCat === "Single Sharing" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
-              {washroom.map((image) => (
+              {single.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}
@@ -911,11 +1168,53 @@ export default function CommercialCommon({ options, user }) {
           </>
         )}
 
-        {imageCat === "Floor Plan" && (
+        {imageCat === "Double Sharing" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
-              {floorPlan.map((image) => (
+              {double.map((image) => (
+                <div className="m-2 position-relative">
+                  <img
+                    src={URL.createObjectURL(image.file)}
+                    alt={`Uploaded ${imageCat} image`}
+                    className="rounded-3"
+                    style={{ maxWidth: "300px", height: "200px" }}
+                  />
+                  <button
+                    className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
+                    onClick={() => handleRemoveImage(image.id)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="d-flex justify-content-center align-items-center p-0 m-0"
+              style={{ height: "250px" }}
+            >
+              <label
+                htmlFor="uploadInput"
+                className="text-danger btn border border-danger py-3 px-5 rounded-5"
+              >
+                Upload Photos
+              </label>
+              <input
+                id="uploadInput"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleImageUpload}
+              />
+            </div>
+          </>
+        )}
+
+        {imageCat === "Triple Sharing" && (
+          <>
+            {/* Render uploaded images */}
+            <div className="d-flex flex-wrap justify-content-center">
+              {triple.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}

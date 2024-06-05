@@ -11,16 +11,18 @@ import {
 import { FaTimes } from "react-icons/fa";
 import {
   CommercialImagesCat,
+  bedroom,
+  bedroomBox,
   indoorFacilities,
+  landZone,
   outdoorFacilities,
 } from "../../Data";
-
 import { Baseurl, UserConfig } from "../../request";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function CommercialCommon({ options, user }) {
+export default function Industrial({ options, user }) {
   const {
     control,
     handleSubmit,
@@ -28,6 +30,34 @@ export default function CommercialCommon({ options, user }) {
     setFocus,
   } = useForm();
   const navigate = useNavigate();
+
+  //    land
+  const [landinputValue, setLandinputValue] = useState("");
+  const [selectedLandFacility, setSelectedLandFacility] = useState([]);
+
+  const toggleLandFacility = (facility) => {
+    if (selectedLandFacility.includes(facility)) {
+      setSelectedLandFacility(
+        selectedLandFacility.filter((item) => item !== facility)
+      );
+    } else {
+      setSelectedLandFacility([...selectedLandFacility, facility]);
+    }
+  };
+  const handleInputChangeLand = (e) => {
+    setLandinputValue(e.target.value);
+  };
+
+  const handleInputAddLand = () => {
+    if (
+      landinputValue.trim() !== "" &&
+      !selectedLandFacility.includes(landinputValue.trim())
+    ) {
+      setSelectedLandFacility([...selectedLandFacility, landinputValue.trim()]);
+      setLandinputValue("");
+    }
+  };
+
   // indoor
   const [inputValue, setInputValue] = useState("");
   const [selectedFacility, setSelectedFacility] = useState([]);
@@ -173,11 +203,12 @@ export default function CommercialCommon({ options, user }) {
     formData.append("agent", options?.selectedActivity === "rent");
     formData.append("builder", options?.selectedActivity === "lease");
     formData.append("title", formValue?.propertyName);
+    // formData.append("title", "hagh");
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);
     formData.append("advance", parseInt(formValue?.AdvanceAmount));
-    formData.append("commercial.commercial_type", options?.selectedSubType);
     formData.append("city", formValue?.city);
+    formData.append("commercial.commercial_type", options?.selectedSubType);
     // activity  conditions -------->
     if (options?.selectedActivity === "sell") {
       formData.append("sale_price", formValue?.salePrice);
@@ -194,63 +225,241 @@ export default function CommercialCommon({ options, user }) {
       formData.append("agent_commission", formValue?.AgentCommision);
     }
 
-    // other commercial
-    formData.append(
-      "showroom.built_up_area",
-      parseInt(formValue?.totalArea?.value)
-    );
-    formData.append("showroom.built_up_area_unit", formValue?.totalArea?.unit);
-    // formData.append("showroom.unit", "sqft");
-    formData.append(
-      "showroom.available_floors",
-      parseInt(formValue?.availableFloors)
-    );
-    formData.append("showroom.total_floors", formValue?.totalFloor);
-    formData.append("showroom.category_of_project", formValue?.category);
-    formData.append(
-      "showroom.no_of_two_wheeler_parking",
-      formValue?.twoWheeler
-    );
-    formData.append("showroom.no_of_car_parking", formValue?.carParking);
-    formData.append("showroom.condition", formValue?.condition);
-    formData.append("showroom.status", formValue?.status);
-    formData.append("showroom.floor_number", formValue?.floorNumber);
-    selectedFacility.forEach((element, index) => {
+    // factory
+    if (options?.selectedSubType === "factory") {
       formData.append(
-        `showroom.indoor_facilities[${index}]facility.name`,
-        element
+        "factory.built_up_area",
+        parseInt(formValue?.totalArea?.value)
       );
-    });
-    outSelectedFacility.forEach((element, index) => {
+      formData.append("factory.built_up_area_unit", formValue?.totalArea?.unit);
+      formData.append("factory.address", formValue?.address);
+
+      formData.append("factory.type_of_factory", formValue?.typeOfFactory);
       formData.append(
-        `showroom.outdoor_facilities[${index}]facility.name`,
-        element
+        "factory.plot_area",
+        parseInt(formValue?.plotArea?.value)
       );
-    });
-    exterior?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "exterior_view");
-      formData.append(`showroom_images[${0}]image`, image.file);
-    });
-    interior?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "interior");
-      formData.append(`showroom_images[${0}]image`, image.file);
-    });
-    washroom?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "washroom");
-      formData.append(`showroom_images[${0}]image`, image.file);
-    });
-    floorPlan?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "floor_plan");
-      formData.append(`showroom_images[${0}]image`, image.file);
-    });
-    location?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "location_map");
-      formData.append(`showroom_images[${0}]image`, image.file);
-    });
-    logo?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "logo");
-      formData.append(`showroom_images[${0}]image`, image.file);
-    });
+      formData.append("factory.plot_area_unit", formValue?.plotArea?.unit);
+      formData.append(
+        "factory.road_width",
+        parseInt(formValue?.roadWidth?.value)
+      );
+      formData.append("factory.road_width_unit", formValue?.roadWidth?.unit);
+      formData.append("factory.condition", formValue?.condition);
+
+      formData.append("factory.status", formValue?.status);
+
+      outSelectedFacility.forEach((element, index) => {
+        formData.append(
+          `factory.outdoor_facilities[${index}]facility.name`,
+          element
+        );
+      });
+
+      selectedFacility.forEach((element, index) => {
+        formData.append(
+          `factory.indoor_facilities[${index}]facility.name`,
+          element
+        );
+      });
+
+      selectedLandFacility.forEach((element, index) => {
+        formData.append(`factory.land_zone[${index}]name`, element);
+      });
+
+      exterior?.forEach((image) => {
+        formData.append(`factory_images[${1}]section`, "exterior_view");
+        formData.append(`factory_images[${1}]image`, image.file);
+      });
+      interior?.forEach((image) => {
+        formData.append(`factory_images[${2}]section`, "interior");
+        formData.append(`factory_images[${2}]image`, image.file);
+      });
+      washroom?.forEach((image) => {
+        formData.append(`factory_images[${3}]section`, "washroom");
+        formData.append(`factory_images[${3}]image`, image.file);
+      });
+      floorPlan?.forEach((image) => {
+        formData.append(`factory_images[${4}]section`, "floor_plan");
+        formData.append(`factory_images[${4}]image`, image.file);
+      });
+      location?.forEach((image) => {
+        formData.append(`factory_images[${5}]section`, "location_map");
+        formData.append(`factory_images[${5}]image`, image.file);
+      });
+      logo?.forEach((image) => {
+        formData.append(`factory_images[${6}]section`, "logo");
+        formData.append(`factory_images[${6}]image`, image.file);
+      });
+    } else if (
+      options?.selectedSubType === "industrialbuilding" ||
+      options?.selectedSubType === "industrial_shed"
+    ) {
+      formData.append(
+        "industrialbuilding.built_up_area",
+        parseInt(formValue?.totalArea?.value)
+      );
+      formData.append(
+        "industrialbuilding.built_up_area_unit",
+        formValue?.totalArea?.unit
+      );
+      formData.append("industrialbuilding.address", formValue?.address);
+
+      formData.append(
+        "industrialbuilding.plot_area",
+        parseInt(formValue?.plotArea?.value)
+      );
+      formData.append(
+        "industrialbuilding.plot_area_unit",
+        formValue?.plotArea?.unit
+      );
+      formData.append(
+        "industrialbuilding.road_width",
+        parseInt(formValue?.roadWidth?.value)
+      );
+      formData.append(
+        "industrialbuilding.road_width_unit",
+        formValue?.roadWidth?.unit
+      );
+      formData.append("industrialbuilding.condition", formValue?.condition);
+
+      formData.append("industrialbuilding.status", formValue?.status);
+
+      outSelectedFacility.forEach((element, index) => {
+        formData.append(
+          `industrialbuilding.outdoor_facilities[${index}]facility.name`,
+          element
+        );
+      });
+
+      selectedFacility.forEach((element, index) => {
+        formData.append(
+          `industrialbuilding.indoor_facilities[${index}]facility.name`,
+          element
+        );
+      });
+
+      selectedLandFacility.forEach((element, index) => {
+        formData.append(`industrialbuilding.land_zone[${index}]name`, element);
+      });
+
+      exterior?.forEach((image) => {
+        formData.append(
+          `industrialbuilding_images[${1}]section`,
+          "exterior_view"
+        );
+        formData.append(`industrialbuilding_images[${1}]image`, image.file);
+      });
+      interior?.forEach((image) => {
+        formData.append(`industrialbuilding_images[${2}]section`, "interior");
+        formData.append(`industrialbuilding_images[${2}]image`, image.file);
+      });
+      washroom?.forEach((image) => {
+        formData.append(`industrialbuilding_images[${3}]section`, "washroom");
+        formData.append(`industrialbuilding_images[${3}]image`, image.file);
+      });
+      floorPlan?.forEach((image) => {
+        formData.append(`industrialbuilding_images[${4}]section`, "floor_plan");
+        formData.append(`industrialbuilding_images[${4}]image`, image.file);
+      });
+      location?.forEach((image) => {
+        formData.append(
+          `industrialbuilding_images[${5}]section`,
+          "location_map"
+        );
+        formData.append(`industrialbuilding_images[${5}]image`, image.file);
+      });
+      logo?.forEach((image) => {
+        formData.append(`industrialbuilding_images[${6}]section`, "logo");
+        formData.append(`industrialbuilding_images[${6}]image`, image.file);
+      });
+    } else if (options?.selectedSubType === "service_apartment") {
+      formData.append(
+        "service_apartment.built_up_area",
+        parseInt(formValue?.totalArea?.value)
+      );
+      formData.append(
+        "service_apartment.built_up_area_unit",
+        formValue?.totalArea?.unit
+      );
+      formData.append("service_apartment.address", formValue?.address);
+
+      formData.append("service_apartment.status", formValue?.status);
+      formData.append("service_apartment.floor_number", formValue?.floorNumber);
+      formData.append(
+        "service_apartment.no_of_flats",
+        formValue?.numberOfFlats
+      );
+      formData.append(
+        "service_apartment.available_floors",
+        formValue?.numberOfFlats
+      );
+      formData.append(
+        "service_apartment.maximum_persons_allowed",
+        formValue?.maxPerson
+      );
+      formData.append(
+        "service_apartment.total_floors",
+        parseInt(formValue?.totalFloor)
+      );
+      formData.append(
+        "service_apartment.no_of_car_parking",
+        parseInt(formValue?.carParking)
+      );
+
+      outSelectedFacility.forEach((element, index) => {
+        formData.append(
+          `service_apartment.outdoor_facilities[${index}]facility.name`,
+          element
+        );
+      });
+
+      selectedFacility.forEach((element, index) => {
+        formData.append(
+          `service_apartment.indoor_facilities[${index}]facility.name`,
+          element
+        );
+      });
+
+      selectedLandFacility.forEach((element, index) => {
+        formData.append(
+          `service_apartment.availability_of_flats[${index}]option_name`,
+          element
+        );
+      });
+
+      exterior?.forEach((image) => {
+        formData.append(
+          `service_apartment_images[${0}]section`,
+          "exterior_view"
+        );
+        formData.append(`service_apartment_images[${0}]image`, image.file);
+      });
+      interior?.forEach((image) => {
+        formData.append(`service_apartment_images[${1}]section`, "interior");
+        formData.append(`service_apartment_images[${2}]image`, image.file);
+      });
+      washroom?.forEach((image) => {
+        formData.append(`service_apartment_images[${3}]section`, "washroom");
+        formData.append(`service_apartment_images[${3}]image`, image.file);
+      });
+      floorPlan?.forEach((image) => {
+        formData.append(`service_apartment_images[${4}]section`, "floor_plan");
+        formData.append(`service_apartment_images[${4}]image`, image.file);
+      });
+      location?.forEach((image) => {
+        formData.append(
+          `service_apartment_images[${5}]section`,
+          "location_map"
+        );
+        formData.append(`service_apartment_images[${5}]image`, image.file);
+      });
+      logo?.forEach((image) => {
+        formData.append(`service_apartment_images[${6}]section`, "logo");
+        formData.append(`service_apartment_images[${6}]image`, image.file);
+      });
+    }
+
     try {
       const response = await axios.post(
         ` ${Baseurl}createproperty/`,
@@ -271,26 +480,61 @@ export default function CommercialCommon({ options, user }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
-        <Col>
+        <Controller
+          name="address"
+          control={control}
+          defaultValue=""
+          rules={{ required: "Enter full address" }}
+          render={({ field }) => (
+            <DescriptionBox
+              field={field}
+              error={errors.description}
+              label={"Address"}
+            />
+          )}
+        />
+      </Row>
+
+      {options?.selectedSubType === "factory" && (
+        <Row>
+          <Col>
+            <Controller
+              name="typeOfFactory"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Type of factory is required" }}
+              render={({ field }) => (
+                <Field
+                  label="Type of Factory"
+                  placeholder="Enter type"
+                  isInvalid={!!errors.typeOfFactory}
+                  errorMessage={errors.typeOfFactory?.message}
+                  {...field}
+                />
+              )}
+            />
+          </Col>
+        </Row>
+      )}
+
+      <Row>
+        <Col md={6}>
           <Controller
-            name="propertyName"
+            name="PropertyName"
             control={control}
             defaultValue=""
-            rules={{ required: "Property Name is required" }}
+            rules={{ required: "property name is required" }}
             render={({ field }) => (
               <Field
                 label="Property Name"
-                placeholder="Enter Name"
-                isInvalid={!!errors.propertyName}
-                errorMessage={errors.propertyName?.message}
+                placeholder="Property Name"
+                isInvalid={!!errors.PropertyName}
+                errorMessage={errors.PropertyName?.message}
                 {...field}
               />
             )}
           />
         </Col>
-      </Row>
-
-      <Row>
         <Col md={6}>
           <Controller
             name="propertyLocation"
@@ -345,120 +589,300 @@ export default function CommercialCommon({ options, user }) {
             )}
           />
         </Col>
-        <Col md={6}>
-          <Controller
-            name="availableFloors"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Available floors required" }}
-            render={({ field }) => (
-              <Field
-                label="Availabe Floors"
-                placeholder="Availabe Floors"
-                isInvalid={!!errors.availableFloors}
-                errorMessage={errors.availableFloors?.message}
-                {...field}
-              />
-            )}
-          />
-        </Col>
 
-        <Col md={6}>
-          <Controller
-            name="floorNumber"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Floor Number is required" }}
-            render={({ field }) => (
-              <Field
-                label="Floor Number"
-                placeholder="Floor Number"
-                isInvalid={!!errors.floorNumber}
-                errorMessage={errors.floorNumber?.message}
-                {...field}
+        {options?.selectedSubType !== "service_apartment" ? (
+          <>
+            <Col md={6}>
+              <Controller
+                name="plotArea"
+                control={control}
+                rules={{ required: "Plot area is required" }}
+                render={({ field }) => (
+                  <SelectField
+                    label={"Plot/Land Area"}
+                    type={"number"}
+                    width={"75%"}
+                    placeholder="Total Area"
+                    unit={[{ be: "sqft", fe: "Sqft" }]}
+                    field={field}
+                    isInvalid={!!errors.plotArea}
+                    errorMessage={errors.plotArea?.message}
+                  />
+                )}
               />
-            )}
-          />
-        </Col>
-
-        <Col md={6}>
-          <Controller
-            name="totalFloor"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Total Floor is required" }}
-            render={({ field }) => (
-              <Field
-                label={"Total Floors"}
-                placeholder="Floor"
-                isInvalid={!!errors.totalFloor}
-                errorMessage={errors.totalFloor?.message}
-                {...field}
+            </Col>
+            <Col md={6}>
+              <Controller
+                name="roadWidth"
+                control={control}
+                rules={{ required: "Road width is required" }}
+                render={({ field }) => (
+                  <SelectField
+                    label={"Road Width"}
+                    type={"number"}
+                    width={"75%"}
+                    placeholder="Road width"
+                    unit={[
+                      { be: "ft", fe: "ft" },
+                      { be: "m", fe: "mt" },
+                    ]}
+                    field={field}
+                    isInvalid={!!errors.roadWidth}
+                    errorMessage={errors.roadWidth?.message}
+                  />
+                )}
               />
-            )}
-          />
-        </Col>
-
-        <Col md={6}>
-          <Controller
-            name="twoWheeler"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Number of two wheeler parking is required" }}
-            render={({ field }) => (
-              <Field
-                label={"Number of Two Wheeler Parking"}
-                placeholder="Two Wheeler"
-                isInvalid={!!errors.twoWheeler}
-                errorMessage={errors.twoWheeler?.message}
-                {...field}
+            </Col>
+          </>
+        ) : (
+          <>
+            <Col md={6}>
+              <Controller
+                name="numberOfFlats"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Number of flat is required" }}
+                render={({ field }) => (
+                  <Field
+                    label="Number of Flats "
+                    placeholder="Number"
+                    isInvalid={!!errors.numberOfFlats}
+                    errorMessage={errors.numberOfFlats?.message}
+                    {...field}
+                  />
+                )}
               />
-            )}
-          />
-        </Col>
-        <Col md={6}>
-          <Controller
-            name="carParking"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Number of  car parking is required" }}
-            render={({ field }) => (
-              <Field
-                label={"Number of Car Parking"}
-                placeholder=" Car Parking"
-                isInvalid={!!errors.carParking}
-                errorMessage={errors.carParking?.message}
-                {...field}
+            </Col>
+            <Col md={6}>
+              <Controller
+                name="totalFloor"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Total floor is required" }}
+                render={({ field }) => (
+                  <Field
+                    label="Total Floors"
+                    placeholder="Number"
+                    isInvalid={!!errors.totalFloor}
+                    errorMessage={errors.totalFloor?.message}
+                    {...field}
+                  />
+                )}
               />
-            )}
-          />
-        </Col>
+            </Col>
+            <Col md={6}>
+              <Controller
+                name="floorNumber"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Floor number is required" }}
+                render={({ field }) => (
+                  <Field
+                    label="Floor Number"
+                    placeholder="Number"
+                    isInvalid={!!errors.floorNumber}
+                    errorMessage={errors.floorNumber?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </Col>
+            <Col md={6}>
+              <Controller
+                name="maxPerson"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Maximum person is required" }}
+                render={({ field }) => (
+                  <Field
+                    label="Maximum Persons Allowed "
+                    placeholder="Number"
+                    isInvalid={!!errors.maxPerson}
+                    errorMessage={errors.maxPerson?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </Col>
+            <Col md={6}>
+              <Controller
+                name="carParking"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Number of car parking is required" }}
+                render={({ field }) => (
+                  <Field
+                    label="Number of Car Parking"
+                    placeholder="Parking"
+                    isInvalid={!!errors.carParking}
+                    errorMessage={errors.carParking?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </Col>
+          </>
+        )}
       </Row>
 
-      <Row>
-        <Controller
-          name="category"
-          control={control}
-          rules={{ required: "Category is required" }}
-          render={({ field }) => (
-            <>
-              <Col>
-                <RadioField
-                  label="Category"
-                  options={[
-                    { value: "new", label: "New" },
-                    { value: "resale", label: "Resale" },
-                  ]}
-                  field={field}
-                  isInvalid={!!errors.category}
-                  errorMessage={errors.category?.message}
+      {options?.selectedSubType !== "service_apartment" && (
+        <>
+          <h5 className="py-3">Land Zone</h5>
+          <div className="form-shadow px-2 rounded-4 my-4 ">
+            <div className="d-flex align-items-center border-bottom py-2">
+              <div
+                className="d-flex align-items-center flex-wrap"
+                style={{ width: "90%" }}
+              >
+                {selectedLandFacility.map((facility, index) => (
+                  <span
+                    key={index}
+                    className="rounded-pill border p-2 px-3 cursor-pointer mb-2 me-2 d-flex align-items-center text-danger fw-medium gap-3"
+                    style={{ fontSize: "13px", textTransform: "capitalize" }}
+                    onClick={() => toggleLandFacility(facility)}
+                  >
+                    {facility} <FaTimes color="red" />
+                  </span>
+                ))}
+                <input
+                  type="text"
+                  className="form-control border-0 ms-2"
+                  placeholder="Add facilities..."
+                  style={{ outline: "none", flex: 1 }}
+                  value={landinputValue}
+                  onChange={handleInputChangeLand}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      handleInputAddLand();
+                    }
+                  }}
                 />
-              </Col>
-            </>
-          )}
-        />
-      </Row>
+              </div>
+            </div>
 
+            <div className="pb-3 d-flex flex-wrap">
+              {landZone.map((facility, index) => (
+                <span
+                  key={index}
+                  className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-pointer me-2 mb-2 ${
+                    selectedLandFacility.includes(facility)
+                      ? "bg-danger text-white"
+                      : ""
+                  }`}
+                  style={{ fontSize: "16px", textTransform: "capitalize" }}
+                  onClick={() => toggleLandFacility(facility)}
+                >
+                  {facility}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <Row>
+            <Controller
+              name="category"
+              control={control}
+              rules={{ required: "Category is required" }}
+              render={({ field }) => (
+                <>
+                  <Col>
+                    <RadioField
+                      label="Category"
+                      options={[
+                        { value: "new", label: "New" },
+                        { value: "resale", label: "Resale" },
+                      ]}
+                      field={field}
+                      isInvalid={!!errors.category}
+                      errorMessage={errors.category?.message}
+                    />
+                  </Col>
+                </>
+              )}
+            />
+          </Row>
+
+          <Controller
+            name="condition"
+            control={control}
+            rules={{ required: "Condition is required" }}
+            render={({ field }) => (
+              <>
+                <Col>
+                  <RadioField
+                    label="Condition"
+                    options={[
+                      { value: "ready_to_move", label: "Ready to move" },
+                      {
+                        value: "under_construction",
+                        label: "Under Construction",
+                      },
+                    ]}
+                    field={field}
+                    isInvalid={!!errors.condition}
+                    errorMessage={errors.condition?.message}
+                  />
+                </Col>
+              </>
+            )}
+          />
+        </>
+      )}
+
+      {options?.selectedSubType === "service_apartment" && (
+        <>
+          <h5 className="py-3">Land Zone</h5>
+          <div className="form-shadow px-2 rounded-4 my-4 ">
+            <div className="d-flex align-items-center border-bottom py-2">
+              <div
+                className="d-flex align-items-center flex-wrap"
+                style={{ width: "90%" }}
+              >
+                {selectedLandFacility.map((facility, index) => (
+                  <span
+                    key={index}
+                    className="rounded-pill border p-2 px-3 cursor-pointer mb-2 me-2 d-flex align-items-center text-danger fw-medium gap-3"
+                    style={{ fontSize: "13px", textTransform: "capitalize" }}
+                    onClick={() => toggleLandFacility(facility)}
+                  >
+                    {facility} <FaTimes color="red" />
+                  </span>
+                ))}
+                <input
+                  type="text"
+                  className="form-control border-0 ms-2"
+                  placeholder="Add facilities..."
+                  style={{ outline: "none", flex: 1 }}
+                  value={landinputValue}
+                  onChange={handleInputChangeLand}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      handleInputAddLand();
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="pb-3 d-flex flex-wrap">
+              {bedroomBox.map((facility, index) => (
+                <span
+                  key={index}
+                  className={`rounded-pill border p-2 px-3 text-secondary fw-medium cursor-pointer me-2 mb-2 ${
+                    selectedLandFacility.includes(facility)
+                      ? "bg-danger text-white"
+                      : ""
+                  }`}
+                  style={{ fontSize: "16px", textTransform: "capitalize" }}
+                  onClick={() => toggleLandFacility(facility)}
+                >
+                  {facility}
+                </span>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
       <Row>
         <Controller
           name="status"
@@ -483,29 +907,6 @@ export default function CommercialCommon({ options, user }) {
           )}
         />
       </Row>
- 
-      <Controller
-        name="condition"
-        control={control}
-        rules={{ required: "Condition is required" }}
-        render={({ field }) => (
-          <>
-            <Col>
-              <RadioField
-                label="Condition"
-                options={[
-                  { value: "ready_to_move", label: "Ready to move" },
-                  { value: "under_construction", label: "Under Construction" },
-               
-                ]}
-                field={field}
-                isInvalid={!!errors.condition}
-                errorMessage={errors.condition?.message}
-              />
-            </Col>
-          </>
-        )}
-      />
 
       <h5 className="py-3">Indoor Facilities</h5>
       <div className="form-shadow px-2 rounded-4 my-4 ">

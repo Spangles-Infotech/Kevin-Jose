@@ -267,10 +267,10 @@ export const subTypeTwo = {
       fe: "factory",
       be: "factory",
     },
-    {
-      fe: "Service Apartment",
-      be: "service_apartment",
-    },
+    // {
+    //   fe: "Service Apartment",
+    //   be: "service_apartment",
+    // },
   ],
 };
 
@@ -326,7 +326,13 @@ export const bedroom = [
     fe: "4 BHK",
     be: "4BHK",
   },
+  {
+    fe: "5 BHK",
+    be: "5BHK",
+  },
 ];
+
+export const bedroomBox = ["1BHK", "2BHK", "3BHK", "4BHK", "5BHK"];
 
 export const furnishing = [
   {
@@ -404,5 +410,58 @@ export const CommercialImagesCat = [
   "Interior",
   "Washroom",
   "Floor Plan",
+  "Location Map",
+];
+
+export const landZone = [
+  "Residential",
+  "Commercial",
+  "Industrial",
+  "Agricultural",
+  "GovtUse",
+  "Lift",
+  "PublicUtilities",
+  "SpecialEconomic",
+  "NaturalConservation",
+  "Transport",
+  "Communication",
+  "OpenSpace",
+  "Public&Semi-Publicuse",
+];
+
+export const foodType = [
+  "Vegetarian",
+  "Non Veg",
+  "Veg & Non veg",
+  "Self Cooking Kitchen",
+  "No Food",
+];
+export const occupancy = [
+  "Single Room",
+  "Double Sharing Room",
+  "Triple Sharing Room",
+];
+
+export const rentPeriod = [
+  {
+    fe: "Per Day",
+    be: "day",
+  },
+  {
+    fe: "Per Month",
+    be: "month",
+  },
+  {
+    fe: "Per Year",
+    be: "year",
+  },
+];
+
+export const pgImgCat = [
+  "Exterior View",
+  "Living Room",
+  "Single Sharing",
+  "Double Sharing",
+  "Triple Sharing",
   "Location Map",
 ];
