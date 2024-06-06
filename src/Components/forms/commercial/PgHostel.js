@@ -160,7 +160,7 @@ export default function PgHostel({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setLiving([...living, ...newImages]);
-    } else if (imageCat === "Single Sharing") {
+    } else if (imageCat === "Bedrooms") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - single.length);
       const newImages = imagesToAdd.map((file) => ({
@@ -168,7 +168,7 @@ export default function PgHostel({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setSingle([...single, ...newImages]);
-    } else if (imageCat === "Double Sharing") {
+    } else if (imageCat === "Bathrooms") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - double.length);
       const newImages = imagesToAdd.map((file) => ({
@@ -176,7 +176,7 @@ export default function PgHostel({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setDouble([...double, ...newImages]);
-    } else if (imageCat === "Triple Sharing") {
+    } else if (imageCat === "Kitchen") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - triple.length);
       const newImages = imagesToAdd.map((file) => ({
@@ -210,13 +210,13 @@ export default function PgHostel({ options, user }) {
     } else if (imageCat === "Living Room") {
       const filteredImages = living.filter((image) => image.id !== id);
       setLiving(filteredImages);
-    } else if (imageCat === "Single Sharing") {
+    } else if (imageCat === "Bedrooms") {
       const filteredImages = single.filter((image) => image.id !== id);
       setSingle(filteredImages);
-    } else if (imageCat === "Double Sharing") {
+    } else if (imageCat === "Bathrooms") {
       const filteredImages = double.filter((image) => image.id !== id);
       setDouble(filteredImages);
-    } else if (imageCat === "Triple Sharing") {
+    } else if (imageCat === "Kitchen") {
       const filteredImages = triple.filter((image) => image.id !== id);
       setTriple(filteredImages);
     } else if (imageCat === "Location Map") {
@@ -252,13 +252,13 @@ export default function PgHostel({ options, user }) {
     // pg
     formData.append("pgcolony.no_of_rooms", parseInt(formValue?.numberOfRoom));
     formData.append("pgcolony.address", formValue?.address);
- 
+
     formData.append("pgcolony.total_floors", parseInt(formValue?.TotalFloor));
     formData.append("pgcolony.category_of_project", formValue?.category);
     formData.append("pgcolony.gender", formValue?.gender);
     formData.append("pgcolony.tenants_preferred", formValue?.tenantsPreferred);
     formData.append("pgcolony.status", formValue?.status);
-    
+
     formData.append("pgcolony.room_types", formValue?.roomType);
 
     formData.append("pgcolony.single_room_price_for_ac", formValue?.singleAcRs);
@@ -295,6 +295,7 @@ export default function PgHostel({ options, user }) {
       "pgcolony.security_deposit",
       parseInt(formValue?.securityDeposite)
     );
+    // formData.append("pgcolony.occupancy", 5);
 
     selectedLandFacility.forEach((element, index) => {
       formData.append(`pgcolony.occupancy[${index}]name`, element);
@@ -320,28 +321,28 @@ export default function PgHostel({ options, user }) {
       formData.append(`pgcolony_images[${1}]image`, image.file);
     });
     living?.forEach((image) => {
-      formData.append(`pgcolony_images[${2}]section`, "interior");
+      formData.append(`pgcolony_images[${2}]section`, "livingroom");
       formData.append(`pgcolony_images[${2}]image`, image.file);
     });
     single?.forEach((image) => {
-      formData.append(`pgcolony_images[${3}]section`, "washroom");
+      formData.append(`pgcolony_images[${3}]section`, "bedrooms");
       formData.append(`pgcolony_images[${3}]image`, image.file);
     });
     double?.forEach((image) => {
-      formData.append(`pgcolony_images[${4}]section`, "floor_plan");
+      formData.append(`pgcolony_images[${4}]section`, "bathrooms");
       formData.append(`pgcolony_images[${4}]image`, image.file);
     });
     triple?.forEach((image) => {
-      formData.append(`pgcolony_images[${4}]section`, "floor_plan");
-      formData.append(`pgcolony_images[${4}]image`, image.file);
-    });
-    location?.forEach((image) => {
-      formData.append(`pgcolony_images[${5}]section`, "location_map");
+      formData.append(`pgcolony_images[${5}]section`, "kitchen");
       formData.append(`pgcolony_images[${5}]image`, image.file);
     });
-    logo?.forEach((image) => {
-      formData.append(`pgcolony_images[${6}]section`, "logo");
+    location?.forEach((image) => {
+      formData.append(`pgcolony_images[${6}]section`, "location_map");
       formData.append(`pgcolony_images[${6}]image`, image.file);
+    });
+    logo?.forEach((image) => {
+      formData.append(`pgcolony_images[${7}]section`, "logo");
+      formData.append(`pgcolony_images[${7}]image`, image.file);
     });
     try {
       const response = await axios.post(
@@ -470,7 +471,7 @@ export default function PgHostel({ options, user }) {
       </Row>
 
       <Row>
-      <Controller
+        <Controller
           name="category"
           control={control}
           rules={{ required: "Category is required" }}
@@ -580,7 +581,10 @@ export default function PgHostel({ options, user }) {
                   options={[
                     { value: "A/C_rooms", label: "A/C rooms" },
                     { value: "Non_A/C_rooms", label: "Non A/C rooms" },
-                    { value: "A/C_&_Non_A/C_rooms", label: "A/C & non A/C rooms" },
+                    {
+                      value: "A/C_&_Non_A/C_rooms",
+                      label: "A/C & non A/C rooms",
+                    },
                   ]}
                   field={field}
                   isInvalid={!!errors.roomType}
@@ -1126,7 +1130,7 @@ export default function PgHostel({ options, user }) {
           </>
         )}
 
-        {imageCat === "Single Sharing" && (
+        {imageCat === "Bedrooms" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
@@ -1168,7 +1172,7 @@ export default function PgHostel({ options, user }) {
           </>
         )}
 
-        {imageCat === "Double Sharing" && (
+        {imageCat === "Bathrooms" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
@@ -1210,7 +1214,7 @@ export default function PgHostel({ options, user }) {
           </>
         )}
 
-        {imageCat === "Triple Sharing" && (
+        {imageCat === "Kitchen" && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">

@@ -225,6 +225,105 @@ export const subType = {
   ],
 };
 
+export const resdentialForSearch = [
+  {
+    fe: "House",
+    be: "house",
+  },
+  {
+    fe: "Villa",
+    be: "villa",
+  },
+  {
+    fe: "Flat",
+    be: "flat",
+  },
+  {
+    fe: "Appartment",
+    be: "appartment",
+  },
+  {
+    fe: "Bungalow",
+    be: "bungalow",
+  },
+  {
+    fe: "Duplex house",
+    be: "duplex_house",
+  },
+  {
+    fe: " Multi storey Apartment",
+    be: "multi_storey_apartment",
+  },
+  {
+    fe: "Luxury Apartment",
+    be: "luxury_apartment",
+  },
+  {
+    fe: "Row house",
+    be: "row_house",
+  },
+  {
+    fe: "Pent house",
+    be: "pent_house",
+  },
+  {
+    fe: "Farm house",
+    be: "farm_house",
+  },
+
+  {
+    fe: "BuilderFloor Apartment",
+    be: "builder_floor_apartment",
+  },
+
+  {
+    fe: " Studio Apartment",
+    be: "studio_apartment",
+  },
+];
+
+export const commercialSearch = [
+  {
+    fe: "Industrial Building",
+    be: "industrialbuilding",
+  },
+  {
+    fe: "Industrial shed",
+    be: "industrial_shed",
+  },
+  {
+    fe: "factory",
+    be: "factory",
+  },
+  {
+    fe: "Office",
+    be: "office",
+  },
+  {
+    fe: "Shop",
+    be: "shop",
+  },
+  {
+    fe: "Showroom",
+    be: "showroom",
+  },
+  {
+    fe: "Godown",
+    be: "godown",
+  },
+  {
+    fe: "Shed",
+    be: "shed",
+  },
+  {
+    fe: "Co-working Space",
+    be: "co_working_space",
+  },
+  {
+    fe: "Commercial complex",
+    be: "commercial_complex",
+  },
+];
 export const subTypeTwo = {
   residential_property: [
     {
@@ -460,8 +559,8 @@ export const rentPeriod = [
 export const pgImgCat = [
   "Exterior View",
   "Living Room",
-  "Single Sharing",
-  "Double Sharing",
-  "Triple Sharing",
+  "Bedrooms",
+  "Bathrooms",
+  "Kitchen",
   "Location Map",
 ];

@@ -25,7 +25,7 @@ export const InputField = ({
       value={value}
       type={type}
       placeholder={placeholder}
-      className={`form-control border-danger ${className}`}
+      className={`form-control border-danger form-control-lg ${className}`}
       {...props}
     />
   </div>
@@ -33,13 +33,15 @@ export const InputField = ({
 
 const PhoneField = ({ label, value, ...props }) => (
   <div className="col-12 col-md-6 mb-3">
-    <label className="form-label pb-3 fw-medium">{label}</label>
+    <label className="form-label pb-3 fw-medium " >{label}</label>
     <PhoneInput
       value={`${value}`}
-      className="w-100"
+      className="w-100  "
       inputStyle={{
         borderColor: "#D7242A",
-        borderRadius: "4px",
+        borderRadius:"10px",
+       paddingBottom:"4.2%",
+       paddingTop:"4.2%"
       }}
       {...props}
     />
@@ -163,7 +165,7 @@ export default function FormContainer() {
         <div className="mt-5 pt-3">
           <p className="fw-medium fs-4">Property Type</p>
 
-          <div className=" form-shadow px-2 rounded-4 mt-4">
+          <div className=" form-shadow px-2 rounded-5 mt-4">
             <div className="d-flex justify-content-evenly text-center gap-1 align-items-center border-bottom">
               {propType.map((itm, indx) => (
                 <div

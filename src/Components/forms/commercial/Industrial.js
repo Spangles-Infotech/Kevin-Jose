@@ -272,7 +272,7 @@ export default function Industrial({ options, user }) {
         formData.append(`factory_images[${1}]image`, image.file);
       });
       interior?.forEach((image) => {
-        formData.append(`factory_images[${2}]section`, "interior");
+        formData.append(`factory_images[${2}]section`, "interior_view");
         formData.append(`factory_images[${2}]image`, image.file);
       });
       washroom?.forEach((image) => {
@@ -351,7 +351,7 @@ export default function Industrial({ options, user }) {
         formData.append(`industrialbuilding_images[${1}]image`, image.file);
       });
       interior?.forEach((image) => {
-        formData.append(`industrialbuilding_images[${2}]section`, "interior");
+        formData.append(`industrialbuilding_images[${2}]section`, "interior_view");
         formData.append(`industrialbuilding_images[${2}]image`, image.file);
       });
       washroom?.forEach((image) => {
@@ -436,7 +436,7 @@ export default function Industrial({ options, user }) {
         formData.append(`service_apartment_images[${0}]image`, image.file);
       });
       interior?.forEach((image) => {
-        formData.append(`service_apartment_images[${1}]section`, "interior");
+        formData.append(`service_apartment_images[${1}]section`, "interior_view");
         formData.append(`service_apartment_images[${2}]image`, image.file);
       });
       washroom?.forEach((image) => {

@@ -3,12 +3,14 @@ import {
   bedroom,
   category,
   commercialFilter,
+  commercialSearch,
   condition,
   directions,
   furnishing,
   people,
   plotFilter,
   propType,
+  resdentialForSearch,
   residentialFilter,
   subType,
   subTypeTwo,
@@ -90,11 +92,27 @@ export default function Hero() {
       );
     } else if (selectedOptions.selectedProp === "residential_property") {
       navigate(
-        `/result?property_type=${"residential"}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&bhk=${selectedOptions.bedroom}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&postedby=${selectedOptions.role}&min_price=${minAmount}&max_price=${maxAmount}`
+        `/result?property_type=${"residential"}&subtype=${
+          selectedOptions.subType
+        }&location=${selectedOptions.location}&you_are_here_to=${
+          selectedOptions.purpose
+        }&bhk=${selectedOptions.bedroom}&status=${
+          selectedOptions.furnishing
+        }&condition=${selectedOptions.condition}&postedby=${
+          selectedOptions.role
+        }&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else if (selectedOptions.selectedProp === "commercial_property") {
       navigate(
-        `/result?property_type=${"commercial"}&subtype=${selectedOptions.subType}&location=${selectedOptions.location}&you_are_here_to=${selectedOptions.purpose}&category=${selectedOptions.category}&status=${selectedOptions.furnishing}&condition=${selectedOptions.condition}&min_price=${minAmount}&max_price=${maxAmount}`
+        `/result?property_type=${"commercial"}&subtype=${
+          selectedOptions.subType
+        }&location=${selectedOptions.location}&you_are_here_to=${
+          selectedOptions.purpose
+        }&category=${selectedOptions.category}&status=${
+          selectedOptions.furnishing
+        }&condition=${
+          selectedOptions.condition
+        }&min_price=${minAmount}&max_price=${maxAmount}`
       );
     } else {
       navigate(
@@ -320,11 +338,11 @@ export default function Hero() {
 
               {selectedOptions.selectedProp === "residential_property" && (
                 <div
-                  className={`bg-white mt-3 flex-wrap d-flex justify-content-evenly gap-2 align-items-center py-4 rounded-bottom-5 ${
+                  className={`bg-white mt-3 flex-wrap d-flex justify-content-around   gap-2 align-items-center py-4 rounded-bottom-5 ${
                     propertyClick ? "d-block" : "d-none"
                   }`}
                 >
-                  {subType.residential_property.map((type, ind) => (
+                  {resdentialForSearch.map((type, ind) => (
                     <div
                       onClick={() =>
                         setSelectedOptions((prevOptions) => ({
@@ -333,25 +351,7 @@ export default function Hero() {
                         }))
                       }
                       key={ind}
-                      className={`rounded-pill p-2 m-0 px-5 text-secondary cursor-point fw-medium border-1 ${
-                        selectedOptions.subType === type.be
-                          ? "border border-danger text-danger"
-                          : "border"
-                      }`}
-                    >
-                      {type.fe}
-                    </div>
-                  ))}
-                  {subTypeTwo.residential_property.map((type, ind) => (
-                    <div
-                      key={ind}
-                      onClick={() =>
-                        setSelectedOptions((prevOptions) => ({
-                          ...prevOptions,
-                          subType: type.be,
-                        }))
-                      }
-                      className={`rounded-pill p-2 m-0 px-5 text-secondary cursor-point fw-medium border-1 ${
+                      className={`rounded-pill p-2 m-0 px-4 text-secondary cursor-point fw-medium border-1 ${
                         selectedOptions.subType === type.be
                           ? "border border-danger text-danger"
                           : "border"
@@ -369,7 +369,7 @@ export default function Hero() {
                     propertyClick ? "d-block" : "d-none"
                   }`}
                 >
-                  {subType.commercial_property.map((type, ind) => (
+                  {commercialSearch.map((type, ind) => (
                     <div
                       onClick={() =>
                         setSelectedOptions((prevOptions) => ({
@@ -378,25 +378,7 @@ export default function Hero() {
                         }))
                       }
                       key={ind}
-                      className={`rounded-pill p-2 m-0 px-5 text-secondary cursor-point fw-medium border-1 ${
-                        selectedOptions.subType === type.be
-                          ? "border border-danger text-danger"
-                          : "border"
-                      }`}
-                    >
-                      {type.fe}
-                    </div>
-                  ))}
-                  {subTypeTwo.commercial_property.map((type, ind) => (
-                    <div
-                      key={ind}
-                      onClick={() =>
-                        setSelectedOptions((prevOptions) => ({
-                          ...prevOptions,
-                          subType: type.be,
-                        }))
-                      }
-                      className={`rounded-pill p-2 m-0 px-5 text-secondary cursor-point fw-medium border-1 ${
+                      className={`rounded-pill p-2 m-0 px-4 text-secondary cursor-point fw-medium border-1 ${
                         selectedOptions.subType === type.be
                           ? "border border-danger text-danger"
                           : "border"
@@ -659,16 +641,15 @@ export default function Hero() {
                 />
               )}
             </div>
-          </div>
-
-          <div className="d-flex align-items-center justify-content-center gap-3 my-4">
-            <span className=" fw-medium">Recent Searches :</span>
-            <span
-              className="border rounded-pill p-0 m-0  px-4 py-2 text-secondary"
-              style={{ fontSize: "14px" }}
-            >
-              Residential Plot, Chennai
-            </span>
+            <div className={`d-flex align-items-center justify-content-center gap-3 my-4 ${propertyClick || budgetClick ? "d-none" : "d-block"}`}>
+              <span className=" fw-medium">Recent Searches :</span>
+              <span
+                className="border rounded-pill p-0 m-0  px-4 py-2 text-secondary"
+                style={{ fontSize: "14px" }}
+              >
+                Residential Plot, Chennai
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { FaRegHeart } from "react-icons/fa";
@@ -20,6 +20,10 @@ const Preview = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const imageStyles = [
     { width: "440px", height: "260px" },
     { width: "270px", height: "260px" },
@@ -34,19 +38,27 @@ const Preview = () => {
     {},
   ];
 
-  const [isOpen,setIsOpen] = useState(true)
-
- 
+  const [isOpen, setIsOpen] = useState(true);
+console.log(details);
   return (
     <>
       <Navbar />
 
-      <div className=" container postion-relative  mx-auto" style={{ marginTop: "6.7%" }}>
-         <span className="position-absolute" style={{top:"18%"}} onClick={()=>navigate("/")}>
-          <FiArrowLeft size={25} color="red"/>
-         </span>
+      <div
+        className=" container postion-relative  mx-auto"
+        style={{ marginTop: "6.7%" }}
+      >
+        <span
+          className="position-absolute"
+          style={{ top: "18%" }}
+          onClick={() => navigate("/")}
+        >
+          <FiArrowLeft size={25} color="red" />
+        </span>
         <div
-          className={`w-50 mx-auto d-flex   justify-content-between p-2 ${isOpen ? "visible" : "invisible"}`}
+          className={`w-50 mx-auto d-flex   justify-content-between p-2 ${
+            isOpen ? "visible" : "invisible"
+          }`}
           style={{ backgroundColor: "rgba(255, 240, 209, 1)" }}
         >
           <div className="d-flex align-items-center ">
@@ -66,18 +78,38 @@ const Preview = () => {
             </span>
           </div>
           <div className="d-flex align-items-center ">
-            <IoCloseCircleOutline color="red" size={25} onClick={()=>setIsOpen(!isOpen)}  style={{cursor:'pointer'}}/>
+            <IoCloseCircleOutline
+              color="red"
+              size={25}
+              onClick={() => setIsOpen(!isOpen)}
+              style={{ cursor: "pointer" }}
+            />
           </div>
         </div>
-        <div className={`w-50 mx-auto d-flex   justify-content-between bg-warning py-1 ${isOpen ? "visible" : "invisible"}`}></div>
+        <div
+          className={`w-50 mx-auto d-flex   justify-content-between bg-warning py-1 ${
+            isOpen ? "visible" : "invisible"
+          }`}
+        ></div>
       </div>
 
       <div className="border container mx-auto px-4 py-5 rounded-4 border-danger">
         <h2 className="fw-bold text-danger" style={{ fontSize: "40px" }}>
-          {details?.sale_price}
-          {details?.rent}
-          {details?.lease_amount}
+          {details?.sale_price && <>{details.sale_price}</>}
+          {details?.rent && <>{details.rent}</>}
+          {details?.lease_amount && <>{details.lease_amount}</>}
+          {details?.commercial_properties?.pg_colony
+            ?.single_room_price_for_nonac_display && (
+            <>
+              {
+                details.commercial_properties.pg_colony
+                  .single_room_price_for_nonac_display
+              }{" "}
+              <span className="fs-6">Onwards</span>
+            </>
+          )}
         </h2>
+
         <p className="text-end text-secondary" style={{ fontSize: "12px" }}>
           Posted {details?.created_at}
         </p>
@@ -154,6 +186,16 @@ const Preview = () => {
             {details?.commercial_properties?.factory?.built_up_area_unit}{" "}
             {details?.commercial_properties?.commercial_type?.toUpperCase()} for{" "}
             {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+
+        {/* commercial --> pg colony*/}
+        {details?.commercial_properties?.pg_colony && (
+          <p className="fw-medium">
+            {details?.commercial_properties?.commercial_type}{" "}
             {details?.you_are_here_to === "rent" && <span>Rent</span>}
             {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
             {details?.location}
@@ -257,6 +299,21 @@ const Preview = () => {
 
         {/* commercial office image*/}
         {details?.commercial_properties?.showroom?.showroom_images.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+
+        {/* commercial  pg hostel*/}
+        {details?.commercial_properties?.pg_colony?.pgcolony_images.map(
           (img, index) => {
             return (
               <img

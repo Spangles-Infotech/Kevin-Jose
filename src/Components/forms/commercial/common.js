@@ -232,7 +232,7 @@ export default function CommercialCommon({ options, user }) {
       formData.append(`showroom_images[${0}]image`, image.file);
     });
     interior?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "interior");
+      formData.append(`showroom_images[${0}]section`, "interior_view");
       formData.append(`showroom_images[${0}]image`, image.file);
     });
     washroom?.forEach((image) => {
