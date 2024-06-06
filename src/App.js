@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -16,7 +16,6 @@ import Result from "./Components/Result";
 import Budget from "./Components/Budget";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Newotp from "./Components/Newotp";
 import Rent from "./Components/Rent";
 import Lease from "./Components/Lease";
 import Postcheck from "./Components/Postcheck";
@@ -38,29 +37,37 @@ import AddEmployeUpdate from "./admin/Pages/AddEmployeUpdate";
 import Propertiessatues from "./admin/Pages/Propertiessatues";
 import Preview from "./Components/Preview";
 import FormContainer from "./Components/FormContainer";
- 
-
+import UserRegister from "./Components/user/userRegister";
+import OTPBOX from "./Components/user/OTPBOX";
+import Login from "./Components/login";
 
 function App() {
   // git test
+  const [showOTPBox, setShowOTPBox] = useState(false);
   return (
     <div className="App">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Rent" element={<Rent />} />
-          <Route path="/Lease" element={<Lease />} />
           <Route path="/builder/:id" element={<Builder />} />
           <Route path="/myproperties" element={<Myproperties />} />
           <Route path="/detail/:id" element={<Mypropertiesdetail />} />
-          <Route path="/otpverify" element={<Otp />} />
-          <Route path="/mobile" element={<Mobilenumber />} />
-          <Route path="/post" element={<Posting />} />
+
+          <Route path="/user-login" element={<Login setShowOTPBox={setShowOTPBox} />} />
+          {showOTPBox && <Route path="/user-login/otp" element={<OTPBOX setShowOTPBox={setShowOTPBox}/>} />}
+
+
+
+          <Route path="/user-register" element={<UserRegister />} />
+          <Route path="/user-register/otp" element={<OTPBOX />} />
           <Route path="/form" element={<FormContainer />} />
           <Route path="/result" element={<Result />} />
           <Route path="/budget" element={<Budget />} />
-          <Route path="/new-path" element={<Newotp />} />
+          {/* <Route path="/new-path" element={<Newotp />} /> */}
           <Route path="/check" element={<Preview />} />
+          {/* <Route path="/otpverify" element={<Otp />} /> */}
+          {/* <Route path="/otpverify" element={<Otp />} /> */}
+          {/* <Route path="/post" element={<Posting />} /> */}
           {/*  */}
           <Route
             path="/Dashboard"
@@ -90,43 +97,42 @@ function App() {
             path="/Expense"
             element={withSideBarLayout(<Expense />, true)}
           />
-       
 
-        {/* useNavigate PATH PAGES */}
-        <Route
-          path="/Selling/:id"
-          element={withSideBarLayout(<Selling />, true)}
-        />
-        <Route
-          path="/Employee/:user_id"
-          element={withSideBarLayout(<Employee />, true)}
-        />
-        <Route
-          path="/EmployeeDetails/:employee_code"
-          element={withSideBarLayout(<EmployeeDetails />, true)}
-        />
-        <Route
-          path="/Attendancecal/:employee_code"
-          element={withSideBarLayout(<Attendancecal />, true)}
-        />
-        <Route
-          path="/ExpenseAdd"
-          element={withSideBarLayout(<ExpenseAdd />, true)}
-        />
+          {/* useNavigate PATH PAGES */}
+          <Route
+            path="/Selling/:id"
+            element={withSideBarLayout(<Selling />, true)}
+          />
+          <Route
+            path="/Employee/:user_id"
+            element={withSideBarLayout(<Employee />, true)}
+          />
+          <Route
+            path="/EmployeeDetails/:employee_code"
+            element={withSideBarLayout(<EmployeeDetails />, true)}
+          />
+          <Route
+            path="/Attendancecal/:employee_code"
+            element={withSideBarLayout(<Attendancecal />, true)}
+          />
+          <Route
+            path="/ExpenseAdd"
+            element={withSideBarLayout(<ExpenseAdd />, true)}
+          />
 
-        <Route
-          path="/AddEmployee"
-          element={withSideBarLayout(<AddEmployee />, true)}
-        />
-        <Route
-          path="/AddEmployeUpdate/:employee_code"
-          element={withSideBarLayout(<AddEmployeUpdate />, true)}
-        />
-        <Route
-          path="/Propertiessatues/:id"
-          element={withSideBarLayout(<Propertiessatues />, true)}
-        />
-         </Routes>
+          <Route
+            path="/AddEmployee"
+            element={withSideBarLayout(<AddEmployee />, true)}
+          />
+          <Route
+            path="/AddEmployeUpdate/:employee_code"
+            element={withSideBarLayout(<AddEmployeUpdate />, true)}
+          />
+          <Route
+            path="/Propertiessatues/:id"
+            element={withSideBarLayout(<Propertiessatues />, true)}
+          />
+        </Routes>
       </Router>
       <ToastContainer />
     </div>

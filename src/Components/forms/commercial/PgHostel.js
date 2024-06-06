@@ -556,7 +556,7 @@ export default function PgHostel({ options, user }) {
                   label="Tenants Preferred"
                   options={[
                     { value: "students", label: "Students" },
-                    { value: "proffessionals", label: "Professionals" },
+                    { value: "professionals", label: "Professionals" },
                     { value: "both", label: "Both" },
                   ]}
                   field={field}

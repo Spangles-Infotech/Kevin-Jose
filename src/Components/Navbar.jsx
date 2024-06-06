@@ -11,7 +11,7 @@ import Exclusive from "./Exclusive";
 import Real from "./Real";
 import Enquiry from "./Enquiry";
 import Footer from "./Footer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { Modal, Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,33 +24,21 @@ const Navbar = () => {
   };
 
   const handlepost = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("customer");
     if (!token) {
-      navigate("/post");
+      navigate("/user-login");
     } else {
-      navigate("/post");
+      navigate("/form");
     }
   };
-  const [showModal, setShowModal] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const getTokenFromLocalStorage = localStorage.getItem("customer");
 
-  const notify = () => {
-    setShowModal(true);
+  const handleLogout = () => {
+    localStorage.removeItem("customer");
+    navigate("/user-login");
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleNavigate = () => {
-    navigate("/post");
-    setShowModal(false);
-  };
-  const handleNavigate1 = () => {
-    navigate("/new-path");
-    setShowModal(false);
-  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-custom fixed-top  ">
@@ -79,73 +67,65 @@ const Navbar = () => {
             className="collapse navbar-collapse d-flex gap-3"
             id="navbarSupportedContent"
           >
-            <div className="d-lg-flex  mx-5 px-5 my-2">
-              <div className="dropdown">
-                <ul
-                  className="dropdown-menu gap-2"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
               <li className="nav-item">
                 <a className="nav-link" href="#" onClick={handleCartClick}>
                   <BsCart4 size={20} />
                 </a>
               </li>
-              <div>
-                <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={notify}>
-                    <FiUser size={20} />
-                  </a>
-                </li>
-                {}
-
-                {/* modal */}
-                <Modal show={showModal} onHide={handleCloseModal} size="sm">
-                  <Modal.Body>
-                    <div className="justify-content-end mb-3">
-                      <Button
-                        variant=""
-                        className="me-2"
-                        onClick={handleNavigate}
-                        style={{ color: "#DC0000" }}
-                      >
-                        Sign up
-                      </Button>
+            </ul>{" "}
+            <div>
+              <div class="btn-group position-relative">
+                <button
+                  class="btn  text-white  border-0   "
+                  style={{ outline: "none" }}
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  data-bs-auto-close="true"
+                  aria-expanded="false"
+                >
+                  <FiUser size={20} />
+                </button>
+                {getTokenFromLocalStorage ? (
+                  <ul class="dropdown-menu border-0 rounded-4">
+                    <div className="d-flex px-4 py-2 gap-3 mx-2 border-bottom">
+                      <div className="d-flex align-items-center">
+                        <img
+                          src="assets\Group.png "
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                      </div>
+                      <div className="d-flex flex-column justify-content-center  gap-1 ">
+                        <span className="fw-medium">Rajesh</span>
+                        <span className="fw-light">rajesh123@gmail.com</span>
+                        <span className="fw-light">+91 90879 56762</span>
+                      </div>
                     </div>
-                    <div className="justify-content-end mb-3">
-                      <Button
-                        variant=""
-                        className="me-2"
-                        onClick={handleNavigate1}
-                        style={{ color: "#DC0000" }}
-                      >
+
+                    <div className=" d-flex justify-content-center align-items-center text-danger fw-semibold py-2">
+                      <span className="cursor-point" onClick={handleLogout}>
+                        Log Out
+                      </span>
+                    </div>
+                  </ul>
+                ) : (
+                  <ul class="dropdown-menu">
+                    <li>
+                      <Link to="/user-login" class="dropdown-item ">
                         Log In
-                      </Button>
-                    </div>
-                  </Modal.Body>
-                </Modal>
-
-                <ToastContainer />
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/user-register" class="dropdown-item">
+                        Sign Up
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
-            </ul>
+
+              <ToastContainer />
+            </div>
             <button
               className="d-flex  align-items-center justify-content-center rounded-pill py-1 px-3 bg-light border-0 gap-1   fw-medium position-relative"
               onClick={handlepost}

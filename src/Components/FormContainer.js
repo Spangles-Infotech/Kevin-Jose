@@ -31,7 +31,7 @@ export const InputField = ({
   </div>
 );
 
-const PhoneField = ({ label, value, ...props }) => (
+export const PhoneField = ({ label, value, ...props }) => (
   <div className="col-12 col-md-6 mb-3">
     <label className="form-label pb-3 fw-medium " >{label}</label>
     <PhoneInput
