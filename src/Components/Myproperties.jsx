@@ -32,6 +32,13 @@ const Myproperties = () => {
       });
   }, []);
 
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + "..............";
+  };
+
   return (
     <>
       <Navbar />
@@ -89,7 +96,10 @@ const Myproperties = () => {
                     <button
                       type="button"
                       className="border-0 p-1 px-2 rounded-1 text-white"
-                      style={{ fontSize: "12px",backgroundColor:"rgba(215, 103, 36, 1)" }}
+                      style={{
+                        fontSize: "12px",
+                        backgroundColor: "rgba(215, 103, 36, 1)",
+                      }}
                     >
                       On Progress
                     </button>
@@ -801,8 +811,11 @@ const Myproperties = () => {
                     ))}
                 </div>
                 <div className="mt-3 ps-3">
-                  <p className="text-secondary fw-light" style={{ fontSize: "13px" }}>
-                    {details?.description}
+                  <p
+                    className="text-secondary fw-light"
+                    style={{ fontSize: "13px" }}
+                  >
+                    {truncateText(details?.description, 150)}
                   </p>
                 </div>
               </div>

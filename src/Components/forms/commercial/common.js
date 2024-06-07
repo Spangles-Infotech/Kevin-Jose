@@ -232,24 +232,24 @@ export default function CommercialCommon({ options, user }) {
       formData.append(`showroom_images[${0}]image`, image.file);
     });
     interior?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "interior_view");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`showroom_images[${1}]section`, "interior_view");
+      formData.append(`showroom_images[${1}]image`, image.file);
     });
     washroom?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "washroom");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`showroom_images[${2}]section`, "washroom");
+      formData.append(`showroom_images[${2}]image`, image.file);
     });
     floorPlan?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "floor_plan");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`showroom_images[${3}]section`, "floor_plan");
+      formData.append(`showroom_images[${3}]image`, image.file);
     });
     location?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "location_map");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`showroom_images[${5}]section`, "location_map");
+      formData.append(`showroom_images[${5}]image`, image.file);
     });
     logo?.forEach((image) => {
-      formData.append(`showroom_images[${0}]section`, "logo");
-      formData.append(`showroom_images[${0}]image`, image.file);
+      formData.append(`showroom_images[${6}]section`, "logo");
+      formData.append(`showroom_images[${6}]image`, image.file);
     });
     try {
       const response = await axios.post(
@@ -483,7 +483,7 @@ export default function CommercialCommon({ options, user }) {
           )}
         />
       </Row>
- 
+
       <Controller
         name="condition"
         control={control}
@@ -496,7 +496,6 @@ export default function CommercialCommon({ options, user }) {
                 options={[
                   { value: "ready_to_move", label: "Ready to move" },
                   { value: "under_construction", label: "Under Construction" },
-               
                 ]}
                 field={field}
                 isInvalid={!!errors.condition}

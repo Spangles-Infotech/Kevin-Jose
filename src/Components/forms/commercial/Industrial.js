@@ -16,6 +16,7 @@ import {
   indoorFacilities,
   landZone,
   outdoorFacilities,
+  pgImgCat,
 } from "../../Data";
 import { Baseurl, UserConfig } from "../../request";
 import { toast } from "react-toastify";
@@ -113,6 +114,7 @@ export default function Industrial({ options, user }) {
   const [exterior, setExterior] = useState([]);
   const [interior, setInterior] = useState([]);
   const [washroom, setWashroom] = useState([]);
+  const [kitchen, setKitchen] = useState([]);
   const [floorPlan, setFloorPlan] = useState([]);
   const [location, setLocation] = useState([]);
   const [logo, setLogo] = useState([]);
@@ -126,7 +128,7 @@ export default function Industrial({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setExterior([...exterior, ...newImages]);
-    } else if (imageCat === "Interior") {
+    } else if (imageCat === "Interior" || imageCat === "Living Room") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - interior.length);
       const newImages = imagesToAdd.map((file) => ({
@@ -134,7 +136,7 @@ export default function Industrial({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setInterior([...interior, ...newImages]);
-    } else if (imageCat === "Washroom") {
+    } else if (imageCat === "Washroom" || imageCat === "Bedrooms") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - washroom.length);
       const newImages = imagesToAdd.map((file) => ({
@@ -142,7 +144,7 @@ export default function Industrial({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setWashroom([...washroom, ...newImages]);
-    } else if (imageCat === "Floor Plan") {
+    } else if (imageCat === "Floor Plan" || imageCat === "Bathrooms") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - floorPlan.length);
       const newImages = imagesToAdd.map((file) => ({
@@ -150,6 +152,14 @@ export default function Industrial({ options, user }) {
         id: Math.random().toString(36).substr(2, 9),
       }));
       setFloorPlan([...floorPlan, ...newImages]);
+    } else if (imageCat === "Kitchen") {
+      const files = Array.from(event.target.files);
+      const imagesToAdd = files.slice(0, 1 - kitchen.length);
+      const newImages = imagesToAdd.map((file) => ({
+        file,
+        id: Math.random().toString(36).substr(2, 9),
+      }));
+      setKitchen([...kitchen, ...newImages]);
     } else if (imageCat === "Location Map") {
       const files = Array.from(event.target.files);
       const imagesToAdd = files.slice(0, 1 - location.length);
@@ -173,15 +183,21 @@ export default function Industrial({ options, user }) {
     if (imageCat === "Exterior View") {
       const filteredImages = exterior.filter((image) => image.id !== id);
       setExterior(filteredImages);
-    } else if (imageCat === "Interior") {
+    } else if (imageCat === "Interior" || imageCat === "Living Room") {
       const filteredImages = interior.filter((image) => image.id !== id);
       setInterior(filteredImages);
-    } else if (imageCat === "Washroom") {
+    } else if (imageCat === "Washroom" || imageCat === "Bedrooms") {
       const filteredImages = washroom.filter((image) => image.id !== id);
       setWashroom(filteredImages);
-    } else if (imageCat === "Floor Plan") {
+    } else if (imageCat === "Floor Plan" || imageCat === "Bathrooms") {
       const filteredImages = floorPlan.filter((image) => image.id !== id);
       setFloorPlan(filteredImages);
+    } else if (imageCat === "Location Map") {
+      const filteredImages = location.filter((image) => image.id !== id);
+      setLocation(filteredImages);
+    } else if (imageCat === "Kitchen") {
+      const filteredImages = kitchen.filter((image) => image.id !== id);
+      setKitchen(filteredImages);
     } else if (imageCat === "Location Map") {
       const filteredImages = location.filter((image) => image.id !== id);
       setLocation(filteredImages);
@@ -199,11 +215,10 @@ export default function Industrial({ options, user }) {
     formData.append("email", user?.email);
     formData.append("property_type", "commercial");
     formData.append("you_are_here_to", options?.selectedActivity);
-    formData.append("owner", options?.selectedActivity === "sell");
-    formData.append("agent", options?.selectedActivity === "rent");
-    formData.append("builder", options?.selectedActivity === "lease");
-    formData.append("title", formValue?.propertyName);
-    // formData.append("title", "hagh");
+    formData.append("owner", options?.selectedRole === "owner");
+    formData.append("agent", options?.selectedRole === "agent");
+    formData.append("builder", options?.selectedRole === "builder");
+    formData.append("title", formValue?.PropertyName);
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);
     formData.append("advance", parseInt(formValue?.AdvanceAmount));
@@ -351,7 +366,10 @@ export default function Industrial({ options, user }) {
         formData.append(`industrialbuilding_images[${1}]image`, image.file);
       });
       interior?.forEach((image) => {
-        formData.append(`industrialbuilding_images[${2}]section`, "interior_view");
+        formData.append(
+          `industrialbuilding_images[${2}]section`,
+          "interior_view"
+        );
         formData.append(`industrialbuilding_images[${2}]image`, image.file);
       });
       washroom?.forEach((image) => {
@@ -436,14 +454,18 @@ export default function Industrial({ options, user }) {
         formData.append(`service_apartment_images[${0}]image`, image.file);
       });
       interior?.forEach((image) => {
-        formData.append(`service_apartment_images[${1}]section`, "interior_view");
-        formData.append(`service_apartment_images[${2}]image`, image.file);
+        formData.append(`service_apartment_images[${1}]section`, "interior");
+        formData.append(`service_apartment_images[${1}]image`, image.file);
       });
       washroom?.forEach((image) => {
         formData.append(`service_apartment_images[${3}]section`, "washroom");
         formData.append(`service_apartment_images[${3}]image`, image.file);
       });
       floorPlan?.forEach((image) => {
+        formData.append(`service_apartment_images[${4}]section`, "floor_plan");
+        formData.append(`service_apartment_images[${4}]image`, image.file);
+      });
+      kitchen?.forEach((image) => {
         formData.append(`service_apartment_images[${4}]section`, "floor_plan");
         formData.append(`service_apartment_images[${4}]image`, image.file);
       });
@@ -1158,18 +1180,37 @@ export default function Industrial({ options, user }) {
 
       <div className="px-2 rounded-4 mt-4 border border-danger w-100 mx-auto">
         <div className="d-flex justify-content-evenly text-center gap-1 align-items-center border-bottom">
-          {CommercialImagesCat.map((imgType) => (
-            <div
-              className={`text-capitalize  cursor-point  text-secondary border-3 fw-medium py-3 ${
-                imageCat === imgType &&
-                "text-danger border-danger border-bottom"
-              }`}
-              style={{ fontSize: "20px", width: "20%" }}
-              onClick={() => setImageCat(imgType)}
-            >
-              {imgType}
-            </div>
-          ))}
+          {/* {options?.selectedSubType === "service_apartment" ? ( */}
+          {/* <>
+              {pgImgCat.map((imgType) => (
+                <div
+                  className={`text-capitalize  cursor-point  text-secondary border-3 fw-medium py-3 ${
+                    imageCat === imgType &&
+                    "text-danger border-danger border-bottom"
+                  }`}
+                  style={{ fontSize: "20px", width: "20%" }}
+                  onClick={() => setImageCat(imgType)}
+                >
+                  {imgType}
+                </div>
+              ))}
+            </>
+          ) : ( */}
+          <>
+            {CommercialImagesCat.map((imgType) => (
+              <div
+                className={`text-capitalize  cursor-point  text-secondary border-3 fw-medium py-3 ${
+                  imageCat === imgType &&
+                  "text-danger border-danger border-bottom"
+                }`}
+                style={{ fontSize: "20px", width: "20%" }}
+                onClick={() => setImageCat(imgType)}
+              >
+                {imgType}
+              </div>
+            ))}
+          </>
+          {/* )} */}
 
           {options.selectedRole === "builder" && (
             <div
@@ -1228,7 +1269,7 @@ export default function Industrial({ options, user }) {
         )}
 
         {/* fmb */}
-        {imageCat === "Interior" && (
+        {(imageCat === "Interior" || imageCat === "Living Room") && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
@@ -1270,7 +1311,7 @@ export default function Industrial({ options, user }) {
           </>
         )}
 
-        {imageCat === "Washroom" && (
+        {(imageCat === "Washroom" || imageCat === "Bedrooms") && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
@@ -1312,11 +1353,53 @@ export default function Industrial({ options, user }) {
           </>
         )}
 
-        {imageCat === "Floor Plan" && (
+        {(imageCat === "Floor Plan" || imageCat === "Bathrooms") && (
           <>
             {/* Render uploaded images */}
             <div className="d-flex flex-wrap justify-content-center">
               {floorPlan.map((image) => (
+                <div className="m-2 position-relative">
+                  <img
+                    src={URL.createObjectURL(image.file)}
+                    alt={`Uploaded ${imageCat} image`}
+                    className="rounded-3"
+                    style={{ maxWidth: "300px", height: "200px" }}
+                  />
+                  <button
+                    className="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-pill"
+                    onClick={() => handleRemoveImage(image.id)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="d-flex justify-content-center align-items-center p-0 m-0"
+              style={{ height: "250px" }}
+            >
+              <label
+                htmlFor="uploadInput"
+                className="text-danger btn border border-danger py-3 px-5 rounded-5"
+              >
+                Upload Photos
+              </label>
+              <input
+                id="uploadInput"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleImageUpload}
+              />
+            </div>
+          </>
+        )}
+
+        {imageCat === "Kitchen" && (
+          <>
+            {/* Render uploaded images */}
+            <div className="d-flex flex-wrap justify-content-center">
+              {kitchen.map((image) => (
                 <div className="m-2 position-relative">
                   <img
                     src={URL.createObjectURL(image.file)}

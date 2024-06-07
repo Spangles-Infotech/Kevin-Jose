@@ -564,3 +564,26 @@ export const pgImgCat = [
   "Kitchen",
   "Location Map",
 ];
+
+export const filter = [
+  {
+    fe: "Relavance",
+    be: "relavance",
+  },
+  {
+    fe: "Popularity",
+    be: "popularity",
+  },
+  {
+    fe: "Low to high",
+    be: "low_to_high",
+  },
+  {
+    fe: "High to low",
+    be: "high_to_low",
+  },
+  {
+    fe: "Newest first",
+    be: "newest_first",
+  },
+];

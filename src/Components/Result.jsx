@@ -10,14 +10,18 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate, useLocation } from "react-router-dom";
 import circle from "../Images/home.png";
 import b3 from "../Images/b3.png";
+import { filter } from "./Data";
 
 const Result = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState({
+    fe: "",
+    be: "",
+  });
 
   const navigate = useNavigate();
+
   const handleItemClick = (item) => {
-    setSelectedItem(item);
-    console.log("Selected item:", item);
+    setSelectedItem({ fe: item.fe, be: item.be });
   };
 
   const location = useLocation();
@@ -39,7 +43,7 @@ const Result = () => {
     const locality = queryParams.get("location");
     setLocality(locality);
     // plot and land
-    if (property_type === "plot" || property_type ==="land") {
+    if (property_type === "plot" || property_type === "land") {
       axios
         .get(`${Baseurl}search`, {
           params: {
@@ -53,7 +57,7 @@ const Result = () => {
             min_price: min_price,
             max_price: max_price,
             you_are_here_to: you_are_here_to,
-            filter_by: selectedItem
+            filter_by: selectedItem.be,
           },
           UserConfig,
         })
@@ -78,7 +82,7 @@ const Result = () => {
             min_price: min_price,
             max_price: max_price,
             you_are_here_to: you_are_here_to,
-            filter_by: selectedItem
+            filter_by: selectedItem.be,
           },
           UserConfig,
         })
@@ -102,7 +106,7 @@ const Result = () => {
             min_price: min_price,
             max_price: max_price,
             you_are_here_to: you_are_here_to,
-            filter_by: selectedItem
+            filter_by: selectedItem.be,
           },
           UserConfig,
         })
@@ -119,7 +123,7 @@ const Result = () => {
           params: {
             property_type: property_type,
             location: locality,
-            filter_by: selectedItem
+            filter_by: selectedItem.be,
           },
           UserConfig,
         })
@@ -131,7 +135,7 @@ const Result = () => {
           console.log(err);
         });
     }
-  }, [location.search,selectedItem]);
+  }, [location.search, selectedItem]);
 
   const handleViewDetails = () => {
     navigate("/builder");
@@ -147,7 +151,7 @@ const Result = () => {
   return (
     <>
       <Navbar />
- 
+
       <div className="w-100 mx-auto" style={{ marginTop: "9%" }}>
         <div className="container d-flex align-items-center justify-content-between">
           {/* <h2>{myProperty?.length} results | Flats in Chennai for Sale</h2> */}
@@ -156,33 +160,20 @@ const Result = () => {
             id="dropdown-basic-button"
             type="button"
             aria-expanded="false"
-            className=" "
-            title={selectedItem ? selectedItem : "relevance"}
+            title={
+              selectedItem.fe ? (
+                `Filter By - ${selectedItem.fe}`
+              ) : (
+                <span>Filter By- relevance</span>
+              )
+            }
           >
             <div className="custom-dropdown ">
-              <Dropdown.Item onClick={() => handleItemClick("relevance")}>
-                Relevance
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemClick("popularity")}>
-                Popularity
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => handleItemClick("low_to_high")}
-              >
-                Price-Low to High
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => handleItemClick("high_to_low")}
-                href="#/Price-hightoLow "
-              >
-                Price-high toLow
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => handleItemClick("newest_first")}
-                href="#/newest_first"
-              >
-                Newest First
-              </Dropdown.Item>
+              {filter.map((itm, ind) => (
+                <Dropdown.Item key={ind} onClick={() => handleItemClick(itm)}>
+                  {itm.fe}
+                </Dropdown.Item>
+              ))}
             </div>
           </DropdownButton>
         </div>

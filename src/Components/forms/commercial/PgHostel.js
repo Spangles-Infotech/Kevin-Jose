@@ -482,7 +482,7 @@ export default function PgHostel({ options, user }) {
                   label="Category"
                   options={[
                     { value: "new", label: "New" },
-                    { value: "resale", label: "Resale" },
+                    { value: "existing", label: "Existing" },
                   ]}
                   field={field}
                   isInvalid={!!errors.category}

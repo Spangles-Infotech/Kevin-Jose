@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   bedroom,
   category,
@@ -61,8 +61,6 @@ export default function Hero() {
   const [minArea, setMinArea] = useState(0);
   const [maxArea, setMaxArea] = useState(8000);
 
-  console.log(selectedOptions);
-
   const [propertyClick, setPropertyClick] = useState(false);
   const [budgetClick, setBudgetClick] = useState(false);
 
@@ -80,6 +78,55 @@ export default function Hero() {
       category: "",
     });
     setPropertyClick(false);
+  };
+
+  const containerRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (containerRef.current && !containerRef.current.contains(event.target)) {
+      setBudgetClick(false);
+      setPropertyClick(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const [marginTop, setMarginTop] = useState(
+    window.innerWidth > 1400 ? "2%" : "5.7%"
+  );
+  const [height, setHeight] = useState(
+    window.innerWidth > 1600 ? "50vh" : "65vh"
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMarginTop(window.innerWidth > 1400 ? "2%" : "5.7%");
+      if (window.innerWidth > 1900) {
+        setHeight("45vh");
+      } else if (window.innerWidth > 1400) {
+        setHeight("50vh");
+      } else if (window.innerWidth > 1200) {
+        setHeight("65vh");
+      } else {
+        setHeight("63vh");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const containerStyle = {
+    marginTop: marginTop,
+    height: height,
+    padding: "0",
   };
 
   const handleSearch = () => {
@@ -122,10 +169,7 @@ export default function Hero() {
   };
 
   return (
-    <div
-      className="container-fluid   p-0"
-      style={{ marginTop: "5.7%", height: "60vh" }}
-    >
+    <div className="container-fluid   p-0" style={containerStyle}>
       <div
         style={{
           backgroundImage: "url('assets/Group 2449.png')",
@@ -142,8 +186,8 @@ export default function Hero() {
 
         {/* bar starting */}
         <div
-          className="container mx-auto"
-          style={{ marginTop: "7%", position: "relative", zIndex: "10" }}
+          className="container mx-auto "
+          style={{ marginTop: "7.9%", position: "relative", zIndex: "10" }}
         >
           <div
             className="bg-white mx-auto d-flex justify-content-evenly align-items-center p-3 fw-medium rounded-3"
@@ -170,6 +214,7 @@ export default function Hero() {
 
           {/* search */}
           <div
+            ref={containerRef}
             className="mx-auto bg-white rounded-5"
             style={{ fontSize: "18px", width: "78%" }}
           >
@@ -221,14 +266,20 @@ export default function Hero() {
                   />
                 </div>
 
-                <div className="d-flex align-items-center justify-content-center p-2 gap-3">
+                <div
+                  className="d-flex align-items-center justify-content-center p-2 gap-3 cursor-point"
+                  onClick={() => {
+                    setPropertyClick(!propertyClick);
+                    setBudgetClick(false);
+                  }}
+                >
                   <span>
                     <img
                       src={image2}
                       style={{ height: "30px", width: "30px" }}
                     />
                   </span>
-                  <span>Property Type</span>
+                  <span className="cursor-point">Property Type</span>
                   <span
                     onClick={() => {
                       setPropertyClick(!propertyClick);
@@ -250,7 +301,15 @@ export default function Hero() {
                       style={{ height: "30px", width: "30px" }}
                     />
                   </span>
-                  <span>Budget</span>
+                  <span
+                    className="cursor-point"
+                    onClick={() => {
+                      setBudgetClick(!budgetClick);
+                      setPropertyClick(false);
+                    }}
+                  >
+                    Budget
+                  </span>
                   {budgetClick ? (
                     <IoIosArrowUp
                       className="cursor-point"
@@ -641,7 +700,11 @@ export default function Hero() {
                 />
               )}
             </div>
-            <div className={`d-flex align-items-center justify-content-center gap-3 my-4 ${propertyClick || budgetClick ? "d-none" : "d-block"}`}>
+            <div
+              className={`d-flex align-items-center justify-content-center gap-3 my-4 ${
+                propertyClick || budgetClick ? "d-none" : "d-block"
+              }`}
+            >
               <span className=" fw-medium">Recent Searches :</span>
               <span
                 className="border rounded-pill p-0 m-0  px-4 py-2 text-secondary"

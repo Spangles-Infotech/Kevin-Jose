@@ -234,7 +234,7 @@ export default function Plots({ user, options }) {
       navigate("/check", { state: response.data });
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong", {
+      toast.error(error?.message, {
         hideProgressBar: true,
       });
     }

@@ -7,22 +7,19 @@ import { Baseurl } from "./request";
 import Slider from "react-slick";
 import { CustomNextArrow, CustomPrevArrow } from "./Exclusive";
 
-
 const FeaturedProp = () => {
-  
   const navigate = useNavigate();
 
-  const handleViewDetails = () => {
-    navigate("/result");
+  const handleViewDetails = (id) => {
+    navigate(`/builder/${id}`);
   };
 
   const [prop, setProp] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${Baseurl}search/?limit=3`)
+      .get(`${Baseurl}search/`)
       .then((res) => {
-        console.log(res.data.results);
         setProp(res.data.results);
       })
       .catch((err) => {
@@ -54,7 +51,7 @@ const FeaturedProp = () => {
             className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}
             onClick={() => {
-              handleViewDetails();
+              navigate("/result");
             }}
           >
             See all Projects <FaArrowRight />
@@ -70,7 +67,7 @@ const FeaturedProp = () => {
                 <div
                   onClick={() => handleViewDetails(property.id)}
                   className="card border-0 hover-box "
-                  style={{ cursor: "pointer",width:'100%' }}
+                  style={{ cursor: "pointer", width: "100%" }}
                   key={property.id}
                 >
                   <img

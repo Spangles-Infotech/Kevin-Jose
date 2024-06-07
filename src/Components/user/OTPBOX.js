@@ -12,10 +12,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function OTPBOX({ setShowOTPBox }) {
-  const [otp, setOtp] = useState("");
+  
   const location = useLocation();
   const user = location.state?.processedUserValue;
-
+  const [otp, setOtp] = useState(location?.state?.otp);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
