@@ -39,7 +39,7 @@ const Result = () => {
     const locality = queryParams.get("location");
     setLocality(locality);
     // plot and land
-    if (property_type === "plot" || "land") {
+    if (property_type === "plot" || property_type ==="land") {
       axios
         .get(`${Baseurl}search`, {
           params: {
@@ -53,6 +53,7 @@ const Result = () => {
             min_price: min_price,
             max_price: max_price,
             you_are_here_to: you_are_here_to,
+            filter_by: selectedItem
           },
           UserConfig,
         })
@@ -76,6 +77,8 @@ const Result = () => {
             postedby: postedby,
             min_price: min_price,
             max_price: max_price,
+            you_are_here_to: you_are_here_to,
+            filter_by: selectedItem
           },
           UserConfig,
         })
@@ -98,6 +101,8 @@ const Result = () => {
             postedby: postedby,
             min_price: min_price,
             max_price: max_price,
+            you_are_here_to: you_are_here_to,
+            filter_by: selectedItem
           },
           UserConfig,
         })
@@ -110,10 +115,11 @@ const Result = () => {
         });
     } else {
       axios
-        .get(`${Baseurl}search`, {
+        .get(`${Baseurl}search/`, {
           params: {
             property_type: property_type,
             location: locality,
+            filter_by: selectedItem
           },
           UserConfig,
         })
@@ -125,7 +131,7 @@ const Result = () => {
           console.log(err);
         });
     }
-  }, [location.search]);
+  }, [location.search,selectedItem]);
 
   const handleViewDetails = () => {
     navigate("/builder");
@@ -137,49 +143,43 @@ const Result = () => {
     navigate(`/builder/${id}`);
   };
 
+  console.log(selectedItem);
   return (
     <>
       <Navbar />
-
+ 
       <div className="w-100 mx-auto" style={{ marginTop: "9%" }}>
         <div className="container d-flex align-items-center justify-content-between">
           {/* <h2>{myProperty?.length} results | Flats in Chennai for Sale</h2> */}
-          <h2>{myProperty?.length} results found</h2> 
+          <h2>{myProperty?.length} results found</h2>
           <DropdownButton
             id="dropdown-basic-button"
             type="button"
             aria-expanded="false"
             className=" "
-            title={selectedItem ? selectedItem : "Relevance"}
+            title={selectedItem ? selectedItem : "relevance"}
           >
             <div className="custom-dropdown ">
-              <Dropdown.Item
-                onClick={() => handleItemClick("Relevance")}
-                href="#/action-1"
-              >
+              <Dropdown.Item onClick={() => handleItemClick("relevance")}>
                 Relevance
               </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => handleItemClick("Popularity")}
-                href="#/action-2"
-              >
+              <Dropdown.Item onClick={() => handleItemClick("popularity")}>
                 Popularity
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={() => handleItemClick("Price-LowtoHigh")}
-                href="#/action-3"
+                onClick={() => handleItemClick("low_to_high")}
               >
                 Price-Low to High
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={() => handleItemClick("Price-hightoLow")}
-                href="#/action-1"
+                onClick={() => handleItemClick("high_to_low")}
+                href="#/Price-hightoLow "
               >
                 Price-high toLow
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={() => handleItemClick("NewestFirst")}
-                href="#/action-2"
+                onClick={() => handleItemClick("newest_first")}
+                href="#/newest_first"
               >
                 Newest First
               </Dropdown.Item>
@@ -190,9 +190,9 @@ const Result = () => {
         {myProperty.map((details, indx) => (
           <div
             className="container border rounded-4 border-danger mx-auto mt-3 cursor-pointer"
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             key={indx}
-            onClick={()=>handleDetail(details.id)}
+            onClick={() => handleDetail(details.id)}
           >
             <div className="row p-3">
               <div className="col-5  p-0 m-0 ">
@@ -928,7 +928,9 @@ const Result = () => {
                     ))}
                 </div>
                 <div className="mt-3 ps-3">
-                  <p className="text-secondary" style={{fontSize:'15px'}}>{details?.description}</p>
+                  <p className="text-secondary" style={{ fontSize: "15px" }}>
+                    {details?.description}
+                  </p>
                 </div>
               </div>
             </div>
