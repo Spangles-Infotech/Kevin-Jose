@@ -21,6 +21,7 @@ const Myproperties = () => {
   const [myProperty, setMyProperty] = useState([]);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     axios
       .get(`${Baseurl}myproperties`, UserConfig)
       .then((res) => {
@@ -38,6 +39,32 @@ const Myproperties = () => {
     }
     return text.slice(0, maxLength) + "..............";
   };
+
+  if (myProperty?.length === 0) {
+    return (
+      <>
+        <Navbar />
+
+        <div
+          className="d-flex flex-column justify-content-center align-items-center py-5"
+          style={{ marginTop: "10%" }}
+        >
+          <h2 className="mb-4">No properties posted</h2>
+          <p className="text-muted">
+            There are currently no properties posted.
+          </p>
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => navigate("/")}
+          >
+            Home
+          </button>
+          {/* You can add additional content or buttons here */}
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -57,7 +84,7 @@ const Myproperties = () => {
           >
             <div className="row p-3">
               <div className="col-5  p-0 m-0 ">
-                <img
+                {/* <img
                   src={
                     details?.plot_properties?.plot_images[0].image ||
                     details?.land_properties?.land_images[0].image ||
@@ -75,6 +102,30 @@ const Myproperties = () => {
                       .image ||
                     details?.commercial_properties?.pg_colony
                       ?.pgcolony_images[0].image
+                  }
+                  alt="image"
+                  className="rounded-4 h-full"
+                  style={{ height: "400px", width: "95%" }}
+                /> */}
+                <img
+                  src={
+                    details?.plot_properties?.plot_images?.[0]?.image ??
+                    details?.land_properties?.land_images?.[0]?.image ??
+                    details?.residential_properties?.apartment
+                      ?.apartment_images?.[0]?.image ??
+                    details?.residential_properties?.house?.house_images?.[0]
+                      ?.image ??
+                    details?.commercial_properties?.showroom
+                      ?.showroom_images?.[0]?.image ??
+                    details?.commercial_properties?.industrialbuilding
+                      ?.industrialbuilding_images?.[0]?.image ??
+                    details?.commercial_properties?.service_apartment
+                      ?.service_apartment_images?.[0]?.image ??
+                    details?.commercial_properties?.factory?.factory_images?.[0]
+                      ?.image ??
+                    details?.commercial_properties?.pg_colony
+                      ?.pgcolony_images?.[0]?.image ??
+                    " " // fallback image path
                   }
                   alt="image"
                   className="rounded-4 h-full"
@@ -260,6 +311,50 @@ const Myproperties = () => {
                       </h6>
                     )}
 
+                      {/* commercial --> service*/}
+                      {details?.commercial_properties?.service_apartment && (
+                      <h6 className="pt-3">
+                        {
+                          details?.commercial_properties?.showroom
+                            ?.built_up_area
+                        }{" "}
+                        {
+                          details?.commercial_properties?.showroom
+                            ?.built_up_area_unit
+                        }{" "}
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    {/* pg */}
+                    {details?.commercial_properties?.pg_colony && (
+                      <h6 className="pt-3">
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
                     <p className="text-secondary text-uppercase fw-medium pt-2">
                       {details?.title}
                     </p>
@@ -269,8 +364,13 @@ const Myproperties = () => {
                       {details?.sale_price}
                       {details?.rent}
                       {details?.lease_amount}
+                      {details?.commercial_properties?.pg_colony && 
+                      <span>{details?.commercial_properties?.pg_colony?.single_room_price_for_ac_display} <span className="fs-6">onwards</span></span>
+                      }
                     </h1>
-                    <p>₹9,868 per sqft</p>
+                    {details?.you_are_here_to === "sell" && (
+                      <p> {details?.sale_price_per_sqft} per sqft</p>
+                    )}
                   </div>
                 </div>
 

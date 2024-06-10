@@ -6,16 +6,24 @@ import Navbar from "./Navbar";
 import axios from "axios";
 import { Baseurl, UserConfig } from "./request";
 import { useParams } from "react-router-dom";
+import Loading from "./modal/spinner";
 
 const Plots = React.lazy(() => import("./viewDetails/plotView"));
 const Residential = React.lazy(() => import("./viewDetails/residentialView"));
 const Commercial = React.lazy(() => import("./viewDetails/commercial"));
+const ServiceAppartment = React.lazy(() =>
+  import("./viewDetails/serviCeappartment")
+);
+const PGHOME = React.lazy(() => import("./viewDetails/pgHostel"));
+const Industry = React.lazy(() => import("./viewDetails/factoryView"));
 
-const Builder = () => {
+const Builder = ({ setShowOTPBox }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleContact = () => {
-    navigate("/mobile");
+    setShowOTPBox(true);
+    navigate("/builder/otp");
   };
 
   const { id } = useParams();
@@ -32,9 +40,11 @@ const Builder = () => {
       .then((res) => {
         console.log(res.data);
         setDetails(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   }, []);
 
@@ -51,6 +61,10 @@ const Builder = () => {
     { width: "200px", height: "260px" },
     {},
   ];
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -285,19 +299,36 @@ const Builder = () => {
         )}
       </div>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      {/* table */}
+      <Suspense fallback={<Loading/>}>
         {(details?.property_type === "plot" ||
           details?.property_type === "land") && <Plots details={details} />}
         {details?.property_type === "residential" && (
           <Residential details={details} />
         )}
-        {details?.property_type === "commercial" && (
+        {details?.commercial_properties?.commercial_type ===
+          "service apartment" && <ServiceAppartment details={details} />}
+
+        {(details?.commercial_properties?.commercial_type ===
+          "industrialbuilding" ||
+          details?.commercial_properties?.commercial_type === "factory") && (
+          <Industry details={details} />
+        )}
+
+        {details?.commercial_properties?.showroom && (
           <Commercial details={details} />
+        )}
+
+        {details?.commercial_properties?.pg_colony && (
+          <PGHOME details={details} />
         )}
       </Suspense>
 
       <div className="container my-4 text-end ">
-        <button className="border-0 p-2 px-5 py-3 rounded-pill bg-danger text-white">
+        <button
+          className="border-0 p-2 px-5 py-3 rounded-pill bg-danger text-white"
+          onClick={handleContact}
+        >
           Contact Number
         </button>
       </div>

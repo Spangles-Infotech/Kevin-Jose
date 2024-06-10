@@ -169,9 +169,9 @@ export default function CommercialCommon({ options, user }) {
     formData.append("email", user?.email);
     formData.append("property_type", "commercial");
     formData.append("you_are_here_to", options?.selectedActivity);
-    formData.append("owner", options?.selectedActivity === "sell");
-    formData.append("agent", options?.selectedActivity === "rent");
-    formData.append("builder", options?.selectedActivity === "lease");
+    formData.append("owner", options?.selectedRole === "owner");
+    formData.append("agent", options?.selectedRole === "agent");
+    formData.append("builder", options?.selectedRole === "builder");
     formData.append("title", formValue?.propertyName);
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);
@@ -232,7 +232,7 @@ export default function CommercialCommon({ options, user }) {
       formData.append(`showroom_images[${0}]image`, image.file);
     });
     interior?.forEach((image) => {
-      formData.append(`showroom_images[${1}]section`, "interior_view");
+      formData.append(`showroom_images[${1}]section`, "interior");
       formData.append(`showroom_images[${1}]image`, image.file);
     });
     washroom?.forEach((image) => {

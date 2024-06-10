@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { activity, propType, role, subType, subTypeTwo } from "./Data";
 import PhoneInput from "react-phone-input-2";
+import Loading from "./modal/spinner";
 
 // Lazy loading of form components
 const Plots = React.lazy(() => import("./forms/Plots"));
@@ -271,7 +272,7 @@ export default function FormContainer() {
         {/* forms rendering */}
 
         <div className="mt-4 pt-3">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading/>}>
             {(options.selectedType === "plot" ||
               options.selectedType === "land") &&
               options.selectedSubType !== "" && (

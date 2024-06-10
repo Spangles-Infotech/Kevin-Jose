@@ -26,16 +26,16 @@ export default function Plots({ user, options }) {
   const [inputValue, setInputValue] = useState("");
   const [selectedFacility, setSelectedFacility] = useState([]);
 
-  const toggleFacility = (facility) => {
-    if (selectedFacility.includes(facility)) {
-      setSelectedFacility(selectedFacility.filter((item) => item !== facility));
-    } else {
-      setSelectedFacility([...selectedFacility, facility]);
-    }
-  };
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
+  // const toggleFacility = (facility) => {
+  //   if (selectedFacility.includes(facility)) {
+  //     setSelectedFacility(selectedFacility.filter((item) => item !== facility));
+  //   } else {
+  //     setSelectedFacility([...selectedFacility, facility]);
+  //   }
+  // };
+  // const handleInputChange = (e) => {
+  //   setInputValue(e.target.value);
+  // };
   const {
     control,
     handleSubmit,
@@ -43,11 +43,47 @@ export default function Plots({ user, options }) {
     setFocus,
   } = useForm();
 
+  // const handleInputAdd = () => {
+  //   if (
+  //     inputValue.trim() !== "" &&
+  //     !selectedFacility.includes(inputValue.trim())
+  //   ) {
+  //     setSelectedFacility([...selectedFacility, inputValue.trim()]);
+  //     setInputValue("");
+  //   }
+  // };
+
+  const toggleFacility = (facility) => {
+    if (selectedFacility.includes(facility)) {
+      setSelectedFacility(selectedFacility.filter((item) => item !== facility));
+    } else {
+      if (selectedFacility.length >= 6) {
+        toast.warn("You can select up to 6 facilities.", {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+        return;
+      }
+      setSelectedFacility([...selectedFacility, facility]);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   const handleInputAdd = () => {
     if (
       inputValue.trim() !== "" &&
       !selectedFacility.includes(inputValue.trim())
     ) {
+      if (selectedFacility.length >= 6) {
+        toast.warn("You can select up to 6 facilities.", {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+        return;
+      }
       setSelectedFacility([...selectedFacility, inputValue.trim()]);
       setInputValue("");
     }
@@ -59,32 +95,68 @@ export default function Plots({ user, options }) {
   const [locationImages, setLocationImages] = useState([]);
 
   const handleImageUpload = (event) => {
-    if (imageCat === "siteview") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 6 - siteImages.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setSiteImages([...siteImages, ...newImages]);
-    } else if (imageCat === "fmb") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - fmbImages.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setFmbImages([...fmbImages, ...newImages]);
-    } else if (imageCat === "location") {
-      const files = Array.from(event.target.files);
-      const imagesToAdd = files.slice(0, 1 - locationImages.length);
-      const newImages = imagesToAdd.map((file) => ({
-        file,
-        id: Math.random().toString(36).substr(2, 9),
-      }));
-      setLocationImages([...locationImages, ...newImages]);
+    const maxImages = {
+      siteview: 6,
+      fmb: 1,
+      location: 1,
+    };
+
+    const files = Array.from(event.target.files);
+    const imagesToAdd = files.slice(0, maxImages[imageCat]);
+
+    switch (imageCat) {
+      case "siteview":
+        if (siteImages.length + imagesToAdd.length > 6) {
+          toast.warn("You can only upload up to 6 images for siteview.", {
+            position: "top-center",
+            hideProgressBar: true,
+          });
+          return;
+        }
+        break;
+      case "fmb":
+        if (fmbImages.length + imagesToAdd.length > 1) {
+          toast.warn("You can only upload 1 image for fmb.", {
+            position: "top-center",
+            hideProgressBar: true,
+          });
+          return;
+        }
+        break;
+      case "location":
+        if (locationImages.length + imagesToAdd.length > 1) {
+          toast.warn("You can only upload 1 image for location.", {
+            position: "top-center",
+            hideProgressBar: true,
+          });
+          return;
+        }
+        break;
+      default:
+        break;
+    }
+
+    const newImages = imagesToAdd.map((file) => ({
+      file,
+      id: Math.random().toString(36).substr(2, 9),
+    }));
+
+    switch (imageCat) {
+      case "siteview":
+        setSiteImages([...siteImages, ...newImages]);
+        break;
+      case "fmb":
+        setFmbImages([...fmbImages, ...newImages]);
+        break;
+      case "location":
+        setLocationImages([...locationImages, ...newImages]);
+        break;
+      default:
+        break;
     }
   };
+
+ 
 
   const handleRemoveImage = (id) => {
     if (imageCat === "siteview") {
@@ -98,8 +170,6 @@ export default function Plots({ user, options }) {
       setLocationImages(filteredImages);
     }
   };
-
-  console.log(user.phone);
 
   const onSubmit = async (formValue) => {
     console.log(formValue);
@@ -115,9 +185,9 @@ export default function Plots({ user, options }) {
       formData.append("email", user?.email);
       formData.append("property_type", options?.selectedType);
       formData.append("you_are_here_to", options?.selectedActivity);
-      formData.append("owner", options?.selectedActivity === "sell");
-      formData.append("agent", options?.selectedActivity === "rent");
-      formData.append("builder", options?.selectedActivity === "lease");
+      formData.append("owner", options?.selectedRole === "owner");
+      formData.append("agent", options?.selectedRole === "agent");
+      formData.append("builder", options?.selectedRole === "builder");
       formData.append("title", formValue?.propertyName);
       formData.append("description", formValue?.description);
       formData.append("location", formValue?.propertyLocation);
@@ -163,6 +233,7 @@ export default function Plots({ user, options }) {
         selectedFacility.forEach((element, index) => {
           formData.append(`plot.facilities[${index}]name`, element);
         });
+
         if (siteImages) {
           siteImages.forEach((image, index) => {
             formData.append(`plot_images[${index}]section`, "siteview");
@@ -171,18 +242,17 @@ export default function Plots({ user, options }) {
         }
         if (fmbImages) {
           fmbImages.forEach((image) => {
-            formData.append(`plot_images[${7}]section`, "FMB");
-            formData.append(`plot_images[${7}]image`, image.file);
+            formData.append(`plot_images[${6}]section`, "FMB");
+            formData.append(`plot_images[${6}]image`, image.file);
           });
         }
         if (locationImages) {
           locationImages.forEach((image) => {
-            formData.append(`plot_images[${8}]section`, "location_map");
-            formData.append(`plot_images[${8}]image`, image.file);
+            formData.append(`plot_images[${7}]section`, "location_map");
+            formData.append(`plot_images[${7}]image`, image.file);
           });
         }
       }
-
       // land--------------->
 
       if (options?.selectedType === "land") {
@@ -404,29 +474,6 @@ export default function Plots({ user, options }) {
       </Row>
 
       <Row>
-        {/* <Controller
-          name="direction"
-          control={control}
-          rules={{ required: "Direction is required" }}
-          render={({ field }) => (
-            <RadioField
-              label="Direction Facing"
-              options={[
-                { value: "east", label: "East" },
-                { value: "west", label: "West" },
-                { value: "north", label: "North" },
-                { value: "south", label: "South" },
-                { value: "north_east", label: "North-east" },
-                { value: "north_west", label: "North-west" },
-                { value: "south_east", label: "South-east" },
-                { value: "south_west", label: "South-west" },
-              ]}
-              field={field}
-              isInvalid={!!errors.direction}
-              errorMessage={errors.direction?.message}
-            />
-          )}
-        /> */}
         <Controller
           name="direction"
           control={control}
@@ -451,7 +498,7 @@ export default function Plots({ user, options }) {
           )}
         />
       </Row>
-
+      <h5>Facilities</h5>
       <div className="form-shadow px-2 rounded-4 my-4 ">
         <div className="d-flex align-items-center border-bottom py-2">
           <div
@@ -659,7 +706,11 @@ export default function Plots({ user, options }) {
           defaultValue=""
           rules={{ required: "Description is required" }}
           render={({ field }) => (
-            <DescriptionBox field={field} error={errors.description} />
+            <DescriptionBox
+              field={field}
+              error={errors.description}
+              label={"Description"}
+            />
           )}
         />
       </Row>

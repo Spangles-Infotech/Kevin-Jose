@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUserReq } from "../../services/user/userSlice";
 import { toast } from "react-toastify";
 
-export default function UserRegister() {
+export default function UserRegister({ setShowOTPBox }) {
   const {
     control,
     handleSubmit,
@@ -32,9 +32,18 @@ export default function UserRegister() {
 
     dispatch(registerUserReq(processedUserValue))
       .then((response) => {
-        navigate("otp", {
-          state: { processedUserValue, otp: response.payload.message },
-        });
+        if (response?.error) {
+          toast.error(response?.error?.message,{
+            position:"top-center",
+            hideProgressBar:true
+          });
+          console.log(response);
+        } else {
+          setShowOTPBox(true);
+          navigate("otp", {
+            state: { processedUserValue, otp: response.payload.message },
+          });
+        }
       })
       .catch((error) => {
         toast.error("Failed to register user. Please try again later.");
@@ -141,7 +150,7 @@ export default function UserRegister() {
         <div className="text-center mt-3">
           <span>
             Already have an account?{" "}
-            <Link to="/login" className="text-danger link-underline-danger">
+            <Link to="/user-login" className="text-danger link-underline-danger">
               Login
             </Link>
           </span>

@@ -12,22 +12,12 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function OTPBOX({ setShowOTPBox }) {
-  
   const location = useLocation();
   const user = location.state?.processedUserValue;
   const [otp, setOtp] = useState(location?.state?.otp);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (location?.state?.otp) {
-      toast.success(`OTP - ${location.state.otp}`, {
-        position: "top-center",
-        hideProgressBar: true,
-      });
-    }
-  }, []);
 
   // Redux state selectors
   const { isLoading, isSuccess, isError, message } = useSelector(
@@ -50,9 +40,22 @@ export default function OTPBOX({ setShowOTPBox }) {
       };
 
       dispatch(registerUserVerify(userData))
-        .then(() => {
-          toast.success("OTP validated successfully!");
-          navigate("/");
+        .then((response) => {
+          if (response?.error) {
+            toast.error("Incorrect OTP", {
+              position: "top-center",
+              hideProgressBar: true,
+            });
+          } else {
+            toast.success("OTP validated successfully!", {
+              position: "top-center",
+              hideProgressBar: true,
+            });
+            setTimeout(() => {
+              navigate("/");
+              setShowOTPBox(false);
+            }, 1000);
+          }
         })
         .catch((error) => {
           toast.error("Failed to validate OTP. Please try again.");
@@ -64,10 +67,22 @@ export default function OTPBOX({ setShowOTPBox }) {
         otp: otp,
       };
       dispatch(loginUserVerify(userData))
-        .then(() => {
-          toast.success("OTP validated successfully!");
-          setShowOTPBox(false);
-          navigate("/");
+        .then((response) => {
+          if (response?.error) {
+            toast.error("Incorrect OTP", {
+              position: "top-center",
+              hideProgressBar: true,
+            });
+          } else {
+            toast.success("OTP validated successfully!", {
+              position: "top-center",
+              hideProgressBar: true,
+            });
+            setTimeout(() => {
+              setShowOTPBox(false);
+              navigate("/");
+            }, 1000);
+          }
         })
         .catch((error) => {
           toast.error("Failed to validate OTP. Please try again.");
@@ -140,7 +155,7 @@ export default function OTPBOX({ setShowOTPBox }) {
         <button
           type="submit"
           className="btn btn-danger rounded-pill py-3"
-          disabled={otp.length < 6 || isLoading}
+          disabled={otp?.length < 6 || isLoading}
           onClick={handleSubmit}
         >
           {isLoading ? "Validating..." : "Validate"}

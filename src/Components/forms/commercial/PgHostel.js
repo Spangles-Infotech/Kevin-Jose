@@ -237,9 +237,9 @@ export default function PgHostel({ options, user }) {
     formData.append("property_type", "commercial");
     formData.append("commercial.commercial_type", options?.selectedSubType);
     formData.append("you_are_here_to", options?.selectedActivity);
-    formData.append("owner", options?.selectedActivity === "sell");
-    formData.append("agent", options?.selectedActivity === "rent");
-    formData.append("builder", options?.selectedActivity === "lease");
+    formData.append("owner", options?.selectedRole === "owner");
+    formData.append("agent", options?.selectedRole === "agent");
+    formData.append("builder", options?.selectedRole === "builder");
     formData.append("title", formValue?.propertyName);
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);

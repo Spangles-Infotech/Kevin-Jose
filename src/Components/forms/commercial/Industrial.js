@@ -853,7 +853,7 @@ export default function Industrial({ options, user }) {
 
       {options?.selectedSubType === "service_apartment" && (
         <>
-          <h5 className="py-3">Land Zone</h5>
+          <h5 className="py-3">Availability of Flats</h5>
           <div className="form-shadow px-2 rounded-4 my-4 ">
             <div className="d-flex align-items-center border-bottom py-2">
               <div

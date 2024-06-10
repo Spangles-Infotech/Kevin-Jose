@@ -8,7 +8,7 @@ import group from "../Images/Group.png";
 const Footer = () => {
   return (
     <footer
-      className="py-4 sticky-footer"
+      className="py-4 sticky-footer mt-5"
       style={{ color: "#2C2C2C", width: "100%",background:"rgba(245, 245, 245, 1)" }}
     >
       <div className="container-fluid py-5">

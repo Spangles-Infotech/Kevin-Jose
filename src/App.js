@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -42,10 +42,24 @@ import OTPBOX from "./Components/user/OTPBOX";
 import Login from "./Components/login";
 import NotFound from "./Components/NotFound";
 import PrivateRoute from "./routes/privateRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Loading from "./Components/modal/spinner";
 
 function App() {
-  // git test
   const [showOTPBox, setShowOTPBox] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="App">
@@ -53,13 +67,27 @@ function App() {
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
-          <Route path="/builder/:id" element={<Builder />} />
-          <Route path="/myproperties" element={<Myproperties />} />
+          <Route
+            path="/builder/:id"
+            element={<Builder setShowOTPBox={setShowOTPBox} />}
+          />
+          <Route
+            path="/myproperties"
+            element={
+              <PrivateRoute>
+                <Myproperties />
+              </PrivateRoute>
+            }
+          />
           <Route path="/detail/:id" element={<Mypropertiesdetail />} />
 
           <Route
             path="/user-login"
-            element={<Login setShowOTPBox={setShowOTPBox} />}
+            element={
+              <ProtectedRoute>
+                <Login setShowOTPBox={setShowOTPBox} />
+              </ProtectedRoute>
+            }
           />
           {showOTPBox && (
             <Route
@@ -68,11 +96,31 @@ function App() {
             />
           )}
 
-          <Route path="/user-register" element={<UserRegister />} />
-          <Route path="/user-register/otp" element={<OTPBOX />} />
-          <Route path="/form" element={<FormContainer />} />
+          <Route
+            path="/user-register"
+            element={
+              <ProtectedRoute>
+                <UserRegister setShowOTPBox={setShowOTPBox} />
+              </ProtectedRoute>
+            }
+          />
+          {showOTPBox && (
+            <Route
+              path="/user-register/otp"
+              element={<OTPBOX setShowOTPBox={setShowOTPBox} />}
+            />
+          )}
+          {showOTPBox && <Route path="/builder/otp" element={<OTPBOX />} />}
+
+          <Route
+            path="/form"
+            element={
+              <PrivateRoute>
+                <FormContainer />
+              </PrivateRoute>
+            }
+          />
           <Route path="/result" element={<Result />} />
-          <Route path="/budget" element={<Budget />} />
 
           <Route path="/check" element={<Preview />} />
 

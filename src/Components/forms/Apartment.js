@@ -191,9 +191,9 @@ export default function Apartment({ options, user }) {
     formData.append("email", user?.email);
     formData.append("property_type", "residential");
     formData.append("you_are_here_to", options?.selectedActivity);
-    formData.append("owner", options?.selectedActivity === "sell");
-    formData.append("agent", options?.selectedActivity === "rent");
-    formData.append("builder", options?.selectedActivity === "lease");
+    formData.append("owner", options?.selectedRole === "owner");
+    formData.append("agent", options?.selectedRole === "agent");
+    formData.append("builder", options?.selectedRole === "builder");
     formData.append("title", formValue?.propertyName);
     formData.append("description", formValue?.description);
     formData.append("location", formValue?.propertyLocation);
@@ -206,7 +206,7 @@ export default function Apartment({ options, user }) {
       formData.append("rent", formValue?.rentPrice);
     } else if (options?.selectedActivity === "lease") {
       formData.append("lease_amount", formValue?.leasePrice);
-      formData.append("lease_period", formValue?.leasePeriod);
+      formData.append("lease_period", formValue?.leasePeriod?.value);
       formData.append("lease_period_unit", formValue?.leasePeriod?.unit);
     }
 
@@ -347,8 +347,8 @@ export default function Apartment({ options, user }) {
         formData.append(`house_images[${6}]image`, image.file);
       });
       logo?.forEach((image) => {
-        formData.append(`house_images[${6}]section`, "logo");
-        formData.append(`house_images[${6}]image`, image.file);
+        formData.append(`house_images[${7}]section`, "logo");
+        formData.append(`house_images[${7}]image`, image.file);
       });
     }
 
@@ -488,7 +488,7 @@ export default function Apartment({ options, user }) {
         )}
       </Row>
       <Row>
-        {options?.subTypeCat === "" && (
+        {options?.subTypeCat === "optionOne" && (
           <Col md={6}>
             <Controller
               name="noUnit"
@@ -545,27 +545,54 @@ export default function Apartment({ options, user }) {
         )}
       </Row>
       <Row>
-        <Controller
-          name="category"
-          control={control}
-          rules={{ required: "Category is required" }}
-          render={({ field }) => (
-            <>
-              <Col>
-                <RadioField
-                  label="Category"
-                  options={[
-                    { value: "new", label: "New" },
-                    { value: "resale", label: "Resale" },
-                  ]}
-                  field={field}
-                  isInvalid={!!errors.category}
-                  errorMessage={errors.category?.message}
-                />
-              </Col>
-            </>
-          )}
-        />
+        {options?.selectedRole === "builder" &&
+        options?.subTypeCat === "optionOne" ? (
+          <Controller
+            name="category"
+            control={control}
+            rules={{ required: "Category is required" }}
+            render={({ field }) => (
+              <>
+                <Col>
+                  <RadioField
+                    label="Category"
+                    options={[
+                      { value: "existing", label: "Existing" },
+                      { value: "new", label: "New" },
+                      { value: "on_going", label: "Ongoing" },
+                      { value: "coming_up", label: "Coming up" },
+                    ]}
+                    field={field}
+                    isInvalid={!!errors.category}
+                    errorMessage={errors.category?.message}
+                  />
+                </Col>
+              </>
+            )}
+          />
+        ) : (
+          <Controller
+            name="category"
+            control={control}
+            rules={{ required: "Category is required" }}
+            render={({ field }) => (
+              <>
+                <Col>
+                  <RadioField
+                    label="Category"
+                    options={[
+                      { value: "new", label: "New" },
+                      { value: "resale", label: "Resale" },
+                    ]}
+                    field={field}
+                    isInvalid={!!errors.category}
+                    errorMessage={errors.category?.message}
+                  />
+                </Col>
+              </>
+            )}
+          />
+        )}
       </Row>
       <Row>
         <Controller
@@ -591,7 +618,6 @@ export default function Apartment({ options, user }) {
           )}
         />
       </Row>
-    
 
       <Controller
         name="condition"
@@ -605,7 +631,6 @@ export default function Apartment({ options, user }) {
                 options={[
                   { value: "ready_to_move", label: "Ready to move" },
                   { value: "under_construction", label: "Under Construction" },
-               
                 ]}
                 field={field}
                 isInvalid={!!errors.condition}
@@ -835,8 +860,8 @@ export default function Apartment({ options, user }) {
                   placeholder="Month/Year"
                   width={"50%"}
                   unit={[
-                    { be: "m", fe: "Per Month" },
-                    { be: "ft", fe: "Per Year" },
+                    { be: "month", fe: "Per Month" },
+                    { be: "year", fe: "Per Year" },
                   ]}
                   field={field}
                   isInvalid={!!errors.leasePeriod}

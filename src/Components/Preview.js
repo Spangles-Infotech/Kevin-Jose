@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense,  useState ,useEffect} from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { FaRegHeart } from "react-icons/fa";
@@ -8,21 +8,59 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { ModalShow } from "./modal/modal";
+import axios from "axios";
+import { Baseurl, UserConfig } from "./request";
+import Loading from "./modal/spinner";
+
+const Plots = React.lazy(() => import("./viewDetails/plotView"));
+const Residential = React.lazy(() => import("./viewDetails/residentialView"));
+const Commercial = React.lazy(() => import("./viewDetails/commercial"));
+const ServiceAppartment = React.lazy(() =>
+  import("./viewDetails/serviCeappartment")
+);
+const PGHOME = React.lazy(() => import("./viewDetails/pgHostel"));
+const Industry = React.lazy(() => import("./viewDetails/factoryView"));
 
 const Preview = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const [details, setDetails] = useState(location.state);
-  const handleContact = () => {
-    navigate("/mobile");
+  const [modalShow, setModalShow] = useState(false);
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
+  const id = details?.id;
+  const [isOpen, setIsOpen] = useState(true);
+
+
+  const handleDelete = () => {
+    axios
+      .delete(`${Baseurl}properties/${id}`, UserConfig)
+      .then((res) => {
+        navigate("/form");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  const handleClick = () => {
-    navigate("/");
+
+  const handleDeleteClick = () => {
+    setIsDeleteConfirm(true);
+    setModalShow(true);
+  };
+
+  const confirmDelete = () => {
+    handleDelete();
+    setModalShow(false);
   };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setLoading(false);
   }, []);
+
+ 
+
 
   const imageStyles = [
     { width: "440px", height: "260px" },
@@ -74,7 +112,13 @@ const Preview = () => {
     ) || []),
   ];
 
-  const [isOpen, setIsOpen] = useState(true);
+
+  
+  if (loading) {
+    return <Loading />;
+  }
+
+
   console.log(details);
   return (
     <>
@@ -392,565 +436,44 @@ const Preview = () => {
         )}
       </div>
 
-      <div className="border container mx-auto px-4 py-3 rounded-4 border-danger">
-        <h4 className="fw-bold ps-2 pb-2">More Details</h4>
+      {/* table */}
+      <Suspense fallback={<div>Loading...</div>}>
+        {(details?.property_type === "plot" ||
+          details?.property_type === "land") && <Plots details={details} />}
+        {details?.property_type === "residential" && (
+          <Residential details={details} />
+        )}
+        {details?.commercial_properties?.commercial_type ===
+          "service apartment" && <ServiceAppartment details={details} />}
 
-        {/* plot and land */}
-        {(details.property_type === "plot" ||
-          details.property_type === "land") && (
-          <table className="table table-borderless w-75">
-            <tbody>
-              {details?.you_are_here_to === "sell" && (
-                <>
-                  <tr>
-                    <td>Sale Price</td>
-                    <td className="fw-semibold">{details?.sale_price}</td>
-                  </tr>
-                  <tr>
-                    <td>Price per sqft</td>
-                    <td className="fw-semibold">
-                      {details?.sale_price_per_sqft}
-                    </td>
-                  </tr>
-                </>
-              )}
-
-              {details?.you_are_here_to === "rent" && (
-                <>
-                  <tr>
-                    <td>Rent Price</td>
-                    <td className="fw-semibold">{details?.rent}</td>
-                  </tr>
-                </>
-              )}
-
-              {details?.you_are_here_to === "lease" && (
-                <tr>
-                  <td>Lease Price</td>
-                  <td className="fw-semibold">{details?.lease_amount}</td>
-                </tr>
-              )}
-
-              <tr>
-                <td>Advance</td>
-                <td className="fw-semibold">{details?.advance}</td>
-              </tr>
-              <tr>
-                <td>Property Name</td>
-                <td className="fw-semibold">{details?.title}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td className="fw-semibold">{details?.location}</td>
-              </tr>
-              <tr>
-                <td>Area</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.total_area ||
-                    details?.land_properties?.total_area}{" "}
-                  {details?.plot_properties?.total_area_unit ||
-                    details?.land_properties?.total_area_unit}{" "}
-                </td>
-              </tr>
-              <tr>
-                <td>Length</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.length ||
-                    details?.land_properties?.length}{" "}
-                  {details?.plot_properties?.length_unit ||
-                    details?.land_properties?.length_unit}{" "}
-                </td>
-              </tr>
-              <tr>
-                <td>Type</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.plot_type ||
-                    details?.land_properties?.land_type}
-                </td>
-              </tr>
-              <tr>
-                <td>Breadth</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.breadth ||
-                    details?.land_properties?.breadth}{" "}
-                  {details?.plot_properties?.breadth_unit ||
-                    details?.land_properties?.breadth_unit}{" "}
-                </td>
-              </tr>
-              <tr>
-                <td>Road Width</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.road_width ||
-                    details?.land_properties?.road_width}{" "}
-                  {details?.plot_properties?.road_width_unit ||
-                    details?.land_properties?.road_width_unit}{" "}
-                </td>
-              </tr>
-              <tr>
-                <td>Approval</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.approval ||
-                    details?.land_properties?.approval}
-                </td>
-              </tr>
-              <tr>
-                <td>Posted by</td>
-                {details?.owner && <td className="fw-semibold">Owner</td>}
-                {details?.agent && <td className="fw-semibold">Agent</td>}
-                {details?.builder && <td className="fw-semibold">Builder</td>}
-              </tr>
-
-              {details?.agent && (
-                <tr>
-                  <td>Agent Commission</td>
-                  <td className="fw-semibold">{details?.agent_commission}</td>
-                </tr>
-              )}
-
-              <tr>
-                <td>Facilities</td>
-                <td className="fw-semibold">
-                  {details?.plot_properties?.facilities?.map(
-                    (facility, ind) => <span key={ind}>{facility?.name} </span>
-                  ) ||
-                    details?.land_properties?.facilities?.map(
-                      (facility, ind) => (
-                        <span key={ind}>{facility?.name} </span>
-                      )
-                    )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {(details?.commercial_properties?.commercial_type ===
+          "industrialbuilding" ||
+          details?.commercial_properties?.commercial_type === "factory") && (
+          <Industry details={details} />
         )}
 
-        {/* residential house and apartment */}
-        {details.residential_properties && (
-          <table className="table table-borderless w-75">
-            <thead>
-              {details?.you_are_here_to === "sell" && (
-                <>
-                  <tr>
-                    <td>Sale Price</td>
-                    <td className="fw-semibold">{details?.sale_price}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Price per sqft</td>
-                    <td className="fw-semibold">
-                      {details?.sale_price_per_sqft}
-                    </td>
-                  </tr>
-                </>
-              )}
-
-              {details?.you_are_here_to === "rent" && (
-                <>
-                  <tr>
-                    <td>Rent Price</td>
-                    <td className="fw-semibold">{details?.rent}</td>
-                  </tr>
-                </>
-              )}
-
-              {details?.you_are_here_to === "lease" && (
-                <tr>
-                  <td>Lease Price</td>
-                  <td className="fw-semibold">{details?.lease_amount}</td>
-                </tr>
-              )}
-
-              <tr>
-                <td>Advance</td>
-                <td className="fw-semibold">{details?.advance}</td>
-              </tr>
-              <tr>
-                <td>Property Name</td>
-                <td className="fw-semibold">{details?.title}</td>
-              </tr>
-
-              <tr>
-                <td>Address</td>
-                <td className="fw-semibold">{details?.location}</td>
-              </tr>
-
-              <tr>
-                <td>Area</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.house?.built_up_area ||
-                    details?.residential_properties?.apartment
-                      ?.built_up_area}{" "}
-                  {details?.residential_properties?.house?.built_up_area_unit ||
-                    details?.residential_properties?.apartment
-                      ?.built_up_area_unit}{" "}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Available BHK</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.house?.available_bhk ||
-                    details?.residential_properties?.apartment?.available_bhk}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Type</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.residential_type}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Condition</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.house?.condition ||
-                    details?.residential_properties?.apartment?.condition}{" "}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Category</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.house
-                    ?.category_of_project ||
-                    details?.residential_properties?.apartment
-                      ?.category_of_project}
-                </td>
-              </tr>
-
-              {details.residential_properties?.house && (
-                <tr>
-                  <td>Units in project</td>
-                  <td className="fw-semibold">
-                    {details?.residential_properties?.house
-                      ?.no_of_units_in_project ||
-                      details?.residential_properties?.apartment
-                        ?.no_of_units_in_project}{" "}
-                  </td>
-                </tr>
-              )}
-              <tr>
-                <td>Total floors</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.house?.total_floors ||
-                    details?.residential_properties?.apartment
-                      ?.total_floors}{" "}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Status</td>
-                <td className="fw-semibold">
-                  {details?.residential_properties?.house?.status ||
-                    details?.residential_properties?.apartment?.status}{" "}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Posted by</td>
-                {details?.owner && <td className="fw-semibold">Owner</td>}
-                {details?.agent && <td className="fw-semibold">Agent</td>}
-                {details?.builder && <td className="fw-semibold">Builder</td>}
-              </tr>
-
-              {details?.agent && (
-                <tr>
-                  <td>Agent Commission</td>
-                  <td className="fw-semibold">{details?.agent_commission}</td>
-                </tr>
-              )}
-
-              <tr>
-                <td>Indoor Facilities</td>
-                <td className="fw-semibold">
-                  {(details?.residential_properties?.house?.indoor_facilities
-                    ?.length > 0
-                    ? details?.residential_properties?.house?.indoor_facilities
-                    : details?.residential_properties?.apartment
-                        ?.indoor_facilities
-                  )?.map((indoor, ind, arr) => (
-                    <span key={ind}>
-                      {indoor?.facility?.name}
-                      {ind < arr.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
-                </td>
-              </tr>
-
-              <tr>
-                <td>Outdoor Facilities</td>
-                <td className="fw-semibold">
-                  {(details?.residential_properties?.house?.outdoor_facilities
-                    ?.length > 0
-                    ? details?.residential_properties?.house?.outdoor_facilities
-                    : details?.residential_properties?.apartment
-                        ?.outdoor_facilities
-                  )?.map((outdoor, ind, arr) => (
-                    <span key={ind}>
-                      {outdoor?.facility?.name}
-                      {ind < arr.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
-                </td>
-              </tr>
-            </thead>
-          </table>
+        {details?.commercial_properties?.showroom && (
+          <Commercial details={details} />
         )}
 
-        {/* commercial  industrial building */}
-        {
-          details.property_type === "commercial" && (
-            // details?.commercial_properties?.commercial_type === "office" || "industrialbuilding" || "factory"  && (
-            <table className="table table-borderless w-75">
-              <thead>
-                {details?.you_are_here_to === "sell" && (
-                  <>
-                    <tr>
-                      <td>Sale Price</td>
-                      <td className="fw-semibold">{details?.sale_price}</td>
-                    </tr>
-
-                    <tr>
-                      <td>Price per sqft</td>
-                      <td className="fw-semibold">
-                        {details?.sale_price_per_sqft}
-                      </td>
-                    </tr>
-                  </>
-                )}
-
-                {details?.you_are_here_to === "rent" && (
-                  <>
-                    <tr>
-                      <td>Rent Price</td>
-                      <td className="fw-semibold">{details?.rent}</td>
-                    </tr>
-                  </>
-                )}
-
-                {details?.you_are_here_to === "lease" && (
-                  <tr>
-                    <td>Lease Price</td>
-                    <td className="fw-semibold">{details?.lease_amount}</td>
-                  </tr>
-                )}
-
-                <tr>
-                  <td>Advance</td>
-                  <td className="fw-semibold">{details?.advance}</td>
-                </tr>
-                <tr>
-                  <td>Property Name</td>
-                  <td className="fw-semibold">{details?.title}</td>
-                </tr>
-
-                <tr>
-                  <td>Property Type</td>
-                  <td className="fw-semibold">
-                    {details?.commercial_properties?.commercial_type}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Address</td>
-                  <td className="fw-semibold">{details?.location}</td>
-                </tr>
-
-                <tr>
-                  <td>Location</td>
-                  <td className="fw-semibold">
-                    {details?.commercial_properties?.factory?.address ||
-                      details?.commercial_properties?.industrialbuilding
-                        ?.address ||
-                      details?.commercial_properties?.showrrom?.address}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Furnishing</td>
-                  <td className="fw-semibold">
-                    {details?.commercial_properties?.industrialbuilding?.status}
-                    {details?.commercial_properties?.showroom?.status}
-                    {details?.commercial_properties?.service_apartment?.status}
-                    {details?.commercial_properties?.factory?.status}
-                    {details?.commercial_properties?.pg_colony?.status}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Condition</td>
-                  <td className="fw-semibold">
-                    {details?.commercial_properties?.industrialbuilding
-                      ?.condition ||
-                      details?.commercial_properties?.showroom?.condition ||
-                      details?.commercial_properties?.factory?.condition ||
-                      details?.commercial_properties?.pg_colony?.condition}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Type</td>
-                  <td className="fw-semibold">
-                    {details?.commercial_properties?.industrialbuilding
-                      ?.category_of_project ||
-                      details?.commercial_properties?.showroom
-                        ?.category_of_project ||
-                      details?.commercial_properties?.factory
-                        ?.category_of_project}
-                  </td>
-                </tr>
-
-                {/* service apartment */}
-                {(details?.commercial_properties?.service_apartment ||
-                  details?.commercial_properties?.showroom) && (
-                  <>
-                    <tr>
-                      <td>Floors</td>
-                      <td className="fw-semibold">
-                        {details?.commercial_properties?.service_apartment
-                          ?.available_floors ||
-                          details?.commercial_properties?.showroom
-                            ?.available_floors}{" "}
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>Car Parking</td>
-                      <td className="fw-semibold">
-                        {details?.commercial_properties?.service_apartment
-                          ?.no_of_car_parking ||
-                          details?.commercial_properties?.showroom
-                            ?.no_of_car_parking}{" "}
-                      </td>
-                    </tr>
-                  </>
-                )}
-                <tr>
-                  <td>Built Area</td>
-                  <td className="fw-semibold">
-                    {details?.commercial_properties?.industrialbuilding
-                      ?.built_up_area ||
-                      details?.commercial_properties?.showroom?.built_up_area ||
-                      details?.commercial_properties?.factory?.built_up_area ||
-                      details?.commercial_properties?.service_apartment
-                        ?.built_up_area}{" "}
-                    Sqft
-                  </td>
-                </tr>
-
-                {details?.commercial_type !== "service_Apartment" && (
-                  <tr>
-                    <td>Plot Area</td>
-                    <td className="fw-semibold">
-                      {details?.commercial_properties?.industrialbuilding
-                        ?.plot_area ||
-                        details?.commercial_properties?.showroom?.plot_area ||
-                        details?.commercial_properties?.factory?.plot_area ||
-                        details?.commercial_properties?.plot_area
-                          ?.built_up_area}{" "}
-                      Sqft
-                    </td>
-                  </tr>
-                )}
-
-                {/* not for service apartment and showrrom */}
-                {details?.commercial_type !== "service_Apartment" && (
-                  <tr>
-                    <td>Road Width</td>
-                    <td className="fw-semibold">
-                      {details?.commercial_properties?.industrialbuilding
-                        ?.road_width ||
-                        details?.commercial_properties?.factory
-                          ?.road_width}{" "}
-                      {details?.commercial_properties?.industrialbuilding
-                        ?.road_width_unit ||
-                        details?.commercial_properties?.factory
-                          ?.road_width_unit}
-                    </td>
-                  </tr>
-                )}
-
-                {/* pg */}
-                {details?.commercial_properties?.pg_colony && (
-                  <>
-                    <tr>
-                      <td>Gender</td>
-                      <td>
-                        {details?.commercial_properties?.pg_colony?.gender}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tenanats Preffered</td>
-                      <td>
-                        {
-                          details?.commercial_properties?.pg_colony
-                            ?.tenants_preferred
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Total Floors</td>
-                      <td>
-                        {
-                          details?.commercial_properties?.pg_colony
-                            ?.total_floors
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Security Deposit</td>
-                      <td>
-                        {
-                          details?.commercial_properties?.pg_colony
-                            ?.security_deposit
-                        }
-                      </td>
-                    </tr>
-                  </>
-                )}
-
-                <tr>
-                  <td>Posted by</td>
-                  {details?.owner && <td className="fw-semibold">Owner</td>}
-                  {details?.agent && <td className="fw-semibold">Agent</td>}
-                  {details?.builder && <td className="fw-semibold">Builder</td>}
-                </tr>
-
-                {details?.agent && (
-                  <tr>
-                    <td>Agent Commission</td>
-                    <td className="fw-semibold">{details?.agent_commission}</td>
-                  </tr>
-                )}
-
-                <tr>
-                  <td>Indoor Facilities</td>
-                  <td className="fw-semibold">{indoorFacilities.join(", ")}</td>
-                </tr>
-
-                <tr>
-                  <td>Outdoor Facilities</td>
-                  <td className="fw-semibold">
-                    {outdoorFacilities.join(", ")}
-                  </td>
-                </tr>
-              </thead>
-            </table>
-          )
-          // )
-        }
-
-        <p className="ps-2">
-          <span className="fw-semibold">Description:</span>{" "}
-          {details?.description}
-        </p>
-      </div>
+        {details?.commercial_properties?.pg_colony && (
+          <PGHOME details={details} />
+        )}
+      </Suspense>
 
       <div className="container my-4 text-end ">
-        <button className="btn border-0 p-2 px-5 py-3 p rounded-pill bg-danger text-white">
+        <button
+          className="btn border-0 p-2 px-5 py-3 p rounded-pill bg-danger text-white"
+          onClick={() => handleDeleteClick(details?.id)}
+        >
           Delete
         </button>
+        <ModalShow
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          onDeleteConfirm={confirmDelete}
+          isDeleteConfirm={isDeleteConfirm}
+        />
       </div>
       <Footer />
     </>

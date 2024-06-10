@@ -36,10 +36,18 @@ export default function PlotView({ details }) {
             )}
 
             {details?.you_are_here_to === "lease" && (
+              <>
               <tr>
                 <td>Lease Price</td>
                 <td className="fw-semibold">{details?.lease_amount}</td>
               </tr>
+
+              <tr>
+                <td>Lease Period</td>
+                <td className="fw-semibold">{details?.lease_period} {" "} {details?.lease_period_unit}</td>
+              </tr>
+
+              </>
             )}
 
             <tr>

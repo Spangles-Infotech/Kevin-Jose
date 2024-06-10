@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../Images/logo.png";
 import logo1 from "../Images/logo1.png";
@@ -36,7 +36,12 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("customer");
-    navigate("/user-login");
+
+    toast.success("You have successfully logged out", {
+      hideProgressBar: true,
+      position: "top-center",
+    });
+    navigate("/");
   };
 
   return (

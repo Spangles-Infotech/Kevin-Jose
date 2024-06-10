@@ -6,6 +6,8 @@ import axios from "axios";
 import { Baseurl } from "./request";
 import Slider from "react-slick";
 import { CustomNextArrow, CustomPrevArrow } from "./Exclusive";
+ 
+import Loading from "./modal/spinner";
 
 const FeaturedProp = () => {
   const navigate = useNavigate();
@@ -14,22 +16,31 @@ const FeaturedProp = () => {
     navigate(`/builder/${id}`);
   };
 
+  // const [loading,setLoading] = useState(true)
   const [prop, setProp] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${Baseurl}search/`)
+      .get(`${Baseurl}search/?page_size=8`)
       .then((res) => {
         setProp(res.data.results);
+        // setLoading(false)
       })
       .catch((err) => {
         console.log(err);
+        // setLoading(false)
       });
   }, []);
 
+
+  // if (loading) {
+  //   return <Loading />;  
+  // }
+
+
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,

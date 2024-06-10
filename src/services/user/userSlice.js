@@ -96,7 +96,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.error.message || "Failed to verify user"; // Access error message
-        toast.error(state.message);
+        // toast.error(state.message);
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -113,7 +113,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.error.message || "Failed to register user"; // Access error message
-        toast.error(state.message);
+        // toast.error(state.message);
       })
 
       .addCase(loginUserVerify.pending, (state) => {
@@ -131,7 +131,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.error.message || "Failed to register user"; // Access error message
-        toast.error(state.message);
+        // toast.error(state.message);
       });
   },
 });

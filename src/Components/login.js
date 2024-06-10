@@ -30,8 +30,17 @@ const Login = ({ setShowOTPBox }) => {
     };
     dispatch(loginUser(processedUserValue))
       .then((res) => {
-        setShowOTPBox(true);
-        navigate("otp", { state: { processedUserValue, otp: res.payload.message } });
+        if (res?.error) {
+          toast.error(res?.error?.message,{
+            position:'top-center',
+            hideProgressBar:true
+          })
+        } else {
+          setShowOTPBox(true);
+          navigate("otp", {
+            state: { processedUserValue, otp: res.payload.message },
+          });
+        }
       })
       .catch((error) => {
         toast("error");

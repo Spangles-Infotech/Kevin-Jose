@@ -6,19 +6,28 @@ import Navbar from "../Components/Navbar";
 import Footer from "./Footer";
 import axios from "axios";
 import { Baseurl, UserConfig } from "./request";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { ModalShow } from "./modal/modal";
+import { Button } from "react-bootstrap";
 
 const Plots = React.lazy(() => import("./viewDetails/plotView"));
 const Residential = React.lazy(() => import("./viewDetails/residentialView"));
 const Commercial = React.lazy(() => import("./viewDetails/commercial"));
+const ServiceAppartment = React.lazy(() =>
+  import("./viewDetails/serviCeappartment")
+);
+const PGHOME = React.lazy(() => import("./viewDetails/pgHostel"));
+const Industry = React.lazy(() => import("./viewDetails/factoryView"));
 
 export const Mypropertiesdetail = () => {
   const { id } = useParams();
-
+  const [modalShow, setModalShow] = useState(false);
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
   const [details, setDetails] = useState({});
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
   useEffect(() => {
     axios
       .get(`${Baseurl}properties/${id}`, UserConfig)
@@ -30,16 +39,26 @@ export const Mypropertiesdetail = () => {
         console.log(err);
       });
   }, []);
-
+ const navigate = useNavigate()
   const handleDelete = () => {
     axios
       .delete(`${Baseurl}properties/${id}`, UserConfig)
       .then((res) => {
-        console.log(res);
+       navigate("/myproperties") 
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleDeleteClick = () => {
+    setIsDeleteConfirm(true);
+    setModalShow(true);
+  };
+
+  const confirmDelete = () => {
+    handleDelete();
+    setModalShow(false);
   };
 
   const imageStyles = [
@@ -72,6 +91,16 @@ export const Mypropertiesdetail = () => {
             {details?.sale_price}
             {details?.rent}
             {details?.lease_amount}
+            {details?.commercial_properties?.pg_colony
+              ?.single_room_price_for_nonac_display && (
+              <>
+                {
+                  details.commercial_properties.pg_colony
+                    .single_room_price_for_nonac_display
+                }{" "}
+                <span className="fs-6">Onwards</span>
+              </>
+            )}
           </h2>
           <div>
             {details.approved ? (
@@ -157,6 +186,28 @@ export const Mypropertiesdetail = () => {
               details?.commercial_properties?.industrialbuilding
                 ?.built_up_area_unit
             }{" "}
+            {details?.commercial_properties?.commercial_type?.toUpperCase()} for{" "}
+            {details?.you_are_here_to === "sell" && <span>Sale</span>}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+
+        {details?.commercial_properties?.pg_colony && (
+          <p className="fw-medium">
+            {details?.commercial_properties?.commercial_type}{" "}
+            {details?.you_are_here_to === "rent" && <span>Rent</span>}
+            {details?.you_are_here_to === "lease" && <span>Lease</span>} in{" "}
+            {details?.location}
+          </p>
+        )}
+
+        {/* commercial --> service*/}
+        {details?.commercial_properties?.service_apartment && (
+          <p className="fw-medium">
+            {details?.commercial_properties?.showroom?.built_up_area}{" "}
+            {details?.commercial_properties?.showroom?.built_up_area_unit}{" "}
             {details?.commercial_properties?.commercial_type?.toUpperCase()} for{" "}
             {details?.you_are_here_to === "sell" && <span>Sale</span>}
             {details?.you_are_here_to === "rent" && <span>Rent</span>}
@@ -287,6 +338,35 @@ export const Mypropertiesdetail = () => {
             );
           }
         )}
+
+        {/* commercial commercial image*/}
+        {details?.commercial_properties?.service_apartment?.service_apartment_images?.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
+
+        {details?.commercial_properties?.pg_colony?.pgcolony_images?.map(
+          (img, index) => {
+            return (
+              <img
+                src={img.image}
+                alt={`Image ${index + 1}`}
+                style={imageStyles[index] || {}}
+                className="mx-2 img-fluid rounded-3 mt-2"
+                key={index}
+              />
+            );
+          }
+        )}
       </div>
 
       {/* table */}
@@ -296,8 +376,21 @@ export const Mypropertiesdetail = () => {
         {details?.property_type === "residential" && (
           <Residential details={details} />
         )}
-        {details?.property_type === "commercial" && (
+        {details?.commercial_properties?.commercial_type ===
+          "service apartment" && <ServiceAppartment details={details} />}
+
+        {(details?.commercial_properties?.commercial_type ===
+          "industrialbuilding" ||
+          details?.commercial_properties?.commercial_type === "factory") && (
+          <Industry details={details} />
+        )}
+
+        {details?.commercial_properties?.showroom && (
           <Commercial details={details} />
+        )}
+
+        {details?.commercial_properties?.pg_colony && (
+          <PGHOME details={details} />
         )}
       </Suspense>
 
@@ -307,11 +400,17 @@ export const Mypropertiesdetail = () => {
             <button
               type="button"
               className="btn btn-danger custom-btn"
-              onClick={handleDelete}
+              onClick={handleDeleteClick}
             >
               Delete
             </button>
           </div>
+          <ModalShow
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            onDeleteConfirm={confirmDelete}
+            isDeleteConfirm={isDeleteConfirm}
+          />
           <div className="col-md-6">
             <button type="button" className="btn btn-danger custom-btn1">
               Sold Out

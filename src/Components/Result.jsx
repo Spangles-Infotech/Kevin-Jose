@@ -11,12 +11,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import circle from "../Images/home.png";
 import b3 from "../Images/b3.png";
 import { filter } from "./Data";
+import Loading from "./modal/spinner";
 
 const Result = () => {
   const [selectedItem, setSelectedItem] = useState({
     fe: "",
     be: "",
   });
+
+  const [loading,setLoading] = useState(true)
 
   const navigate = useNavigate();
 
@@ -64,9 +67,11 @@ const Result = () => {
         .then((res) => {
           console.log(res.data.results);
           setMyProperty(res.data.results);
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false)
         });
     } else if (property_type === "residential") {
       axios
@@ -89,9 +94,11 @@ const Result = () => {
         .then((res) => {
           console.log(res.data.results);
           setMyProperty(res.data.results);
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false)
         });
     } else if (property_type === "commercial") {
       axios
@@ -113,9 +120,11 @@ const Result = () => {
         .then((res) => {
           console.log(res.data.results);
           setMyProperty(res.data.results);
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false)
         });
     } else {
       axios
@@ -130,9 +139,11 @@ const Result = () => {
         .then((res) => {
           console.log(res.data.results);
           setMyProperty(res.data.results);
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false)
         });
     }
   }, [location.search, selectedItem]);
@@ -147,7 +158,10 @@ const Result = () => {
     navigate(`/builder/${id}`);
   };
 
-  console.log(selectedItem);
+ if(loading){
+  return <Loading />;
+
+ }
   return (
     <>
       <Navbar />
