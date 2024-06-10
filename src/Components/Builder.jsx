@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
@@ -21,6 +21,8 @@ const Builder = ({ setShowOTPBox }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("customer");
+  const [postedBy, setPostedBy] = useState();
+  const postedByRef = useRef(null);
   const handleContact = () => {
     if (token) {
       try {
@@ -32,8 +34,15 @@ const Builder = ({ setShowOTPBox }) => {
           )
           .then((res) => {
             console.log(res);
-            setShowOTPBox(true);
-            navigate("/builder/otp",{state:{ otp:res.data.message ,property_id :id }});
+            if (res?.data?.message) {
+              setShowOTPBox(true);
+              navigate("/builder/otp", {
+                state: { otp: res.data.message, property_id: id },
+              });
+              // window.scrollTo({ top: 500, behavior: "smooth" });
+            } else {
+              setPostedBy(res.data);
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -45,6 +54,12 @@ const Builder = ({ setShowOTPBox }) => {
       navigate("/user-login");
     }
   };
+
+  useEffect(() => {
+    if (postedBy) {
+      window.scrollTo({ top: 500, behavior: "smooth" });
+    }
+  }, [postedBy]);
 
   const { id } = useParams();
 
@@ -81,7 +96,7 @@ const Builder = ({ setShowOTPBox }) => {
     { width: "200px", height: "260px" },
     {},
   ];
-
+  console.log(postedBy);
   if (loading) {
     return <Loading />;
   }
@@ -365,6 +380,34 @@ const Builder = ({ setShowOTPBox }) => {
           }
         )}
       </div>
+      {/* user */}
+
+      {postedBy && (
+        <div
+          className="border container mx-auto px-4 py-5 rounded-4 border-danger"
+          ref={postedByRef}
+        >
+          <h4 className="fw-bold ps-2 pb-2">Posted By</h4>
+
+          <table className="table table-borderless w-75">
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td className="fw-semibold">{postedBy?.name}</td>
+              </tr>
+              <tr>
+                <td>Phone</td>
+                <td className="fw-semibold">{postedBy?.phone}</td>
+              </tr>
+
+              <tr>
+                <td>Email</td>
+                <td className="fw-semibold">{postedBy?.email}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* table */}
       <Suspense fallback={<Loading />}>
@@ -391,14 +434,18 @@ const Builder = ({ setShowOTPBox }) => {
         )}
       </Suspense>
 
-      <div className="container my-4 text-end ">
-        <button
-          className="border-0 p-2 px-5 py-3 rounded-pill bg-danger text-white"
-          onClick={handleContact}
-        >
-          Contact Number
-        </button>
-      </div>
+      {postedBy ? (
+        " "
+      ) : (
+        <div className="container my-4 text-end ">
+          <button
+            className="border-0 p-2 px-5 py-3 rounded-pill bg-danger text-white"
+            onClick={handleContact}
+          >
+            Contact Number
+          </button>
+        </div>
+      )}
       <Footer />
     </>
   );

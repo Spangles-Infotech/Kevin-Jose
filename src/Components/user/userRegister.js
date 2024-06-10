@@ -33,7 +33,7 @@ export default function UserRegister({ setShowOTPBox }) {
     dispatch(registerUserReq(processedUserValue))
       .then((response) => {
         if (response?.error) {
-          toast.error(response?.error?.message,{
+          toast.warn("User found! Please login",{
             position:"top-center",
             hideProgressBar:true
           });

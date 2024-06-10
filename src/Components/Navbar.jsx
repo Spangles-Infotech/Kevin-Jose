@@ -20,12 +20,11 @@ import axios from "axios";
 import { Baseurl, UserConfig } from "./request";
 
 const formatPhoneNumber = (phone) => {
-  if (!phone) return '';
-  const countryCode = phone.slice(0, 3); 
+  if (!phone) return "";
+  const countryCode = phone.slice(0, 3);
   const remainingNumber = phone.slice(3);
   return `${countryCode} ${remainingNumber}`;
 };
-
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -54,7 +53,6 @@ const Navbar = () => {
         console.log(error);
       });
   }, []);
- 
 
   const getTokenFromLocalStorage = localStorage.getItem("customer");
 
@@ -128,7 +126,10 @@ const Navbar = () => {
                       <div className="d-flex flex-column justify-content-center  gap-1 ">
                         <span className="fw-medium">{user?.username}</span>
                         <span className="fw-light">{user?.email}</span>
-                        <span className="fw-light"> {user?.phone ? formatPhoneNumber(user.phone) : ''}</span>
+                        <span className="fw-light">
+                          {" "}
+                          {user?.phone ? formatPhoneNumber(user.phone) : ""}
+                        </span>
                       </div>
                     </div>
 

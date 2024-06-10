@@ -82,9 +82,13 @@ export default function OTPBOX({ setShowOTPBox }) {
               position: "top-center",
               hideProgressBar: true,
             });
+
             setTimeout(() => {
               setShowOTPBox(false);
-              navigate("/");
+              navigate("/", { replace: true }); // Navigate to the home page
+              setTimeout(() => {
+                window.location.reload(); // Reload the page after navigating
+              }, 0);
             }, 1000);
           }
         })
@@ -101,11 +105,17 @@ export default function OTPBOX({ setShowOTPBox }) {
         )
         .then((res) => {
           console.log(res);
-          navigate(-1);
+          toast("Requset Approved! Click on contact number to view details",{
+            hideProgressBar:true
+          });
+          setTimeout(() => {
+            navigate(-1);
+          },2000);
         })
         .catch((error) => {
+          toast.error("something went wrong!");
           console.log(error);
-          navigate(-1);
+          // navigate(-1);
         });
     }
   };

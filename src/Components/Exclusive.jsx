@@ -93,7 +93,7 @@ const Exclusive = () => {
             className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}
             onClick={() =>
-              navigate("/result?property_type=plot&property_typeTwo=land")
+              navigate("/result?property_type=plot&property_typeTwo=land&you_are_here_to=sell")
             }
           >
             See all Projects <FaArrowRight />
@@ -112,14 +112,17 @@ const Exclusive = () => {
                 style={{ width: "100%", cursor: "pointer" }}
               >
                 <img
-                  src={property.land_properties?.land_images[0]?.image}
+                  src={
+                    property.land_properties?.land_images[0]?.image ||
+                    property.plot_properties?.plot_images[0]?.image
+                  }
                   className="card-img-top rounded-top-5"
                   style={{ height: "190px" }}
                   alt={property.title}
                 />
                 <div className="p-2 pt-3 d-flex flex-column gap-2 justify-content-center m-0 border rounded-bottom-5">
-                  <h6 className="card-head">
-                    {property?.land_properties?.land_type}
+                  <h6 className="card-head fw-normal text-capitalize">
+                    {property?.land_properties?.land_type || property?.plot_properties?.plot_type }
                   </h6>
                   <div className="p-0 m-0 d-flex w-100 fs-6 fw-medium">
                     <div className="w-50 border-end">
@@ -128,8 +131,8 @@ const Exclusive = () => {
                         property.lease_amount}
                     </div>
                     <div className="ps-2 w-50">
-                      {property?.land_properties?.total_area}{" "}
-                      {property?.land_properties?.total_area_unit}
+                      {property?.land_properties?.total_area || property?.plot_properties?.total_area}{" "}
+                      {property?.land_properties?.total_area_unit || property?.plot_properties?.total_area_unit}
                     </div>
                   </div>
                   <div className="text-secondary fw-light">

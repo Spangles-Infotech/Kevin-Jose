@@ -41,9 +41,9 @@ const Result = () => {
 
   const navigate = useNavigate();
 
-  const handleItemClick = (item) => {
-    setSelectedItem({ fe: item.fe, be: item.be });
-  };
+  // const handleItemClick = (item) => {
+  //   setSelectedItem({ fe: item.fe, be: item.be });
+  // };
 
   const hereTo = (item) => {
     setSelectedHereto(item.be);
@@ -204,7 +204,7 @@ const Result = () => {
       postedby,
       min_price,
       max_price,
-      you_are_here_to: queryParams.get("you_are_here_to"),
+      you_are_here_to: selectedHereto,
       filter_by: selectedItem.be,
     };
 
@@ -227,7 +227,6 @@ const Result = () => {
     axios
       .get(`${Baseurl}search`, {
         params,
-        ...UserConfig,
       })
       .then((res) => {
         console.log(res.data.results);
@@ -240,14 +239,24 @@ const Result = () => {
       });
   }, [location.search, selectedItem, selectedHereto]);
 
-  const handleViewDetails = () => {
-    navigate("/builder");
-  };
-
   const [myProperty, setMyProperty] = useState([]);
 
   const handleDetail = (id) => {
     navigate(`/builder/${id}`);
+  };
+
+  const handleDropdownSelect = (eventKey) => {
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set("you_are_here_to", eventKey);
+    navigate(`?${queryParams.toString()}`);
+    setSelectedHereto(eventKey);
+  };
+
+  const handleItemClick = (item) => {
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set("filter_by", item.be);
+    navigate(`?${queryParams.toString()}`);
+    setSelectedItem((prev) => ({ fe: item.fe, be: item.be }));
   };
 
   if (loading) {
@@ -264,32 +273,39 @@ const Result = () => {
             {myProperty?.length} results found{" "}
             {locality && <span>| {locality}</span>}
           </h2>
+
           <DropdownButton
             id="dropdown-basic-button"
             type="button"
             aria-expanded="false"
+            title={<span>{selectedHereto}</span>}
+            onSelect={handleDropdownSelect}
+          >
+            <Dropdown.Item eventKey="lease">Lease</Dropdown.Item>
+            <Dropdown.Item eventKey="rent">Rent</Dropdown.Item>
+            <Dropdown.Item eventKey="sell">Sale</Dropdown.Item>
+          </DropdownButton>
+
+          {/* <DropdownButton
+            id="dropdown-basic-button"
+            type="button"
+            aria-expanded="false"
             title={
-              selectedHereto.fe ? (
-                `To - ${selectedHereto.fe}`
+              selectedItem.fe ? (
+                `Filter By - ${selectedItem.fe}`
               ) : (
-                <span>To - Buy</span>
+                <span>Filter By- relevance</span>
               )
             }
           >
             <div className="custom-dropdown ">
-              {hereFor.map((itm, ind) => (
-                <Dropdown.Item key={ind} onClick={() => hereTo(itm)}>
+              {filter.map((itm, ind) => (
+                <Dropdown.Item key={ind} onClick={() => handleItemClick(itm)}>
                   {itm.fe}
                 </Dropdown.Item>
               ))}
             </div>
-          </DropdownButton>
-
-
-
-
-          
-
+          </DropdownButton> */}
           <DropdownButton
             id="dropdown-basic-button"
             type="button"
@@ -556,6 +572,15 @@ const Result = () => {
                       {details?.sale_price}
                       {details?.rent}
                       {details?.lease_amount}
+                      {details?.commercial_properties?.pg_colony && (
+                        <span>
+                          {
+                            details?.commercial_properties?.pg_colony
+                              ?.single_room_price_for_ac_display
+                          }{" "}
+                          <span className="fs-6">onwards</span>
+                        </span>
+                      )}
                     </h1>
                     {details?.you_are_here_to === "sell" && (
                       <p> {details?.sale_price_per_sqft} per sqft</p>

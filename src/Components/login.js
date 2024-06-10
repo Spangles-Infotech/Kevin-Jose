@@ -31,10 +31,10 @@ const Login = ({ setShowOTPBox }) => {
     dispatch(loginUser(processedUserValue))
       .then((res) => {
         if (res?.error) {
-          toast.error(res?.error?.message,{
-            position:'top-center',
-            hideProgressBar:true
-          })
+          toast.warn("User not found! Sign up", {
+            position: "top-center",
+            hideProgressBar: true,
+          });
         } else {
           setShowOTPBox(true);
           navigate("otp", {
