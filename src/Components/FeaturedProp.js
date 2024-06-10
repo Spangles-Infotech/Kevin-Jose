@@ -6,7 +6,7 @@ import axios from "axios";
 import { Baseurl } from "./request";
 import Slider from "react-slick";
 import { CustomNextArrow, CustomPrevArrow } from "./Exclusive";
- 
+
 import Loading from "./modal/spinner";
 
 const FeaturedProp = () => {
@@ -21,7 +21,7 @@ const FeaturedProp = () => {
 
   useEffect(() => {
     axios
-      .get(`${Baseurl}search/?page_size=8`)
+      .get(`${Baseurl}recommended_properties/?page_size=8`)
       .then((res) => {
         setProp(res.data.results);
         // setLoading(false)
@@ -32,11 +32,9 @@ const FeaturedProp = () => {
       });
   }, []);
 
-
   // if (loading) {
-  //   return <Loading />;  
+  //   return <Loading />;
   // }
-
 
   const settings = {
     dots: false,
@@ -62,7 +60,9 @@ const FeaturedProp = () => {
             className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}
             onClick={() => {
-              navigate("/result");
+              navigate(
+                "/result?property_type=residential&property_typeTwo=commercial&you_are_here_to=sell"
+              );
             }}
           >
             See all Projects <FaArrowRight />

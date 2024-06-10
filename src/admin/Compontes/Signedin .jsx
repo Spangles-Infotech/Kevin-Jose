@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import '../Style/Properties.css';
-import { FaAnglesRight } from "react-icons/fa6";
-import { FaAnglesLeft } from "react-icons/fa6";
-
+import { FaAnglesRight, FaAnglesLeft } from "react-icons/fa6";
 import Form from 'react-bootstrap/Form';
 import { useNavigate, Link } from 'react-router-dom';
-import { GoFilter } from "react-icons/go";
-import { IconContext } from 'react-icons';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 
 function Signedin() {
   const [properties, setProperties] = useState([]);
@@ -18,7 +14,6 @@ function Signedin() {
   const [propertyCount, setPropertyCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState('');
-  const [rollType, setRollType] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +22,21 @@ function Signedin() {
 
   const fetchProperties = async (url) => {
     try {
-      const response = await fetch(url);
+      const accessToken = localStorage.getItem('access_token');
+
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+  
+      // If response status is 401, redirect to login page
+      if (response.status === 401) {
+        // Perform redirection to login page
+        window.location.href = '/login'; // Change '/login' to your actual login page route
+        return; // Exit function to prevent further execution
+      }
       const data = await response.json();
       setProperties(data.results);
       setPreviousPage(data.previous);
@@ -64,11 +73,9 @@ function Signedin() {
     fetchProperties(`http://127.0.0.1:8000/api/basic_users/?page=1&page_size=10&search=${value}`);
   };
 
-  // const handleRoll = (value) => {
-  //   setRollType(value);
-  //   setCurrentPage(1); // Reset current page
-  //   fetchProperties(`http://127.0.0.1:8000/api/basic_users/?page=1&page_size=10&search=${search}&propertytype=${value}`);
-  // };
+  const handleProperty = (property) => {
+    navigate(`/Employee/${property.id}`);
+  };
 
   const renderPaginationNumbers = () => {
     const maxNumbers = 4;
@@ -107,61 +114,53 @@ function Signedin() {
   };
 
   return (
-    <div className='PropertyList'>
-      <div className='card' style={{ margin: '1%', borderColor: 'red', width: '98%' }}>
-        <div className='mt-3 mb-3 d-flex justify-content-between'>
-          <h1 className='prop2 '>Signed in</h1>
-          {/* <div className="d-flex custom-select m-3 mt-4"> */}
-            {/* <div className='card d-flex m-1' style={{ flexDirection: 'row', height: '30px' }}>
-              <IconContext.Provider value={{ className: 'react-icons', size: '1.7em', height: '10px' }} >
-                <GoFilter /><span>Filter</span>
-              </IconContext.Provider>
-            </div>
-            <Form.Select onChange={(e) => handleRoll(e.target.value)} style={{ width: '200px', height: '40px' }}>
-              <option value=''>Roll :</option>
-              <option value="factory">Factory	</option>
-            </Form.Select> */}
-          {/* </div> */}
-          <div>
+    <div className='Signedin'>
+        <div className='card' style={{ margin: '1%', borderColor: 'red', borderRadius:'30px',padding:'10px'}}>
+        <Row className=' mt-5 mb-5  '>
+          <Col>
+          <h4 style={{ marginLeft: '5%', marginTop: '3%',height:'36px' }}> <b>Signed in </b></h4>
+          </Col>
+          <Col className="d-flex justify-content-end align-items-center ">
             <Form.Control
               id="Search"
               type="text"
               placeholder="Search"
-              className='m-4 mt-4'
               name="Search"
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
               style={{
-                width: '300px',
-                height: '40px'
+                width: '50%',
+                height: '36px',
               }}
             />
-          </div>
-        </div>
-
-        <Table responsive="xl" style={{ fontFamily: 'Roboto' }}>
-          <caption>Total Signedin: {propertyCount}</caption>
-          <thead>
-            <tr>
-              <th>Sl. no.</th>
-              <th>Name</th>
-              <th>Mobile Number</th>
-              <th>Email</th>
-              <th>Registered on</th>
-            </tr>
-          </thead>
-          <tbody >
-            {properties.map((property, index) => (
-              <tr key={property.id} >
-                <td tabl="true">{index + 1+ (currentPage - 1) * 1}</td>
-                <td><Link to={`/Employee/${property.id}`} style={{ textDecoration: 'none', color: 'black' }}>{property.username}</Link></td>
-                <td>{property.phone}</td>
-                <td>{property.email}</td>
-                <td>{property.registered_on}</td>
+          </Col>
+        </Row>
+        <div className="table-responsive">
+          <Table responsive="xl" >
+            <thead>
+              <tr>
+                <th></th>
+                <th>Sl.no.</th>
+                <th>Name</th>
+                <th>Mobile number</th>
+                <th>Email</th>
+                <th>Registered on</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {properties.map((property, index) => (
+                <tr key={property.id} onClick={() => handleProperty(property)} style={{cursor:'pointer'}} >
+                  <td></td>
+                  <td>{index + 1 + (currentPage - 1) * 10}</td>
+                  <td >{property.username}</td>
+                  <td>{property.phone}</td>
+                  <td>{property.email}</td>
+                  <td>{property.registered_on}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </div>
       <div className='d-flex justify-content-center mt-3'>
         <nav aria-label="Page navigation example">
@@ -185,4 +184,3 @@ function Signedin() {
 }
 
 export default Signedin;
-

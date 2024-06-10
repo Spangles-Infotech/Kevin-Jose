@@ -39,31 +39,73 @@ const EmployeeDetails = () => {
     status: '',
 
   });
-
+  
   useEffect(() => {
-    console.log("username", employee_code)
-    axios.get(`http://127.0.0.1:8000/api/employee_detail/${employee_code}/`)
+    console.log("username", employee_code);
+  
+    try {
+      const accessToken = localStorage.getItem('access_token');
+  
+      axios.get(`http://127.0.0.1:8000/api/employee_detail/${employee_code}/`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
       .then(res => {
-        const { name, email, designation, marital_status, employee_code, joining_date, gender,
+        const { name, email, designation, marital_status, employee_code: empCode, joining_date, gender,
           phone_number, alternative_phone_number, email_office, email_personal, blood_group, aadhar_number, account_number, ifsc_code, bank_name, pan_number, status, photo,
           educations, addresses,
-          // address_line1,address_line2,city, district, state,country,zipcode 
-
         } = res.data;
         setFormData({
-          name, email, designation, marital_status, employee_code, joining_date, gender,
+          name, email, designation, marital_status, employee_code: empCode, joining_date, gender,
           phone_number, alternative_phone_number, email_office, email_personal, blood_group, aadhar_number,
-          // address_line1,address_line2,city,district, state,country,zipcode,
           account_number, ifsc_code, bank_name, pan_number, status, photo,
           educations, addresses,
-
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.error("Error fetching employee details:", err);
+        if (err.response?.status === 401) {
+          console.error('User unauthorized. Redirecting to login page...');
+          navigate('/login');
+        } else {
+          console.error('Error:', err);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching employee details:", error);
+    }
   }, [employee_code]);
+  
   const handleStatusChange = (status) => {
     setFormData({ ...formData, status });
   };
+  
+  // useEffect(() => {
+  //   console.log("username", employee_code)
+    
+  //   axios.get(`http://127.0.0.1:8000/api/employee_detail/${employee_code}/`)
+  //     .then(res => {
+  //       const { name, email, designation, marital_status, employee_code, joining_date, gender,
+  //         phone_number, alternative_phone_number, email_office, email_personal, blood_group, aadhar_number, account_number, ifsc_code, bank_name, pan_number, status, photo,
+  //         educations, addresses,
+  //         // address_line1,address_line2,city, district, state,country,zipcode 
+
+  //       } = res.data;
+  //       setFormData({
+  //         name, email, designation, marital_status, employee_code, joining_date, gender,
+  //         phone_number, alternative_phone_number, email_office, email_personal, blood_group, aadhar_number,
+  //         // address_line1,address_line2,city,district, state,country,zipcode,
+  //         account_number, ifsc_code, bank_name, pan_number, status, photo,
+  //         educations, addresses,
+
+  //       });
+  //     })
+  //     .catch(err => console.log(err));
+  // }, [employee_code]);
+  // const handleStatusChange = (status) => {
+  //   setFormData({ ...formData, status });
+  // };
 
   const handleSubmit = () => {
     axios.post(`http://127.0.0.1:8000/api/employee_status/${employee_code}/`, { status: formData.status })
@@ -79,12 +121,15 @@ const EmployeeDetails = () => {
   return (
     <Container >
       <div className='EmployeeDetails ' style={{ marginBottom: '50%' }}>
-        <div className='row mb-5 m-3' key={formData.employee_code}>
-          <h2 className='Detailes mb-5 ' >Employee Details</h2>
+
+        <div className='row ' key={formData.employee_code}>
+        {/* <h4 style={{ marginLeft: '5%', marginTop: '3%' }}> <b>Attendance List </b></h4> */}
+
+          <h4 className='Detailes mb-5  mt-5' > <b>Employee Details</b></h4>
           <div className='col-sm-8 '>
             <div className='row '>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Name: </h5>
+                <h5 className='Detailes1'>Name </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -94,7 +139,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Employee code: </h5>
+                <h5 className='Detailes1'>Employee code </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -104,7 +149,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'> Designation :</h5>
+                <h5 className='Detailes1'> Designation </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -116,7 +161,7 @@ const EmployeeDetails = () => {
 
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Joining Date : </h5>
+                <h5 className='Detailes1'>Joining date  </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -128,7 +173,7 @@ const EmployeeDetails = () => {
 
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Gender : </h5>
+                <h5 className='Detailes1'>Gender  </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -138,7 +183,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Marital Status : </h5>
+                <h5 className='Detailes1'>Marital status  </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -149,7 +194,7 @@ const EmployeeDetails = () => {
             {formData.educations.map((education, index) => (
               <div className='row mt-3' key={index}>
                 <div className='col-sm-5'>
-                  <h5 className='Detailes1'>Education Qualification:</h5>
+                  <h5 className='Detailes1'>Education qualification</h5>
                 </div>
                 <div className='col-sm-3'>
                   <h5 className='Detailes1'>
@@ -163,7 +208,7 @@ const EmployeeDetails = () => {
             ))}
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Phone Number:</h5>
+                <h5 className='Detailes1'>Phone number</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -173,7 +218,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Alternative Phone Number :</h5>
+                <h5 className='Detailes1'>Alternative phone number</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -183,7 +228,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Email Personal:</h5>
+                <h5 className='Detailes1'>Email personal</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'> {formData.email_personal}</h5>
@@ -191,7 +236,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3 mb-5'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Email Personal:</h5>
+                <h5 className='Detailes1'>Email personal</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'> {formData.email_office}</h5>
@@ -199,7 +244,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Blood Group :</h5>
+                <h5 className='Detailes1'>Blood group </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -209,7 +254,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3' >
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Aadhaar Number :</h5>
+                <h5 className='Detailes1'>Aadhaar number </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>
@@ -232,7 +277,7 @@ const EmployeeDetails = () => {
             {/* {education.certification.certification_name} */}
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Account Number:</h5>
+                <h5 className='Detailes1'>Account number</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'> {formData.account_number}</h5>
@@ -240,7 +285,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'> IFC Code:</h5>
+                <h5 className='Detailes1'> IFC code</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>{formData.ifsc_code}</h5>
@@ -249,7 +294,7 @@ const EmployeeDetails = () => {
 
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'>Bank Name:</h5>
+                <h5 className='Detailes1'>Bank name</h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'> {formData.bank_name}</h5>
@@ -257,7 +302,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-sm-5'>
-                <h5 className='Detailes1'> Pan Number :</h5>
+                <h5 className='Detailes1'> Pan number </h5>
               </div>
               <div className='col'>
                 <h5 className='Detailes1'>{formData.pan_number}</h5>

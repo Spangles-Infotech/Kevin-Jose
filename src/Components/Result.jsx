@@ -12,14 +12,32 @@ import circle from "../Images/home.png";
 import b3 from "../Images/b3.png";
 import { filter } from "./Data";
 import Loading from "./modal/spinner";
+import { set } from "react-hook-form";
 
 const Result = () => {
+  const hereFor = [
+    {
+      fe: "Buy",
+      be: "sell",
+    },
+    {
+      fe: "Rent",
+      be: "rent",
+    },
+    {
+      fe: "Lease",
+      be: "lease",
+    },
+  ];
+
   const [selectedItem, setSelectedItem] = useState({
     fe: "",
     be: "",
   });
 
-  const [loading,setLoading] = useState(true)
+  const [selectedHereto, setSelectedHereto] = useState();
+
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -27,11 +45,143 @@ const Result = () => {
     setSelectedItem({ fe: item.fe, be: item.be });
   };
 
+  const hereTo = (item) => {
+    setSelectedHereto(item.be);
+  };
+
   const location = useLocation();
   const [locality, setLocality] = useState("");
+  // useEffect(() => {
+  //   const queryParams = new URLSearchParams(location.search);
+  //   const property_type = queryParams.get("property_type");
+  //   const property_typeTwo = queryParams.get("property_typeTwo");
+  //   const subtype = queryParams.get("subtype");
+  //   const direction_facing = queryParams.get("direction_facing");
+  //   const min_area = queryParams.get("min_area");
+  //   const max_area = queryParams.get("max_area");
+  //   const min_price = queryParams.get("min_price");
+  //   const max_price = queryParams.get("max_price");
+  //   const postedby = queryParams.get("postedby");
+  //   const bhk = queryParams.get("bhk");
+  //   const status = queryParams.get("status");
+  //   const you_are_here_to = setSelectedHereto(
+  //     queryParams.get("you_are_here_to")
+  //   );
+  //   const condition = queryParams.get("condition");
+  //   const locality = queryParams.get("location");
+  //   setLocality(locality);
+  //   console.log(you_are_here_to);
+
+  //   // plot and land
+  //   if (property_type === "plot" || property_type === "land") {
+  //     axios
+  //       .get(`${Baseurl}search`, {
+  //         params: {
+  //           subtype: subtype,
+  //           property_type: property_type,
+  //           property_type: property_typeTwo,
+  //           location: locality,
+  //           direction_facing: direction_facing,
+  //           postedby: postedby,
+  //           min_area: min_area,
+  //           max_area: max_area,
+  //           min_price: min_price,
+  //           max_price: max_price,
+  //           you_are_here_to: you_are_here_to,
+  //           filter_by: selectedItem.be,
+  //         },
+  //         UserConfig,
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data.results);
+  //         setMyProperty(res.data.results);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         setLoading(false);
+  //       });
+  //   } else if (property_type === "residential") {
+  //     axios
+  //       .get(`${Baseurl}search`, {
+  //         params: {
+  //           subtype: subtype,
+  //           property_type: property_type,
+  //           property_type: property_typeTwo,
+  //           bhk: bhk,
+  //           location: locality,
+  //           status: status,
+  //           condition: condition,
+  //           postedby: postedby,
+  //           min_price: min_price,
+  //           max_price: max_price,
+  //           you_are_here_to: you_are_here_to,
+  //           filter_by: selectedItem.be,
+  //         },
+  //         UserConfig,
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data.results);
+  //         setMyProperty(res.data.results);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         setLoading(false);
+  //       });
+  //   } else if (property_type === "commercial") {
+  //     axios
+  //       .get(`${Baseurl}search`, {
+  //         params: {
+  //           subtype: subtype,
+  //           location: locality,
+  //           property_type: property_type,
+  //           property_type: property_typeTwo,
+  //           status: status,
+  //           condition: condition,
+  //           postedby: postedby,
+  //           min_price: min_price,
+  //           max_price: max_price,
+  //           you_are_here_to: you_are_here_to,
+  //           filter_by: selectedItem.be,
+  //         },
+  //         UserConfig,
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data.results);
+  //         setMyProperty(res.data.results);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         setLoading(false);
+  //       });
+  //   } else {
+  //     axios
+  //       .get(`${Baseurl}search/`, {
+  //         params: {
+  //           property_type: property_type,
+  //           location: locality,
+  //           filter_by: selectedItem.be,
+  //         },
+  //         UserConfig,
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data.results);
+  //         setMyProperty(res.data.results);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         setLoading(false);
+  //       });
+  //   }
+  // }, [location.search, selectedItem]);
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const property_type = queryParams.get("property_type");
+    const property_typeTwo = queryParams.get("property_typeTwo");
     const subtype = queryParams.get("subtype");
     const direction_facing = queryParams.get("direction_facing");
     const min_area = queryParams.get("min_area");
@@ -41,112 +191,54 @@ const Result = () => {
     const postedby = queryParams.get("postedby");
     const bhk = queryParams.get("bhk");
     const status = queryParams.get("status");
-    const you_are_here_to = queryParams.get("you_are_here_to");
     const condition = queryParams.get("condition");
     const locality = queryParams.get("location");
+
     setLocality(locality);
-    // plot and land
+    setSelectedHereto(queryParams.get("you_are_here_to"));
+
+    const params = {
+      subtype,
+      property_type,
+      location: locality,
+      postedby,
+      min_price,
+      max_price,
+      you_are_here_to: queryParams.get("you_are_here_to"),
+      filter_by: selectedItem.be,
+    };
+
     if (property_type === "plot" || property_type === "land") {
-      axios
-        .get(`${Baseurl}search`, {
-          params: {
-            subtype: subtype,
-            property_type: property_type,
-            location: locality,
-            direction_facing: direction_facing,
-            postedby: postedby,
-            min_area: min_area,
-            max_area: max_area,
-            min_price: min_price,
-            max_price: max_price,
-            you_are_here_to: you_are_here_to,
-            filter_by: selectedItem.be,
-          },
-          UserConfig,
-        })
-        .then((res) => {
-          console.log(res.data.results);
-          setMyProperty(res.data.results);
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false)
-        });
+      params.property_type = property_typeTwo;
+      params.direction_facing = direction_facing;
+      params.min_area = min_area;
+      params.max_area = max_area;
     } else if (property_type === "residential") {
-      axios
-        .get(`${Baseurl}search`, {
-          params: {
-            subtype: subtype,
-            property_type: property_type,
-            bhk: bhk,
-            location: locality,
-            status: status,
-            condition: condition,
-            postedby: postedby,
-            min_price: min_price,
-            max_price: max_price,
-            you_are_here_to: you_are_here_to,
-            filter_by: selectedItem.be,
-          },
-          UserConfig,
-        })
-        .then((res) => {
-          console.log(res.data.results);
-          setMyProperty(res.data.results);
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false)
-        });
+      params.property_type = property_typeTwo;
+      params.bhk = bhk;
+      params.status = status;
+      params.condition = condition;
     } else if (property_type === "commercial") {
-      axios
-        .get(`${Baseurl}search`, {
-          params: {
-            subtype: subtype,
-            location: locality,
-            property_type: property_type,
-            status: status,
-            condition: condition,
-            postedby: postedby,
-            min_price: min_price,
-            max_price: max_price,
-            you_are_here_to: you_are_here_to,
-            filter_by: selectedItem.be,
-          },
-          UserConfig,
-        })
-        .then((res) => {
-          console.log(res.data.results);
-          setMyProperty(res.data.results);
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false)
-        });
-    } else {
-      axios
-        .get(`${Baseurl}search/`, {
-          params: {
-            property_type: property_type,
-            location: locality,
-            filter_by: selectedItem.be,
-          },
-          UserConfig,
-        })
-        .then((res) => {
-          console.log(res.data.results);
-          setMyProperty(res.data.results);
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false)
-        });
+      params.property_type = property_typeTwo;
+      params.status = status;
+      params.condition = condition;
     }
-  }, [location.search, selectedItem]);
+
+    axios
+      .get(`${Baseurl}search`, {
+        params,
+        ...UserConfig,
+      })
+      .then((res) => {
+        console.log(res.data.results);
+        setMyProperty(res.data.results);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [location.search, selectedItem, selectedHereto]);
 
   const handleViewDetails = () => {
     navigate("/builder");
@@ -158,10 +250,9 @@ const Result = () => {
     navigate(`/builder/${id}`);
   };
 
- if(loading){
-  return <Loading />;
-
- }
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       <Navbar />
@@ -169,7 +260,36 @@ const Result = () => {
       <div className="w-100 mx-auto" style={{ marginTop: "9%" }}>
         <div className="container d-flex align-items-center justify-content-between">
           {/* <h2>{myProperty?.length} results | Flats in Chennai for Sale</h2> */}
-          <h2>{myProperty?.length} results found</h2>
+          <h2>
+            {myProperty?.length} results found{" "}
+            {locality && <span>| {locality}</span>}
+          </h2>
+          <DropdownButton
+            id="dropdown-basic-button"
+            type="button"
+            aria-expanded="false"
+            title={
+              selectedHereto.fe ? (
+                `To - ${selectedHereto.fe}`
+              ) : (
+                <span>To - Buy</span>
+              )
+            }
+          >
+            <div className="custom-dropdown ">
+              {hereFor.map((itm, ind) => (
+                <Dropdown.Item key={ind} onClick={() => hereTo(itm)}>
+                  {itm.fe}
+                </Dropdown.Item>
+              ))}
+            </div>
+          </DropdownButton>
+
+
+
+
+          
+
           <DropdownButton
             id="dropdown-basic-button"
             type="button"
@@ -203,22 +323,23 @@ const Result = () => {
               <div className="col-5  p-0 m-0 ">
                 <img
                   src={
-                    details?.plot_properties?.plot_images[0].image ||
-                    details?.land_properties?.land_images[0].image ||
+                    details?.plot_properties?.plot_images?.[0]?.image ||
+                    details?.land_properties?.land_images?.[0]?.image ||
                     details?.residential_properties?.apartment
-                      ?.apartment_images[0].image ||
-                    details?.residential_properties?.house?.house_images[0]
-                      .image ||
-                    details?.commercial_properties?.showroom?.showroom_images[0]
-                      .image ||
+                      ?.apartment_images?.[0]?.image ||
+                    details?.residential_properties?.house?.house_images?.[0]
+                      ?.image ||
+                    details?.commercial_properties?.showroom
+                      ?.showroom_images?.[0]?.image ||
                     details?.commercial_properties?.industrialbuilding
-                      ?.industrialbuilding_images[0].image ||
+                      ?.industrialbuilding_images?.[0]?.image ||
                     details?.commercial_properties?.service_apartment
-                      ?.service_apartment_images[0].image ||
-                    details?.commercial_properties?.factory?.factory_images[0]
-                      .image ||
+                      ?.service_apartment_images?.[0]?.image ||
+                    details?.commercial_properties?.factory?.factory_images?.[0]
+                      ?.image ||
                     details?.commercial_properties?.pg_colony
-                      ?.pgcolony_images[0].image
+                      ?.pgcolony_images?.[0]?.image ||
+                    ""
                   }
                   alt="image"
                   className="rounded-4 "
@@ -356,6 +477,50 @@ const Result = () => {
                       </h6>
                     )}
 
+                    {/* commercial --> service*/}
+                    {details?.commercial_properties?.service_apartment && (
+                      <h6 className="pt-3">
+                        {
+                          details?.commercial_properties?.showroom
+                            ?.built_up_area
+                        }{" "}
+                        {
+                          details?.commercial_properties?.showroom
+                            ?.built_up_area_unit
+                        }{" "}
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
+                    {/* pg */}
+                    {details?.commercial_properties?.pg_colony && (
+                      <h6 className="pt-3">
+                        {details?.commercial_properties?.commercial_type?.toUpperCase()}{" "}
+                        for{" "}
+                        {details?.you_are_here_to === "sell" && (
+                          <span>Sale</span>
+                        )}
+                        {details?.you_are_here_to === "rent" && (
+                          <span>Rent</span>
+                        )}
+                        {details?.you_are_here_to === "lease" && (
+                          <span>Lease</span>
+                        )}{" "}
+                        in {details?.location}
+                      </h6>
+                    )}
+
                     {/* commercial --> showroom*/}
                     {details?.commercial_properties?.showroom && (
                       <h6 className="pt-3">
@@ -392,7 +557,9 @@ const Result = () => {
                       {details?.rent}
                       {details?.lease_amount}
                     </h1>
-                    <p>₹9,868 per sqft</p>
+                    {details?.you_are_here_to === "sell" && (
+                      <p> {details?.sale_price_per_sqft} per sqft</p>
+                    )}
                   </div>
                 </div>
 
@@ -755,8 +922,9 @@ const Result = () => {
                         >
                           {details?.commercial_properties?.showroom
                             ?.total_floors ||
-                            details?.commercial_properties?.showroom
-                              ?.pg_colony ||
+                            details?.commercial_properties?.details
+                              ?.commercial_properties?.pg_colony
+                              ?.total_floors ||
                             details?.commercial_properties?.service_apartment
                               ?.available_floors}
                         </p>

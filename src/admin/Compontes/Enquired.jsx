@@ -25,12 +25,26 @@ function Enquired() {
   const [pageSize, setPageSize] = useState(10); // Default page size
 
   useEffect(() => {
-    fetchProperties(`http://127.0.0.1:8000/api/basic_enquired_properties/?page=1&page_size=${pageSize}`);
+    fetchProperties(`http://127.0.0.1:8000/api/basic_enquired_properties/?page=1&page_size=${pageSize}/`);
   }, [pageSize]);
 
   const fetchProperties = async (url) => {
     try {
-      const response = await fetch(url);
+      const accessToken = localStorage.getItem('access_token');
+
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      // If response status is 401, redirect to login page
+      if (response.status === 401) {
+        // Perform redirection to login page
+        window.location.href = '/login'; // Change '/login' to your actual login page route
+        return; // Exit function to prevent further execution
+      }
       const data = await response.json();
       setProperties(data.results);
       setPreviousPage(data.previous);
@@ -58,6 +72,9 @@ function Enquired() {
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
     fetchProperties(`http://127.0.0.1:8000/api/basic_enquired_properties/?page=${pageNumber}&page_size=10&search=${search}&page_size=10&propertytype=${propertytype}`);
+  };
+  const handleNavigation = (property) => {
+    navigate(`/Propertiessatues/${property.id}`);
   };
 
   const handleSearchChange = (value) => {
@@ -102,7 +119,7 @@ function Enquired() {
               textAlign: 'center',
               marginRight: '5px',
               borderRadius: '50%',
-              width: '40px',
+              width: '36px',
               padding: '8px',
               backgroundColor: currentPage === i ? 'red' : 'white',
               color: currentPage === i ? 'white' : 'red',
@@ -118,21 +135,21 @@ function Enquired() {
     return pages;
   }
   return (
-    <div className='PropertyList'>
-      <div className='card' style={{ margin: '1%', borderColor: 'red', width: '98%' }}>
-        <div className='row m-2 mt-4 mb-4'>
+    <div className='Enquired'>
+      <div className='card' style={{ margin: '1%', borderColor: 'red', borderRadius:'30px',padding:'10px'  }}>
+        <div className='row  mt-5 mb-5 d-flex justify-content-between'>
           <div className='col'>
-            <h1 className='prop2 '>Properties Registered</h1>
+            <h4 style={{ marginLeft: '5%', marginTop: '3%',height:'36px' }}> <b> Enquired Properties</b></h4>
           </div>
 
           <div className="col d-flex custom-select ">
-            <div className='card d-flex m-1' style={{ flexDirection: 'row', height: '30px' }}>
-              <IconContext.Provider value={{ className: 'react-icons', size: '1.7em', height: '10px' }} >
-                <GoFilter /><span>Filter</span>
+            <div className='card d-flex ' style={{ flexDirection: 'row', height: '36px', marginRight: '5px', padding: '1px' }}>
+              <IconContext.Provider value={{ className: 'react-icons', size: '1.5em', }} >
+                <GoFilter className='mt-1' /><span style={{ padding: '2px' }}>Filter</span>
               </IconContext.Provider>
 
             </div>
-            <Form.Select onChange={(e) => handleProperTytype(e.target.value)} style={{ width: '200px', height: '40px' }}>
+            <Form.Select onChange={(e) => handleProperTytype(e.target.value)} style={{ width: '200px', height: '36px' }}>
               <option value=''>Property type :</option>
               <option value="factory">Factory	</option>
               <option value="residential_plot">Residential Plot	</option>
@@ -172,18 +189,7 @@ function Enquired() {
               <option value="industrial_shed">Industrial Shed </option>
             </Form.Select>
           </div>
-          {/* <div className='col mb-3'>
-            <Form.Select
-              onChange={(e) => handleStatus(e.target.value)}
-              style={{ width: '200px', height: '40px' }}>
-              <option value='all'>Status All :</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Reject</option>
-              <option value="for_approval">For Approval</option>
-            </Form.Select>
-
-          </div> */}
-          <div className='col'>
+          <div className='col mt-2 d-flex justify-content-end' >
             <Form.Control
               id="Search"
               type="text"
@@ -193,40 +199,53 @@ function Enquired() {
               onChange={(e) => handleSearchChange(e.target.value)}
               style={{
                 width: '300px',
-                height: '40px'
+                height: '36px'
               }}
             />
           </div>
         </div>
+<div>
 
-        <Table responsive="xl" style={{ fontFamily: 'Roboto' }}>
-          <caption>Total Enquired: {propertyCount}</caption>
+
+        <Table responsive="xl" >
           <thead>
-            <tr>
-              <th>Sl. no.</th>
-              <th>Name</th>
-              <th>Property type</th>
-              <th>Posted on</th>
-              <th>Enquiries</th>
-              <th>Type</th>
-              {/* <th>Status</th> */}
-            </tr>
+            <tr >
+                  <th></th>
+                  <th>Sl.no.</th>
+                  <th></th>
+                  <th>Name</th>
+                  <th></th>
+                  <th></th>
+                  <th>Property type</th>
+                  <th></th>
+                  <th>Posted on</th>
+                  <th></th><th></th>
+                  <th>Enquiries</th>
+                  <th></th>  <th></th>             
+                  <th>Type</th>
+
+                </tr>
           </thead>
           <tbody>
 
             {properties.map((property, index) => (
-              <tr key={property.id}>
+              <tr key={property.id} onClick={() => handleNavigation(property)} style={{ cursor: 'pointer' }}>
+                <td></td>
                 {/* <td>{property.id}</td> */}
                 <td tabl="true">{index + 1 + (currentPage - 1) * 10}</td>
+               <td></td>
                 <td>{property.name}</td>
+                <td></td><td></td>
                 <td>{property && property.property_subtype ? property.property_subtype.replace(/_/g, ' ') : null}</td>
+                <td></td>
                 <td>{property.posted_on}</td>
+                <td></td><td></td>
                 <td>{property.total_enquiries}</td>
-                <td>
-                <Link to={`/Propertiessatues/${property.id}`} style={{ color: getColor(property.you_are_here_to) ,textDecoration:'none'}}>
+                <td></td><td></td>
+                <td style={{ color: getColor(property.you_are_here_to) }}>
                   {property.you_are_here_to}
-                </Link>
-              </td>
+
+                </td>
                 {/* <td style={{
                   color: property.approved === true ? 'green' :
                     property.approved === false ? 'red' :
@@ -242,7 +261,7 @@ function Enquired() {
             ))}
           </tbody>
         </Table>
-
+        </div>
       </div>
       <div className='d-flex justify-content-center mt-3'>
         <nav aria-label="Page navigation example">

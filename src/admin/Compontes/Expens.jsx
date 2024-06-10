@@ -68,7 +68,7 @@ function Pagination({ currentPage, totalPages, handlePageChange }) {
         </nav>
     );
 }
-function Expense() {
+function Expens() {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const navigate = useNavigate();
@@ -84,22 +84,39 @@ function Expense() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/get_expenses/?fromDate=${fromDate}&toDate=${toDate}`);
+                const accessToken = localStorage.getItem('access_token');
+                const response = await axios.get(
+                    `http://127.0.0.1:8000/api/get_expenses/?fromDate=${fromDate}&toDate=${toDate}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    }
+                );
                 setUsers(response.data);
                 setFilteredUsers(response.data);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                handleError(error);
             }
         };
 
         fetchData();
     }, [fromDate, toDate]);
+    const handleError = (error) => {
+        if (error.response?.status === 401) {
+            console.error('User unauthorized. Redirecting to login page...');
+            navigate('/login');
+        } else {
+            console.error('Error:', error);
+        }
+    };
 
     useEffect(() => {
         const fetchExpenseSummary = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/api/get_expense_summary/?fromDate=${fromDate}&toDate=${toDate}`);
                 const { paid_amount, unpaid_amount, total_amount } = response.data;
+
                 setPaidAmount(paid_amount);
                 setUnpaidAmount(unpaid_amount);
                 setTotalAmount(total_amount);
@@ -141,14 +158,14 @@ function Expense() {
     };
     return (
         <>
-            <div className='container-fluid' style={{ marginBottom: '45%' }}>
-                <div className='card col-lg-12' style={{ margin: '1%', borderColor: 'red', width: '98%' }}>
-                    <div className='row'>
+            <div className='Expens' style={{ marginBottom: '45%' }}>
+                <div className='card' style={{ margin: '1%', borderColor: 'red', borderRadius: '30px', padding: '10px' }}>
+                    <div className='row mt-5 mb-5 '>
                         <div className='col'>
-                            <h1 className='prop2  m-3'>Expense</h1>
+                            <h4 style={{ marginLeft: '5%', marginTop: '3%' }}> <b>Expense</b></h4>
                         </div>
-                        <div className='m-3 col'>
-                            <Form.Floating >
+                        <div className=' col' >
+                            <Form.Floating style={{ height: '60px' }}> {/* Increased height for better visibility */}
 
                                 <Form.Control
                                     id="toDate"
@@ -159,14 +176,15 @@ function Expense() {
                                     value={toDate}
                                     style={{
                                         width: '250px',
-                                        height: '20px',
+                                        height: '18px', // Standard height for form controls
                                     }}
                                     onChange={(e) => setToDate(e.target.value)}
                                 />
-                                <Form.Label htmlFor='toDate'>To: </Form.Label>
+                                <Form.Label htmlFor='toDate'>To Date: </Form.Label> {/* Corrected label text */}
                             </Form.Floating>
+
                         </div>
-                        <div className='m-3 col'>
+                        <div className=' col'>
                             <Form.Floating >
 
                                 <Form.Control
@@ -181,10 +199,10 @@ function Expense() {
                                     onChange={(e) => setFromDate(e.target.value)}
 
                                 />
-                                <Form.Label htmlFor='fromDate'>From: </Form.Label>
+                                <Form.Label htmlFor='fromDate'>To: </Form.Label>
                             </Form.Floating>
                         </div>
-                        <div className='m-3 col'>
+                        <div className=' col'>
                             <Form.Control
                                 id="Search"
                                 size='sm'
@@ -200,9 +218,9 @@ function Expense() {
                                 }}
                             />
                         </div>
-                        <div className='col'>
-                            <Button className=" mt-3 addbuttons btn-danger" onClick={handleAddex} style={{ alignItems: 'end' }}>
-                                <IconContext.Provider value={{ className: 'react-icons', size: '1.3em' }}>
+                        <div className='col-sm-2 '>
+                            <Button className="  addbuttons btn-danger  " onClick={handleAddex} style={{ alignItems: 'end' }}>
+                                <IconContext.Provider value={{ className: 'react-icons', size: '1.5em' }}>
                                     <div>
                                         <FiPlus /> Add Expense
                                     </div>
@@ -211,13 +229,14 @@ function Expense() {
                         </div>
                     </div>
                     <div id="printable-content">
-                        <Table responsive="xl" style={{ fontFamily: 'Roboto' }}>
+                        <Table responsive="xl" >
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Sl. no.</th>
                                     <th>Date</th>
                                     <th>Category</th>
-                                    <th>Sub Category</th>
+                                    <th>Sub category</th>
                                     <th>Description</th>
                                     <th>Amount</th>
                                     <th>Status</th>
@@ -226,6 +245,7 @@ function Expense() {
                             <tbody>
                                 {currentItems.map((user, index) => (
                                     <tr key={user.id}>
+                                        <td></td>
                                         <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                         <td>{user.date}</td>
                                         <td>{user.category}</td>
@@ -234,13 +254,13 @@ function Expense() {
 
                                         <td>{user.amount}</td>
                                         {/* <td style={{
-                                            color: user.status === true ? 'green' :
-                                                user.status === false ? 'red' :
-                                                    'rgba(255, 122, 0, 1)'
-                                        }}>
-                                            {user.status === true ? 'Paid' :
-                                                user.status === false ? 'Unpaid' : ''}
-                                        </td> */}
+                                    color: user.status === true ? 'green' :
+                                        user.status === false ? 'red' :
+                                            'rgba(255, 122, 0, 1)'
+                                }}>
+                                    {user.status === true ? 'Paid' :
+                                        user.status === false ? 'Unpaid' : ''}
+                                </td> */}
                                         <td
                                             style={{
                                                 color: user.status === 'paid' ? 'green' :
@@ -258,11 +278,11 @@ function Expense() {
                         </Table>
                     </div>
                 </div>
-                <div className='card' style={{ margin: '1%', borderColor: 'red', width: '98%', fontFamily: 'Roboto' }}>
+                <div className='card' style={{ margin: '1%', borderColor: 'red', borderRadius:'30px',padding:'10px'}}>
                     <div className='d-flex justify-content-around p-5 mt-3'>
-                        <h1>Paid Amount:<span style={{ color: 'yellow' }}><MdOutlineCurrencyRupee />{paidAmount}</span> </h1>
-                        <h1>Unpaid Amount:<span style={{ color: 'red' }}><MdOutlineCurrencyRupee />{unpaidAmount}</span></h1>
-                        <h1>Total Amount: <span style={{ color: 'green' }}><MdOutlineCurrencyRupee />{totalAmount}</span></h1>
+                        <h4> <b>Paid Amount:</b> <b style={{ color: 'rgba(255, 122, 0, 1)' }}><MdOutlineCurrencyRupee />{paidAmount}</b> </h4>
+                        <h4><b>Unpaid Amount:</b> <b style={{ color: 'red' }}><MdOutlineCurrencyRupee />{unpaidAmount}</b></h4>
+                        <h4> <b>Total Amount:</b> <b style={{ color: 'green' }}><MdOutlineCurrencyRupee />{totalAmount}</b></h4>
                     </div>
                 </div>
                 <div className='d-flex justify-content-center mt-3'>
@@ -276,7 +296,7 @@ function Expense() {
                 </div>
             </div>
         </>
-    );
+    )
 }
 
-export default Expense;
+export default Expens

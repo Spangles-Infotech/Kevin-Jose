@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios"; // Import Axios
-import { useParams } from 'react-router-dom'; // Import useParams
+import Axios from "axios";
+import { useParams, useNavigate } from 'react-router-dom';
 import { LiaLessThanSolid } from "react-icons/lia";
-import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { FaLessThan, FaGreaterThan } from "react-icons/fa";
 import '../Style/Attendan.css';
@@ -23,21 +22,37 @@ function generateMonthArray(year, monthIndex) {
 function Attendancecal() {
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
-  const [data, setData] = useState({}); // Initialize data as an object instead of an array
-  const [today, setToday] = useState({}); // Initialize today as an object instead of an array
-  const { employee_code } = useParams(); // Use useParams to get the parameter
+  const [data, setData] = useState({ attendance: [], employee: {} });
+  const [today, setToday] = useState({});
+  const { employee_code } = useParams();
   const navigate = useNavigate();
+
   useEffect(() => {
-    fetchData(); // Fetch data on component mount
-    fetchToday(); // Fetch today's attendance on component mount
+    fetchData();
+    fetchToday();
   }, [employee_code]);
 
   async function fetchData() {
     try {
-      const response = await Axios.get(`http://127.0.0.1:8000/api/get_monthly_attendance/${employee_code}`);
-      setData(response.data);
+      const accessToken = localStorage.getItem('access_token');
+      const response = await Axios.get(`http://127.0.0.1:8000/api/get_monthly_attendance/${employee_code}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      if (response.data && response.data.attendance && response.data.attendance.length > 0) {
+        const employeeDetails = response.data.attendance[0].employee;
+        setData({ ...response.data, employee: employeeDetails });
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
+      if (error.response && error.response.status === 401) {
+        console.error('User unauthorized. Redirecting to login page...');
+        navigate('/login');
+      } else {
+        console.error('Error:', error);
+      }
     }
   }
 
@@ -75,8 +90,7 @@ function Attendancecal() {
 
   function getCurrentDayStatus(day) {
     if (!data || !data.attendance) {
-      return { dayClass: "", columnClass: "" };
-      
+      return { dayClass: "", columnClass: "", status: "" };
     }
 
     const formattedDate = day.format("DD/MM/YYYY");
@@ -89,62 +103,65 @@ function Attendancecal() {
       return { dayClass, columnClass, status };
     }
 
-    return { dayClass: "", columnClass: "" };
+    return { dayClass: "", columnClass: "", status: "" };
   }
+
   function getCurrentDayClass(day) {
     return day.day() === 0
-      ? "current-day sunday" 
+      ? "current-day sunday"
       : day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
       ? "current-day"
       : "";
   }
+
   const currentMonth = generateMonthArray(currentYear, monthIndex);
   const handleBACK = () => {
     navigate('/Attendance');
   };
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
   return (
     <div className="row">
-      <header className="calendar-header  m-2">
-        <div className="col-sm-10 d-flex mt-5">
-          <LiaLessThanSolid  style={{width:'50px',fontSize: '35px', color:'red'}} onClick={handleBACK}/>
-          <h1>{today.name}</h1>
+      <header className="calendar-header">
+        <div className="col-12 col-sm-10 d-flex align-items-center">
+          <LiaLessThanSolid style={{ width: '50px', fontSize: '35px', color: 'red' }} onClick={handleBACK} />
+          
+          <h5 className="mb-1" style={{color:'#505050'}}>{capitalizeFirstLetter(data.employee.name)}</h5>
         </div>
-        <div className="col-sm-2 d-flex">
+        <div className="col-12 col-sm-2 d-flex justify-content-between align-items-center">
           <button onClick={handlePrevMonth}>
-            <span >
-              <FaLessThan className="mt-5" />
-            </span>
+            <FaLessThan />
           </button>
-          <button onClick={handleNextMonth}>
-            <span >
-              <FaGreaterThan className="mt-5" />
-            </span>
-          </button>
-          <h2 className="month mt-5">
+          <h2 className="month">
             {dayjs(new Date(currentYear, monthIndex)).format("MMMM YYYY")}
           </h2>
+          <button onClick={handleNextMonth}>
+            <FaGreaterThan />
+          </button>
         </div>
       </header>
+       
       <div className="calendar-grid">
         {currentMonth.map((row, i) => (
           <React.Fragment key={i}>
             {row.map((day, idx) => (
-              <header key={idx}>
+              <div key={idx}>
                 {i === 0 && (
                   <div className="calendar-day">
-                    <p className="mt-1 ds">
+                    <p className="ds">
                       {day.format("dddd").toUpperCase()}
                     </p>
                   </div>
                 )}
                 <div className={`calendar-day ${getCurrentDayStatus(day).columnClass}`}>
-                  <p className={`text-sm p-1 my-1 ${getCurrentDayStatus(day).dayClass}`}>
-                  <span className={`day m-2 ${getCurrentDayClass(day)}`}>{day.format("DD")}</span>
-
-                    {getCurrentDayStatus(day).status}
+                  <p className={`text-sm ${getCurrentDayStatus(day).dayClass}`}>
+                    <span className={`day ${getCurrentDayClass(day)}`}>{day.format("DD")}</span>
+                    <p>{getCurrentDayStatus(day).status}</p>
                   </p>
                 </div>
-              </header>
+              </div>
             ))}
           </React.Fragment>
         ))}

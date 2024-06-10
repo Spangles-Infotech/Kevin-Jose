@@ -15,6 +15,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { Modal, Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
+import { FaRegCircleUser } from "react-icons/fa6";
+import axios from "axios";
+import { Baseurl, UserConfig } from "./request";
+
+const formatPhoneNumber = (phone) => {
+  if (!phone) return '';
+  const countryCode = phone.slice(0, 3); 
+  const remainingNumber = phone.slice(3);
+  return `${countryCode} ${remainingNumber}`;
+};
+
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -31,6 +42,19 @@ const Navbar = () => {
       navigate("/form");
     }
   };
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    axios
+      .get(`${Baseurl}current_user_details/`, UserConfig)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((error) => {
+        // localStorage.removeItem("customer");
+        console.log(error);
+      });
+  }, []);
+ 
 
   const getTokenFromLocalStorage = localStorage.getItem("customer");
 
@@ -93,17 +117,18 @@ const Navbar = () => {
                 </button>
                 {getTokenFromLocalStorage ? (
                   <ul class="dropdown-menu border-0 rounded-4">
-                    <div className="d-flex px-4 py-2 gap-3 mx-2 border-bottom">
+                    <div className="d-flex px-4 py-2 gap-4 mx-2 border-bottom">
                       <div className="d-flex align-items-center">
-                        <img
-                          src="assets\Group.png "
+                        <FaRegCircleUser size={45} />
+                        {/* <img
+                          src="assets/Group.png "
                           style={{ width: "40px", height: "40px" }}
-                        />
+                        /> */}
                       </div>
                       <div className="d-flex flex-column justify-content-center  gap-1 ">
-                        <span className="fw-medium">Rajesh</span>
-                        <span className="fw-light">rajesh123@gmail.com</span>
-                        <span className="fw-light">+91 90879 56762</span>
+                        <span className="fw-medium">{user?.username}</span>
+                        <span className="fw-light">{user?.email}</span>
+                        <span className="fw-light"> {user?.phone ? formatPhoneNumber(user.phone) : ''}</span>
                       </div>
                     </div>
 

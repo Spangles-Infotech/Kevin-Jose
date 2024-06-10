@@ -24,7 +24,7 @@ export default function FactoryView({ details }) {
       (outdoor) => outdoor.name
     );
   return (
-    <div className="border container mx-auto px-4 py-3 rounded-4 border-danger">
+    <div className="border container mx-auto px-4 py-3 rounded-4 border-danger mt-3">
       <h4 className="fw-bold ps-2 pb-2">More Details</h4>
       <table className="table table-borderless w-75">
         <thead>

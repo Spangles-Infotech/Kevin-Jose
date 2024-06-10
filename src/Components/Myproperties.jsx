@@ -733,8 +733,8 @@ const Myproperties = () => {
                         >
                           {details?.commercial_properties?.showroom
                             ?.total_floors ||
-                            details?.commercial_properties?.showroom
-                              ?.pg_colony ||
+                            details?.commercial_properties
+                              ?.pg_colony?.total_floors ||
                             details?.commercial_properties?.service_apartment
                               ?.available_floors}
                         </p>

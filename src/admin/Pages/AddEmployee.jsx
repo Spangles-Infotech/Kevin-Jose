@@ -79,19 +79,55 @@ const AddEmployee = () => {
 
     const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     const fetchEmployeeCodes = async () => {
+    //         try {
+    //             const accessToken = localStorage.getItem('access_token');
+
+    //             const response = await axios.get("http://127.0.0.1:8000/api/employee_code/");
+    //             headers: {
+    //                 Authorization: `Bearer ${accessToken}`
+    //             }
+    //             setEmployeeCodeOptions(response.data);
+    //             setEmployeeCodeOptions([response.data.employee_code]);
+    //         } catch (error) {
+    //             console.error("Error fetching employee codes:", error);
+    //         }  if (error.response?.status === 401) {
+    //             console.error('User unauthorized. Redirecting to login page...');
+    //             navigate('/login');
+    //           } else {
+    //             console.error('Error:', error);
+    //           }
+    //     };
+    //     fetchEmployeeCodes();
+    // }, []);
     useEffect(() => {
         const fetchEmployeeCodes = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/employee_code/");
+                const accessToken = localStorage.getItem('access_token');
+    
+                const response = await axios.get("http://127.0.0.1:8000/api/employee_code/", {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+    
                 setEmployeeCodeOptions(response.data);
-                setEmployeeCodeOptions([response.data.employee_code]);
+                      setEmployeeCodeOptions([response.data.employee_code]);
             } catch (error) {
                 console.error("Error fetching employee codes:", error);
+                if (error.response?.status === 401) {
+                    console.error('User unauthorized. Redirecting to login page...');
+                    navigate('/login');
+                } else {
+                    console.error('Error:', error);
+                }
             }
         };
+    
         fetchEmployeeCodes();
     }, []);
-
+    
 
     const validateForm = () => {
         const errors = {};
@@ -161,14 +197,14 @@ const AddEmployee = () => {
             errors.pan_number = "Pan number is required";
         }
         if (!employee.designation) {
-            errors.designation = "Designation  is required";
+            errors.designation = "Designation is required";
         }
         employee.educations.forEach((education, index) => {
             if (!education.qualification.trim()) {
                 errors[`educations[${index}].qualification`] = "Qualification is required";
             }
             if (!education.certification || !education.certification.certification_file) {
-                errors[`educations[${index}].certification_file`] = "Certification file is required";
+                errors[`educations[${index}].certification_file`] = "Certification PDF is required";
             }
         });
 
@@ -239,7 +275,7 @@ const AddEmployee = () => {
                     if (i === index) {
                         return { ...education, [subField]: value };
                     }
-                    console.log(education, 'eee'); // Corrected console.log statement
+                    //  console.log(education, 'eee'); // Corrected console.log statement
                     return education;
                 })
             }));
@@ -339,15 +375,31 @@ const AddEmployee = () => {
 
     const handleCertificationFileChange = (index, event) => {
         const { name, files } = event.target;
-        setEmployee(prevEmployee => ({
-            ...prevEmployee,
-            educations: prevEmployee.educations.map((education, i) => {
-                if (i === index) {
-                    return { ...education, certification: { certification_file: files[0] } };
-                }
-                return education;
-            })
-        }));
+        const file = files[0];
+
+        // Check if a file is selected
+        if (file) {
+            const fileType = file.type.toLowerCase();
+
+            // Check if the selected file is a PDF
+            if (fileType === 'application/pdf') {
+                setEmployee(prevEmployee => ({
+                    ...prevEmployee,
+                    educations: prevEmployee.educations.map((education, i) => {
+                        if (i === index) {
+                            return { ...education, certification: { certification_file: file } };
+                        }
+                        return education;
+                    })
+                }));
+            } else {
+                // Display error message if the file type is not PDF
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`educations[${index}].certification_file`]: "Only PDF files are supported"
+                }));
+            }
+        }
     };
 
 
@@ -377,9 +429,9 @@ const AddEmployee = () => {
 
 
 
-     const handlCancle = () => {
+    const handlCancle = () => {
         navigate('/Employeeprofile');
-     };
+    };
     const handleFileChange = (e) => {
         const { name, files } = e.target;
         setEmployee({
@@ -391,7 +443,7 @@ const AddEmployee = () => {
         <div className='ADD' style={{ marginBottom: '10%' }}>
             <Form onSubmit={handleSubmit}>
                 <div className='card m-2 p-5' style={{ borderColor: 'red' }}>
-                    <h1 className='emploleelist'>Add Employee</h1>
+                    <h4 className='emploleelist'><b>Add Employee</b></h4>
                     <div className='row mt-3'>
                         <div className="col-sm-6">
                             <label htmlFor="inputName" className='mt-2 mb-2'>Name :</label>
@@ -403,7 +455,7 @@ const AddEmployee = () => {
                                 onChange={handleChange}
                                 isInvalid={!!errors.name}
                             />
-                            {errors.name && <div className="text-danger">{errors.name}</div>}
+                            {errors.name && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.name}</div>}
 
 
                         </div>
@@ -417,11 +469,11 @@ const AddEmployee = () => {
                                     </option>
                                 ))}
                             </Form.Control>
-                            {errors.employee_code && <div className="text-danger">{errors.employee_code}</div>}
+                            {errors.employee_code && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.employee_code}</div>}
 
                         </div>
                     </div>
-                    <div className='row mt-2'>
+                    <div className='row mt-3'>
                         <div className="col-sm-6">
                             <label htmlFor="password" className='mt-1 mb-1'>Password :</label>
                             <Form.Control
@@ -432,13 +484,13 @@ const AddEmployee = () => {
                                 onChange={handleChange}
                                 isInvalid={!!errors.password} // Check if there are errors for the name field
                             />
-                            {errors.password && <div className="text-danger">{errors.password}</div>}
+                            {errors.password && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.password}</div>}
                         </div>
                         <div className="col-sm-6 mt-4">
 
 
                             <Form.Group controlId='photo' >
-                                <label htmlFor="files" className="profilphoto form-label btn  btn-outline-danger rounded p-1" style={{ width: '150px', height: '42px' }}>
+                                <label htmlFor="files" className="profilphoto form-label btn btn-outline-danger rounded p-1" style={{ width: '300px', height: '42px' }}>
                                     Upload Photo
                                 </label>
                                 <Form.Control
@@ -448,13 +500,13 @@ const AddEmployee = () => {
                                     onChange={(e) => handleFileChange(e)}
                                     isInvalid={!!errors.photo}
                                 />
-                                {errors.photo && <div className="text-danger">{errors.photo}</div>}
+                                {errors.photo && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.photo}</div>}
                             </Form.Group>
 
 
                         </div>
                     </div>
-                    <div className='row  mt-2'>
+                    <div className='row mt-3'>
                         <div className='col-sm-6 '>
                             <label htmlFor="joining_date" className='mt-2 mb-2'>Joining Date :</label>
                             <Form.Control
@@ -466,7 +518,7 @@ const AddEmployee = () => {
                                 placeholder="joining_date"
                                 onChange={handleChange}
                             />
-                            {errors.joining_date && <div className="text-danger">{errors.joining_date}</div>}
+                            {errors.joining_date && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.joining_date}</div>}
 
 
                         </div>
@@ -486,7 +538,7 @@ const AddEmployee = () => {
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </Form.Select>
-                            {errors.gender && <div className="text-danger">{errors.gender}</div>}
+                            {errors.gender && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.gender}</div>}
 
                         </div>
                     </div>
@@ -507,7 +559,7 @@ const AddEmployee = () => {
                                 <option value="divorced">Divorced</option>
                                 <option value="widowed">Widowed</option>
                             </Form.Select>
-                            {errors.marital_status && <div className="text-danger">{errors.marital_status}</div>}
+                            {errors.marital_status && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.marital_status}</div>}
 
                         </div>
                         <div className='col-sm-6 '>
@@ -521,12 +573,12 @@ const AddEmployee = () => {
                                 placeholder="Enter designation"
                                 onChange={handleChange}
                             />
-                            {errors.designation && <div className="text-danger">{errors.designation}</div>}
+                            {errors.designation && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.designation}</div>}
 
 
                         </div>
                     </div>
-                    <div className='d-flex justify-content-center mt-2 mb-2'>
+                    <div className='d-flex justify-content-center mt-3 mb-1'>
                         <Link style={{ color: 'red', textAlign: 'center' }} className='d-flex justify-content-end' onClick={addMoreEducation}>
                             Add more
                         </Link>
@@ -547,14 +599,15 @@ const AddEmployee = () => {
 
 
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors[`educations[${index}].qualification`]}
                                 </Form.Control.Feedback>
                             </div>
 
                             <div className='col mt-4'>
-                                <label htmlFor="certificationfile" className="profilphoto form-label btn  btn-outline-danger rounded p-1" style={{ width: '150px', height: '42px' }}>
-                                    Certificate
+                       
+                                <label htmlFor="certificationfile" className="mt-1 profilphoto form-label btn btn-outline-danger rounded p-1" style={{ width: '300px', height: '42px', }}>
+                                    Certificate Upload Pdf
                                 </label>
 
                                 <Form.Control
@@ -562,10 +615,10 @@ const AddEmployee = () => {
                                     id='certificationfile'
                                     name={`educations[${index}].certification_file`}
                                     onChange={(e) => handleCertificationFileChange(index, e)}
-                                    style={{ width: '200px', display: 'none' }}
+                                    style={{ width:'300px', display: 'none' }}
                                     isInvalid={!!errors[`educations[${index}].certification_file`]} // Setting isInvalid based on the error
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors[`educations[${index}].certification_file`]}
                                 </Form.Control.Feedback>
 
@@ -598,7 +651,7 @@ const AddEmployee = () => {
                                 }}
 
                             />
-                            {errors.phone_number && <div className="text-danger">{errors.phone_number}</div>}
+                            {errors.phone_number && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.phone_number}</div>}
                         </div>
                         <div className='col-sm-6 '>
                             <label htmlFor="alternative_phone_number" className='mt-2 mb-2'> phone number :</label>
@@ -609,28 +662,28 @@ const AddEmployee = () => {
                                     setEmployee({ ...employee, alternative_phone_number: limitedInput });
                                 }}
                             />
-                            {errors.alternative_phone_number && <div className="text-danger">{errors.alternative_phone_number}</div>}
+                            {errors.alternative_phone_number && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.alternative_phone_number}</div>}
                         </div>
                     </div>
                     <div className='row mt-3'>
                         <div className="col-sm-6">
-                            <label htmlFor="email_office" className='mt-2 mb-2'>  Email :</label>
+                            <label htmlFor="email_office" className='mt-2 mb-2'> Email :</label>
                             <Form.Control id="email_office" isInvalid={!!errors.email_office} type="email" placeholder="Enter Email" value={employee.email_office}
                                 onChange={(e) =>
                                     setEmployee({ ...employee, email_office: e.target.value })
                                 }
                             />
-                            {errors.email_office && <div className="text-danger">{errors.email_office}</div>}
+                            {errors.email_office && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.email_office}</div>}
                         </div>
                         <div className='col-sm-6'>
 
-                            <label htmlFor="email_personal" className='mt-2 mb-2'>  Email Personal :</label>
+                            <label htmlFor="email_personal" className='mt-2 mb-2'> Email Personal :</label>
                             <Form.Control type="email" isInvalid={!!errors.email_personal} className="form-control " id="email_personal" placeholder="Email Personal " value={employee.email_personal}
                                 onChange={(e) =>
                                     setEmployee({ ...employee, email_personal: e.target.value })
                                 }
                             />
-                            {errors.email_personal && <div className="text-danger">{errors.email_personal}</div>}
+                            {errors.email_personal && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.email_personal}</div>}
                         </div></div>
                     <div className='row mt-3'>
                         <div className='col-sm-6'>
@@ -641,8 +694,15 @@ const AddEmployee = () => {
                                 }>
                                 <option value="" >Select Blood Group</option>
                                 <option value="A+">A Positive (A+)</option>
+                        <option value="A-">A Negative (A-)</option>
+                        <option value="B+">B Positive (B+)</option>
+                        <option value="B-">B Negative (B-)</option>
+                        <option value="AB+">AB Positive (AB+)</option>
+                        <option value="AB-">AB Negative (AB-)</option>
+                        <option value="O+">O Positive (O+)</option>
+                        <option value="O-">O Negative (O-)</option>
                             </Form.Select>
-                            {errors.blood_group && <div className="text-danger">{errors.blood_group}</div>}
+                            {errors.blood_group && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.blood_group}</div>}
                         </div>
                         <div className='col-sm-6 '>
                             <label htmlFor="aadhar_number" className='mt-2 mb-2'>Aadhaar Number :</label>
@@ -653,14 +713,14 @@ const AddEmployee = () => {
                                     setEmployee({ ...employee, aadhar_number: limitedInput });
                                 }}
                             />
-                            {errors.aadhar_number && <div className="text-danger">{errors.aadhar_number}</div>}
+                            {errors.aadhar_number && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.aadhar_number}</div>}
                         </div> </div>
 
 
 
                     <div className='row mt-3'>
                         <div className="col-sm-6">
-                            <Form.Group controlId="present">
+                            <Form.Group >
                                 <Form.Label >Present Address </Form.Label>
                                 <Form.Control
                                     type="text"
@@ -670,10 +730,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.address_line1}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.address_line1}
                                 </Form.Control.Feedback>
-                                <label htmlFor="city" className='mt-2 mb-2'>City :</label>
+                                <label htmlFor="city" className='mt-3 mb-1`'>City :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[0].city"
@@ -682,10 +742,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.present_city}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.present_city}
                                 </Form.Control.Feedback>
-                                <label htmlFor="password" className='mt-2 mb-2'>District :</label>
+                                <label htmlFor="password" className='mt-3 mb-1'>District :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[0].district"
@@ -694,10 +754,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.present_district}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.present_district}
                                 </Form.Control.Feedback>
-                                <label htmlFor="state" className='mt-2 mb-2'>State :</label>
+                                <label htmlFor="state" className='mt-3 mb-1'>State :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[0].state"
@@ -706,10 +766,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.present_state}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.present_state}
                                 </Form.Control.Feedback>
-                                <label htmlFor="country" className='mt-2 mb-2'>Country :</label>
+                                <label htmlFor="country" className='mt-3 mb-1'>Country :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[0].country"
@@ -718,10 +778,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.present_country}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.present_country}
                                 </Form.Control.Feedback>
-                                <label htmlFor="zipcode" className='mt-2 mb-2'>Zipcode :</label>
+                                <label htmlFor="zipcode" className='mt-3 mb-1'>Zipcode :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[0].zipcode"
@@ -730,13 +790,13 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.present_zipcode}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.present_zipcode}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </div>
                         <div className='col-sm-6'>
-                            <Form.Group controlId="permanent">
+                            <Form.Group>
                                 <Form.Label>Permanent Address</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -746,10 +806,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.permanent_address_line1}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.permanent_address_line1}
                                 </Form.Control.Feedback>
-                                <label htmlFor="city" className='mt-2 mb-2'>City :</label>
+                                <label htmlFor="city" className='mt-3 mb-1'>City :</label>
 
                                 <Form.Control
                                     type="text"
@@ -759,10 +819,11 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.permanent_city}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.permanent_city}
                                 </Form.Control.Feedback>
-                                <label htmlFor="district" className='mt-2 mb-2'>District :</label>
+                                <label htmlFor="district" className='mt-3 mb-1'>District :</label>
+                              
                                 <Form.Control
                                     type="text"
                                     name="addresses[1].district"
@@ -771,10 +832,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.permanent_district}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.permanent_district}
                                 </Form.Control.Feedback>
-                                <label htmlFor="state" className='mt-2 mb-2'>State :</label>
+                                <label htmlFor="state" className='mt-3 mb-1'>State :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[1].state"
@@ -783,10 +844,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.permanent_state}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.permanent_state}
                                 </Form.Control.Feedback>
-                                <label htmlFor="country" className='mt-2 mb-2'>Country :</label>
+                                <label htmlFor="country" className='mt-3 mb-1'>Country :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[1].country"
@@ -795,10 +856,10 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.permanent_country}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.permanent_country}
                                 </Form.Control.Feedback>
-                                <label htmlFor="zipcode" className='mt-2 mb-2'>Zipcode :</label>
+                                <label htmlFor="zipcode" className='mt-3 mb-1'>Zipcode :</label>
                                 <Form.Control
                                     type="text"
                                     name="addresses[1].zipcode"
@@ -807,7 +868,7 @@ const AddEmployee = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.permanent_zipcode}
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback type="invalid"style={{color:'red',fontSize:'13px'}}>
                                     {errors.permanent_zipcode}
                                 </Form.Control.Feedback>
                             </Form.Group>
@@ -826,7 +887,7 @@ const AddEmployee = () => {
                             <Form.Control isInvalid={!!errors.ifsc_code} name='ifsc_code' id="ifsc_code" type="text" placeholder="IFC" value={employee.ifsc_code}
                                 onChange={(e) => setEmployee({ ...employee, ifsc_code: e.target.value })}
                             />
-                            {errors.ifsc_code && <div className="text-danger">{errors.ifsc_code}</div>}
+                            {errors.ifsc_code && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.ifsc_code}</div>}
                         </div>
                     </div>
                     <div className='row mt-3 mb-5'>
@@ -836,7 +897,7 @@ const AddEmployee = () => {
                             <Form.Control isInvalid={!!errors.bank_name} value={employee.bank_name} id="bank_name" type="text" placeholder="Bank Name" name='bank_name'
                                 onChange={(e) => setEmployee({ ...employee, bank_name: e.target.value })}
                             />
-                            {errors.bank_name && <div className="text-danger">{errors.bank_name}</div>}
+                            {errors.bank_name && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.bank_name}</div>}
 
                         </div>
                         <div className='col-sm-6 '>
@@ -844,7 +905,7 @@ const AddEmployee = () => {
                             <Form.Control isInvalid={!!errors.pan_number} id="pan_number" type="number" value={employee.pan_number} name='pan_number' placeholder="PanNumber"
                                 onChange={(e) => setEmployee({ ...employee, pan_number: e.target.value })}
                             />
-                            {errors.pan_number && <div className="text-danger">{errors.pan_number}</div>}
+                            {errors.pan_number && <div className="text-danger"style={{color:'red',fontSize:'13px'}}>{errors.pan_number}</div>}
 
                         </div>
                     </div>

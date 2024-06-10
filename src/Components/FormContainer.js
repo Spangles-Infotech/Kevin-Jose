@@ -18,6 +18,7 @@ export const InputField = ({
   className,
   placeholder,
   value,
+  onChange,
   ...props
 }) => (
   <div className="col-12 col-md-6 mb-4">
@@ -27,23 +28,25 @@ export const InputField = ({
       type={type}
       placeholder={placeholder}
       className={`form-control border-danger form-control-lg ${className}`}
+      onChange={onChange}
       {...props}
     />
   </div>
 );
 
-export const PhoneField = ({ label, value, ...props }) => (
+export const PhoneField = ({ label, value, onChange, ...props }) => (
   <div className="col-12 col-md-6 mb-3">
-    <label className="form-label pb-3 fw-medium " >{label}</label>
+    <label className="form-label pb-3 fw-medium">{label}</label>
     <PhoneInput
-      value={`${value}`}
-      className="w-100  "
+      value={value}
+      className="w-100"
       inputStyle={{
         borderColor: "#D7242A",
-        borderRadius:"10px",
-       paddingBottom:"4.2%",
-       paddingTop:"4.2%"
+        borderRadius: "10px",
+        paddingBottom: "4.2%",
+        paddingTop: "4.2%",
       }}
+      onChange={onChange}
       {...props}
     />
   </div>
@@ -58,11 +61,11 @@ export default function FormContainer() {
     subTypeCat: "",
   });
 
-  const user = {
-    name: "Arjun",
-    email: "arjunnks123@gmail.com",
-    phone: "+918220526561",
-  };
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
 
   const handleRoleSelect = (role) => {
     setOptions({ ...options, selectedRole: role });
@@ -92,7 +95,7 @@ export default function FormContainer() {
     }
   };
 
-  console.log(options);
+  console.log(user);
 
   return (
     <>
@@ -126,19 +129,23 @@ export default function FormContainer() {
           <form>
             <div className="row">
               <InputField
-                label="First Name"
-                placeholder="Enter your first name"
+                label="Name"
+                placeholder="Enter your  name"
                 value={user.name}
+                onChange={(e) => setUser({ ...user, name: e.target.value })}
               />
-              <InputField
-                label="Last Name"
-                placeholder="Enter your last name"
+
+              <PhoneField
+                label="Phone"
+                country="in"
+                value={user.phone}
+                onChange={(value) => setUser({ ...user, phone: `+${value}` })}
               />
-              <PhoneField label="Phone" country="in" value={user.phone} />
               <InputField
                 label="Email"
                 placeholder="Enter your Email"
                 value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
               />
             </div>
           </form>
@@ -272,7 +279,7 @@ export default function FormContainer() {
         {/* forms rendering */}
 
         <div className="mt-4 pt-3">
-          <Suspense fallback={<Loading/>}>
+          <Suspense fallback={<Loading />}>
             {(options.selectedType === "plot" ||
               options.selectedType === "land") &&
               options.selectedSubType !== "" && (

@@ -64,7 +64,9 @@ function ExpenseAdd() {
 
     return (
         <Container>
-            <div className='card col-lg-12' style={{ margin: '1%', borderColor: 'red', width: '98%' }} >
+                  
+
+            <div className='card col-lg-12' style={{margin: '1%', borderColor: 'red', borderRadius: '30px', padding: '10px' }} >
                 <div className='row m-4'>
                     <div className='col-sm-6'>
                         <Form.Floating>
@@ -80,7 +82,7 @@ function ExpenseAdd() {
                                 }
                             />
                             <label htmlFor="date">Date</label>
-                            <Form.Control.Feedback type="value" style={{ color: 'red' }}>{errors.date}</Form.Control.Feedback>
+                            <Form.Control.Feedback type="value" style={{color:'red',fontSize:'13px'}}>{errors.date}</Form.Control.Feedback>
                         </Form.Floating>
                     </div>
                     <div className='col-sm-6'>
@@ -97,7 +99,7 @@ function ExpenseAdd() {
                                 }
                             />
                             <label htmlFor="category">Category</label>
-                            <Form.Control.Feedback type="value" style={{ color: 'red' }}>{errors.category}</Form.Control.Feedback>
+                            <Form.Control.Feedback type="value" style={{color:'red',fontSize:'13px'}}>{errors.category}</Form.Control.Feedback>
                         </Form.Floating>
                     </div>
                 </div>
@@ -116,7 +118,7 @@ function ExpenseAdd() {
                                 }
                             />
                             <label htmlFor="subcategory">Sub Category</label>
-                            <Form.Control.Feedback type="value" style={{ color: 'red' }}>{errors.subcategory}</Form.Control.Feedback>
+                            <Form.Control.Feedback type="value" style={{color:'red',fontSize:'13px'}}>{errors.subcategory}</Form.Control.Feedback>
                         </Form.Floating>
                     </div>
                     <div className='col-sm-6'>
@@ -133,7 +135,7 @@ function ExpenseAdd() {
                                 }
                             />
                             <label htmlFor="amount">Amount</label>
-                            <Form.Control.Feedback type="value" style={{ color: 'red' }}>{errors.amount}</Form.Control.Feedback>
+                            <Form.Control.Feedback type="value" style={{color:'red',fontSize:'13px'}}>{errors.amount}</Form.Control.Feedback>
                         </Form.Floating>
                     </div>
                 </div>
@@ -155,7 +157,7 @@ function ExpenseAdd() {
                                 }
                             />
                             <label htmlFor="Description">Description </label>
-                            <Form.Control.Feedback type="value" style={{ color: 'red' }}>{errors.description}</Form.Control.Feedback>
+                            <Form.Control.Feedback type="value" style={{color:'red',fontSize:'13px'}}>{errors.description}</Form.Control.Feedback>
                         </Form.Floating>
                     </div>
                 </div>
@@ -164,7 +166,7 @@ function ExpenseAdd() {
                     <div className='col-sm-5'>
                         <div className="form-check form-check-inline">
                             <Form.Group className="d-flex">
-                                <Form.Label className="form-check-label" htmlFor="inlineRadio1" style={{ fontSize: '30px', marginRight: '20px',fontFamily:'Poppins' }}>Status</Form.Label>
+                                <Form.Label className="form-check-label" htmlFor="inlineRadio1" style={{ fontSize: '30px', marginRight: '20px' }}><b>Status</b></Form.Label>
                                 <Form.Check
                                     required
                                     type="radio"
@@ -192,7 +194,7 @@ function ExpenseAdd() {
                                     }
                                     style={{color:'red',marginLeft:'10px',marginTop:'10px',fontFamily:'Poppins'}}
                                 />
-                                <Form.Control.Feedback type="value" style={{ color: 'red',marginTop:'10px', marginLeft:'10px'}}>{errors.status}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="value" style={{ color: 'red',marginTop:'10px', marginLeft:'10px',fontSize:'13px'}}>{errors.status}</Form.Control.Feedback>
                             </Form.Group>
                         </div>
                     </div>

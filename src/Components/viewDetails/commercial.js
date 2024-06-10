@@ -1,12 +1,17 @@
 import React from "react";
 
 export default function CommercialView({ details }) {
-
-  const outdoorFacilities = details?.commercial_properties?.showroom?.outdoor_facilities.map(outdoor => outdoor.facility.name) || [];
-  const indoorFacilities = details?.commercial_properties?.showroom?.indoor_facilities.map(outdoor => outdoor.facility.name) || [];
+  const outdoorFacilities =
+    details?.commercial_properties?.showroom?.outdoor_facilities.map(
+      (outdoor) => outdoor.facility.name
+    ) || [];
+  const indoorFacilities =
+    details?.commercial_properties?.showroom?.indoor_facilities.map(
+      (outdoor) => outdoor.facility.name
+    ) || [];
 
   return (
-    <div className="border container mx-auto px-4 py-3 rounded-4 border-danger">
+    <div className="border container mx-auto px-4 py-3 rounded-4 border-danger mt-3">
       <h4 className="fw-bold ps-2 pb-2">More Details</h4>
       <table className="table table-borderless w-75">
         <thead>
@@ -34,18 +39,19 @@ export default function CommercialView({ details }) {
           )}
 
           {details?.you_are_here_to === "lease" && (
-                 <>
-                 <tr>
-                   <td>Lease Price</td>
-                   <td className="fw-semibold">{details?.lease_amount}</td>
-                 </tr>
-   
-                 <tr>
-                   <td>Lease Period</td>
-                   <td className="fw-semibold">{details?.lease_period} {" "} {details?.lease_period_unit}</td>
-                 </tr>
-   
-                 </>
+            <>
+              <tr>
+                <td>Lease Price</td>
+                <td className="fw-semibold">{details?.lease_amount}</td>
+              </tr>
+
+              <tr>
+                <td>Lease Period</td>
+                <td className="fw-semibold">
+                  {details?.lease_period} {details?.lease_period_unit}
+                </td>
+              </tr>
+            </>
           )}
 
           <tr>
@@ -215,7 +221,7 @@ export default function CommercialView({ details }) {
           <tr>
             <td>Indoor Facilities</td>
             <td className="fw-semibold">
-            {indoorFacilities.join(', ')}
+              {indoorFacilities.join(", ")}
               {/* {details?.commercial_properties?.industrialbuilding?.indoor_facilities.map(
                 (indoor, ind) => (
                   <span key={ind}>{indoor.facility.name} </span>
@@ -242,7 +248,7 @@ export default function CommercialView({ details }) {
           <tr>
             <td>Outdoor Facilities</td>
             <td className="fw-semibold">
-            {outdoorFacilities.join(', ')}
+              {outdoorFacilities.join(", ")}
               {/* {details?.commercial_properties?.industrialbuilding?.outdoor_facilities.map(
                 (indoor, ind) => (
                   <span key={ind}>{indoor.facility.name} </span>

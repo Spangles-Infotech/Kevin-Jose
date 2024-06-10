@@ -60,7 +60,7 @@ const Exclusive = () => {
 
   useEffect(() => {
     axios
-      .get(`${Baseurl}search/?property_type=land`)
+      .get(`${Baseurl}plot_and_land_properties/`)
       .then((res) => {
         // console.log(res.data.results);
         setProp(res.data.results);
@@ -92,7 +92,9 @@ const Exclusive = () => {
           <p
             className="pt-5 mx-1 text-lg-end"
             style={{ color: "#D7242A", cursor: "pointer" }}
-            onClick={() => navigate("/result")}
+            onClick={() =>
+              navigate("/result?property_type=plot&property_typeTwo=land")
+            }
           >
             See all Projects <FaArrowRight />
           </p>

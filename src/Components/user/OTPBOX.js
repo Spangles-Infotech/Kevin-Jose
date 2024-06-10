@@ -10,12 +10,16 @@ import {
 } from "../../services/user/userSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { Baseurl, UserConfig } from "../request";
 
 export default function OTPBOX({ setShowOTPBox }) {
   const location = useLocation();
   const user = location.state?.processedUserValue;
   const [otp, setOtp] = useState(location?.state?.otp);
   const dispatch = useDispatch();
+
+  const property_id = location.state?.property_id;
 
   const navigate = useNavigate();
 
@@ -87,6 +91,21 @@ export default function OTPBOX({ setShowOTPBox }) {
         .catch((error) => {
           toast.error("Failed to validate OTP. Please try again.");
           console.log(error);
+        });
+    } else if (location.pathname === "/builder/otp") {
+      axios
+        .post(
+          `${Baseurl}my_simple_add_enquiry/`,
+          { otp: otp, property_id },
+          UserConfig
+        )
+        .then((res) => {
+          console.log(res);
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.log(error);
+          navigate(-1);
         });
     }
   };
