@@ -47,7 +47,7 @@ const FeaturedProp = () => {
   };
 
   return (
-    <div className="container py-5 mt-5" style={{marginTop:"5%"}}>
+    <div className="container py-5 " style={{marginTop:"5%"}}>
       <div className="d-flex justify-content-between">
         <div>
           <h3 className="mt-3 pt-5 mx-1 text-lg-start bigvalue underline fw-semibold">
