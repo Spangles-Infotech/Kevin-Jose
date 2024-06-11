@@ -51,132 +51,6 @@ const Result = () => {
 
   const location = useLocation();
   const [locality, setLocality] = useState("");
-  // useEffect(() => {
-  //   const queryParams = new URLSearchParams(location.search);
-  //   const property_type = queryParams.get("property_type");
-  //   const property_typeTwo = queryParams.get("property_typeTwo");
-  //   const subtype = queryParams.get("subtype");
-  //   const direction_facing = queryParams.get("direction_facing");
-  //   const min_area = queryParams.get("min_area");
-  //   const max_area = queryParams.get("max_area");
-  //   const min_price = queryParams.get("min_price");
-  //   const max_price = queryParams.get("max_price");
-  //   const postedby = queryParams.get("postedby");
-  //   const bhk = queryParams.get("bhk");
-  //   const status = queryParams.get("status");
-  //   const you_are_here_to = setSelectedHereto(
-  //     queryParams.get("you_are_here_to")
-  //   );
-  //   const condition = queryParams.get("condition");
-  //   const locality = queryParams.get("location");
-  //   setLocality(locality);
-  //   console.log(you_are_here_to);
-
-  //   // plot and land
-  //   if (property_type === "plot" || property_type === "land") {
-  //     axios
-  //       .get(`${Baseurl}search`, {
-  //         params: {
-  //           subtype: subtype,
-  //           property_type: property_type,
-  //           property_type: property_typeTwo,
-  //           location: locality,
-  //           direction_facing: direction_facing,
-  //           postedby: postedby,
-  //           min_area: min_area,
-  //           max_area: max_area,
-  //           min_price: min_price,
-  //           max_price: max_price,
-  //           you_are_here_to: you_are_here_to,
-  //           filter_by: selectedItem.be,
-  //         },
-  //         UserConfig,
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data.results);
-  //         setMyProperty(res.data.results);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         setLoading(false);
-  //       });
-  //   } else if (property_type === "residential") {
-  //     axios
-  //       .get(`${Baseurl}search`, {
-  //         params: {
-  //           subtype: subtype,
-  //           property_type: property_type,
-  //           property_type: property_typeTwo,
-  //           bhk: bhk,
-  //           location: locality,
-  //           status: status,
-  //           condition: condition,
-  //           postedby: postedby,
-  //           min_price: min_price,
-  //           max_price: max_price,
-  //           you_are_here_to: you_are_here_to,
-  //           filter_by: selectedItem.be,
-  //         },
-  //         UserConfig,
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data.results);
-  //         setMyProperty(res.data.results);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         setLoading(false);
-  //       });
-  //   } else if (property_type === "commercial") {
-  //     axios
-  //       .get(`${Baseurl}search`, {
-  //         params: {
-  //           subtype: subtype,
-  //           location: locality,
-  //           property_type: property_type,
-  //           property_type: property_typeTwo,
-  //           status: status,
-  //           condition: condition,
-  //           postedby: postedby,
-  //           min_price: min_price,
-  //           max_price: max_price,
-  //           you_are_here_to: you_are_here_to,
-  //           filter_by: selectedItem.be,
-  //         },
-  //         UserConfig,
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data.results);
-  //         setMyProperty(res.data.results);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         setLoading(false);
-  //       });
-  //   } else {
-  //     axios
-  //       .get(`${Baseurl}search/`, {
-  //         params: {
-  //           property_type: property_type,
-  //           location: locality,
-  //           filter_by: selectedItem.be,
-  //         },
-  //         UserConfig,
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data.results);
-  //         setMyProperty(res.data.results);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         setLoading(false);
-  //       });
-  //   }
-  // }, [location.search, selectedItem]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -197,37 +71,37 @@ const Result = () => {
     setLocality(locality);
     setSelectedHereto(queryParams.get("you_are_here_to"));
 
+    // Create an array for property_type
+    const combinedPropertyType = [property_type, property_typeTwo].filter(
+      Boolean
+    );
+
     const params = {
       subtype,
-      property_type,
+      property_type: combinedPropertyType,
       location: locality,
       postedby,
       min_price,
       max_price,
-      you_are_here_to: selectedHereto,
+      you_are_here_to: queryParams.get("you_are_here_to"),
       filter_by: selectedItem.be,
     };
 
     if (property_type === "plot" || property_type === "land") {
-      params.property_type = property_typeTwo;
       params.direction_facing = direction_facing;
       params.min_area = min_area;
       params.max_area = max_area;
     } else if (property_type === "residential") {
-      params.property_type = property_typeTwo;
       params.bhk = bhk;
       params.status = status;
       params.condition = condition;
     } else if (property_type === "commercial") {
-      params.property_type = property_typeTwo;
       params.status = status;
       params.condition = condition;
     }
 
     axios
-      .get(`${Baseurl}search`, {
-        params,
-      })
+      .get(`${Baseurl}search`, { params })
       .then((res) => {
         console.log(res.data.results);
         setMyProperty(res.data.results);
@@ -238,6 +112,73 @@ const Result = () => {
         setLoading(false);
       });
   }, [location.search, selectedItem, selectedHereto]);
+
+  // useEffect(() => {
+  //   const queryParams = new URLSearchParams(location.search);
+  //   const property_type = queryParams.get("property_type");
+  //   const property_typeTwo = queryParams.get("property_typeTwo");
+  //   const subtype = queryParams.get("subtype");
+  //   const direction_facing = queryParams.get("direction_facing");
+  //   const min_area = queryParams.get("min_area");
+  //   const max_area = queryParams.get("max_area");
+  //   const min_price = queryParams.get("min_price");
+  //   const max_price = queryParams.get("max_price");
+  //   const postedby = queryParams.get("postedby");
+  //   const bhk = queryParams.get("bhk");
+  //   const status = queryParams.get("status");
+  //   const condition = queryParams.get("condition");
+  //   const locality = queryParams.get("location");
+
+  //   setLocality(locality);
+  //   setSelectedHereto(queryParams.get("you_are_here_to"));
+
+  //   const combinedPropertyType = [property_type, property_typeTwo]
+  //     .filter(Boolean)
+  //     .join(",");
+
+  //   const params = {
+  //     subtype,
+  //     property_type,
+  //     // property_type: combinedPropertyType,
+  //     location: locality,
+  //     postedby,
+  //     min_price,
+  //     max_price,
+  //     you_are_here_to: selectedHereto,
+  //     filter_by: selectedItem.be,
+  //     property_type:property_typeTwo
+  //   };
+
+  //   if (property_type === "plot" || property_type === "land") {
+  //     // params.property_type = property_typeTwo;
+  //     params.direction_facing = direction_facing;
+  //     params.min_area = min_area;
+  //     params.max_area = max_area;
+  //   } else if (property_type === "residential") {
+  //     // params.property_type = property_typeTwo;
+  //     params.bhk = bhk;
+  //     params.status = status;
+  //     params.condition = condition;
+  //   } else if (property_type === "commercial") {
+  //     // params.property_type = property_typeTwo;
+  //     params.status = status;
+  //     params.condition = condition;
+  //   }
+
+  //   axios
+  //     .get(`${Baseurl}search`, {
+  //       params,
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data.results);
+  //       setMyProperty(res.data.results);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setLoading(false);
+  //     });
+  // }, [location.search, selectedItem, selectedHereto]);
 
   const [myProperty, setMyProperty] = useState([]);
 
