@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Update the Baseurl variable to match your Django backend server's URL
-export const Baseurl = "http://localhost:8000/api/";
+export const Baseurl = "https://kjback.spanglesinfotech.in/api/";
 const getTokenFromLocalStorage = localStorage.getItem("customer");
 axios.defaults.withCredentials = true;
 
