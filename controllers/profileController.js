@@ -1,5 +1,6 @@
 const Profiles = require('../models/profileSchema');
 const fs = require('fs');
+const EmployeeCode = require('../utils/EmployeeCodeGenerater')
 
 // Create new profile
 exports.createProfile = async (req, res) => {
@@ -121,9 +122,24 @@ exports.deleteProfile = async (req, res) => {
       });
   
       await profile.remove();
-      res.status(200).json({ message: 'Profile deleted successfully' });
+     return res.status(200).json({ message: 'Profile deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: 'Error deleting profile', error });
+      return res.status(500).json({ message: 'Error deleting profile', error });
+    }
+  };
+  
+
+  // EmployeeCodeGenerate
+  exports.EmployeeCodeGenerate = async (req, res) => {
+    try {
+      const code = await EmployeeCode()
+
+      if (code) {
+        return  res.status(200).json(code);
+        
+      }
+    } catch (error) {
+      return res.status(500).json({ message: 'Error Employee Code Generate ', error });
     }
   };
   

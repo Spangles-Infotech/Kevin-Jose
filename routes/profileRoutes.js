@@ -27,6 +27,9 @@ router.post('/create', upload.fields([
   { name: 'EducationQualification', maxCount: 2 }
 ]), profileController.createProfile);
 
+
+router.get('/employee_code_generated', profileController.EmployeeCodeGenerate);
+
 router.get('/:id', profileController.getProfileById);
 
 router.put('/:id', upload.fields([

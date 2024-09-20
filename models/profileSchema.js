@@ -20,22 +20,10 @@ const profileSchema = new Schema({
     enum: ["Married", "Unmarried", "Divorced", "Widowed", "Others"],
     trim: true
   },
-  DateofBirth: { type: String, trim: true },
-  LastWorkingDate: { type: String, trim: true },
-  ReportingManager: { type: String, trim: true },
-  Salary: { type: String, trim: true },
-  WorkTime: {
-    StartTime: { type: String, trim: true },
-    EndTime: { type: String, trim: true }
-  },
-  WeekOff: { type: String, trim: true },
 
   AlternativePhoneNumber: { type: String, trim: true },
   EmailOffice: { type: String, trim: true },
   EmailPersonal: { type: String, trim: true },
-  EmailAlternative: { type: String, trim: true },
- 
-
   BloodGroup: {
     type: String,
     enum: [
@@ -80,19 +68,14 @@ const profileSchema = new Schema({
   Status: {
     type: String,
     enum: ["Active", "Waiting", "In Active"],
-    default: null,
+    default: "Active",
     trim: true
   },
-  ReasonForInactive: { type: String, trim: true },
   Username: { type: String, unique: true, trim: true },
-  Password: { type: String,  select: false },
-  EmployeeType: { type: String },
+  Password: { type: String, select: false },
+  EmployeeType: { type: String }
 });
-
-
-
-
 
 const Profiles = mongoose.model("Profile", profileSchema);
 
-module.exports =  Profiles;
+module.exports = Profiles;
