@@ -1,15 +1,16 @@
 const express = require("express");
 const app = express();
+const login = require("./routes/AdminLog");
+const path = require('path');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require("path");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5050;
 
-const PropertyRoute = require("./routes/Property");
-
+const PropertyRoute = require("./routes/Property")
+const profileRoutes = require('./routes/profileRoutes'); 
 const connect = async () => {
   try {
     await mongoose.connect(process.env.mongoUri);
@@ -37,12 +38,17 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 
 // Client Api
 // app.use("/api")
 app.use("/api/property", PropertyRoute);
 // Admin Api routes
-
+app.use("/api", login);
+// Profile routes
+app.use('/api/profiles', profileRoutes); 
 // Error middleeware
 
 app.use((error, req, res, next) => {
