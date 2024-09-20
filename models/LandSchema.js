@@ -1,3 +1,5 @@
+const mongoose = require("mongoose")
+
 const landSchema = new mongoose.Schema(
   {
     propertyCategory: { type: String, required: true },

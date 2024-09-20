@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const commercialSchema = new mongoose.Schema({
   propertyCategory: { type: String, required: true },
   propertyName: { type: String, required: true },

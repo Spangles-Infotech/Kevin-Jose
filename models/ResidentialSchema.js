@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const residentialSchema = new mongoose.Schema(
   {
     propertyCategory: { type: String, required: true },

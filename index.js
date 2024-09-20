@@ -8,8 +8,8 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 5050;
 
-const PropertyRoute = require("./routes/Property")
- 
+const PropertyRoute = require("./routes/Property");
+
 const connect = async () => {
   try {
     await mongoose.connect(process.env.mongoUri);
@@ -28,14 +28,19 @@ mongoose.connection.on("connected", () => {
 });
 
 // middlewares
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Client Api
 // app.use("/api")
-app.use("/api/property",PropertyRoute)
+app.use("/api/property", PropertyRoute);
 // Admin Api routes
 
 // Error middleeware
