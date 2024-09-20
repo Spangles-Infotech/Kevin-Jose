@@ -9,8 +9,8 @@ const plotSchema = new mongoose.Schema(
     lengthUnit: { type: String, required: true },
     breadth: { type: Number, required: true },
     breadthUnit: { type: String, required: true },
-    toalArea: { type: Number, required: true },
-    toalAreaUnit: { type: String, required: true },
+    totalArea: { type: Number, required: true },
+    totalAreaUnit: { type: String, required: true },
     roadWidth: { type: Number, required: true },
     roadWidthUnit: { type: String, required: true },
     direction: {

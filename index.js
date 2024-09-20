@@ -29,8 +29,14 @@ mongoose.connection.on("connected", () => {
 });
 
 // middlewares
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,7 +46,7 @@ app.get('/', (req, res) => {
 });
 // Client Api
 // app.use("/api")
-app.use("/api/property",PropertyRoute)
+app.use("/api/property", PropertyRoute);
 // Admin Api routes
 app.use("/api", login);
 // Profile routes

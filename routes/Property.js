@@ -1,19 +1,18 @@
 const { CreateProperty } = require("../controllers/Property");
 const router = require("express").Router();
-const {
-  uploadSiteImages,
-  uploadFmbImage,
-  uploadLocationImage,
-} = require("../config/multer");
+const {uploadPropertyImages} = require("../config/multer")
 
-// CREATE
+//  Create
 router.post(
   "/create",
-  uploadSiteImages.array("siteImages", 6),
-  uploadFmbImage.single("fmbImage"),
-  uploadLocationImage.single("locationImage"),
+  uploadPropertyImages.fields([
+    { name: "siteImages", maxCount: 6 },
+    { name: "fmbImage", maxCount: 1 },
+    { name: "locationImage", maxCount: 1 },
+  ]),
   CreateProperty
 );
+
 // GET
 // UPDATE
 // DELETE

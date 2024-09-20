@@ -1,7 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 
-// File filter function
+// File filter function to accept only image files with specific extensions
 const fileFilter = (acceptedTypes) => {
   return (req, file, cb) => {
     if (acceptedTypes.includes(path.extname(file.originalname).toLowerCase())) {
@@ -12,60 +12,27 @@ const fileFilter = (acceptedTypes) => {
   };
 };
 
-// site images
-const siteImagesStorage = multer.diskStorage({
+// Single storage configuration for all images
+const propertyImagesStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/site/');
+    cb(null, 'uploads/property/'); // All images saved in the same folder
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-//  FMB images.
-const fmbImagesStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/fmb/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-// location images
-const locationImagesStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/location/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename based on timestamp
   }
 });
 
 // Accepted file extensions
 const acceptedImageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 
-// instance
-const uploadSiteImages = multer({
-  storage: siteImagesStorage,
+// multer instance for uploading property-related images
+const uploadPropertyImages = multer({
+  storage: propertyImagesStorage,
   fileFilter: fileFilter(acceptedImageExtensions),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit per image
 });
 
-const uploadFmbImage = multer({
-  storage: fmbImagesStorage,
-  fileFilter: fileFilter(acceptedImageExtensions),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
-});
-
-const uploadLocationImage = multer({
-  storage: locationImagesStorage,
-  fileFilter: fileFilter(acceptedImageExtensions),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
-});
-
+// Export the multer instance
 module.exports = {
-  uploadSiteImages,
-  uploadFmbImage,
-  uploadLocationImage
+  uploadPropertyImages
 };
