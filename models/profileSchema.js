@@ -71,11 +71,23 @@ const profileSchema = new Schema({
     default: "Active",
     trim: true
   },
+  Attendance: [
+    {
+      date: {
+        type: Date
+      },
+      status: {
+        type: String,
+        enum: ["Present", "Waiting", "Absent"],
+        default: "Waiting"
+      }
+    }
+  ],
   Username: { type: String, unique: true, trim: true },
   Password: { type: String, select: false },
   EmployeeType: { type: String }
 });
 
-const Profiles = mongoose.model("Profile", profileSchema);
+const Profiles = mongoose.model("EmployeeProfile", profileSchema);
 
 module.exports = Profiles;

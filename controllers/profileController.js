@@ -135,11 +135,10 @@ exports.deleteProfile = async (req, res) => {
       const code = await EmployeeCode()
 
       if (code) {
-        return  res.status(200).json(code);
+        return  res.status(200).json({"code":code});
         
       }
     } catch (error) {
       return res.status(500).json({ message: 'Error Employee Code Generate ', error });
-    }
-  };
-  
+    }};
+  // 
